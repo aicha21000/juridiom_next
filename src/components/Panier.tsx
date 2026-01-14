@@ -126,19 +126,12 @@ const Panier = () => {
         throw new Error(errorData.error || "Erreur lors de la création de la session de paiement");
       }
 
-      const { sessionId } = await stripeResponse.json();
-      const stripe = await stripePromise;
+      const { url } = await stripeResponse.json();
 
-      if (!stripe) {
-        throw new Error("Erreur d'initialisation de Stripe");
-      }
-
-      const { error } = await stripe.redirectToCheckout({
-        sessionId: sessionId
-      });
-
-      if (error) {
-        throw new Error(error.message);
+      if (url) {
+        window.location.href = url;
+      } else {
+        throw new Error("URL de paiement manquante");
       }
     } catch (err) {
       console.error("Erreur:", err);

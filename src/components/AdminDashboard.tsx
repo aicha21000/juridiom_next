@@ -6,15 +6,13 @@ import {
     FaBox, FaTruck, FaCheck, FaTimes, FaEnvelope,
     FaDownload, FaClock, FaSyncAlt, FaSignOutAlt
 } from "react-icons/fa";
-import { listenToAllOrders, updateOrderStatus, Order, listenToConversations } from "@/services/firebase";
+import { listenToAllOrders, updateOrderStatus, Order } from "@/services/firebase";
 
 const AdminDashboard = () => {
     const { user, logout } = useAuth();
     const router = useRouter();
     const [orders, setOrders] = useState<Order[]>([]);
-    const [conversations, setConversations] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState<'orders' | 'messages'>('orders');
 
     // Simple security check (à améliorer plus tard avec des rôles Firebase)
     const isAdmin = user?.email === "salhi.aicha@traductionenarabe.fr" || user?.email?.includes("admin");
@@ -30,13 +28,8 @@ const AdminDashboard = () => {
             setLoading(false);
         });
 
-        const unsubscribeConvs = listenToConversations((data) => {
-            setConversations(data);
-        });
-
         return () => {
             unsubscribeOrders();
-            unsubscribeConvs();
         };
     }, [user, router]);
 
@@ -85,18 +78,9 @@ const AdminDashboard = () => {
                         <div className="flex items-center">
                             <h1 className="text-xl font-bold text-red-600">Admin Juridiom</h1>
                             <nav className="ml-10 flex space-x-4">
-                                <button
-                                    onClick={() => setActiveTab('orders')}
-                                    className={`px-3 py-2 rounded-md text-sm font-medium ${activeTab === 'orders' ? 'bg-red-100 text-red-700' : 'text-gray-500 hover:text-gray-700'}`}
-                                >
+                                <span className="px-3 py-2 rounded-md text-sm font-medium bg-red-100 text-red-700">
                                     Commandes ({orders.length})
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('messages')}
-                                    className={`px-3 py-2 rounded-md text-sm font-medium ${activeTab === 'messages' ? 'bg-red-100 text-red-700' : 'text-gray-500 hover:text-gray-700'}`}
-                                >
-                                    Messages ({conversations.length})
-                                </button>
+                                </span>
                             </nav>
                         </div>
                         <div className="flex items-center space-x-4">
@@ -110,157 +94,120 @@ const AdminDashboard = () => {
             </div>
 
             <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                {activeTab === 'orders' ? (
-                    <div className="space-y-6">
-                        <div className="flex justify-between items-center">
-                            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Gestion des Commandes</h2>
-                            <div className="text-sm text-gray-500">
-                                Dernier rafraîchissement : {new Date().toLocaleTimeString()}
-                            </div>
+                <div className="space-y-6">
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Gestion des Commandes</h2>
+                        <div className="text-sm text-gray-500">
+                            Dernier rafraîchissement : {new Date().toLocaleTimeString()}
                         </div>
-
-                        {orders.length === 0 ? (
-                            <div className="bg-white dark:bg-gray-800 p-12 text-center rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-                                <FaBox className="text-gray-300 text-6xl mx-auto mb-4" />
-                                <p className="text-gray-500">Aucune commande reçue pour le moment.</p>
-                            </div>
-                        ) : (
-                            <div className="grid grid-cols-1 gap-6">
-                                {orders.map((order) => (
-                                    <div key={order.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden transform transition hover:shadow-md">
-                                        <div className="p-6">
-                                            <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
-                                                <div>
-                                                    <div className="flex items-center gap-2 mb-1">
-                                                        <span className="text-xs font-mono text-gray-400">ID: {order.id.slice(0, 10)}...</span>
-                                                        <span className={`px-2 py-1 rounded text-xs font-semibold ${order.status === 'paid' ? 'bg-green-100 text-green-700' :
-                                                            order.status === 'shipped' ? 'bg-blue-100 text-blue-700' :
-                                                                order.status === 'completed' ? 'bg-gray-100 text-gray-700' :
-                                                                    'bg-yellow-100 text-yellow-700'
-                                                            }`}>
-                                                            {order.status.toUpperCase()}
-                                                        </span>
-                                                    </div>
-                                                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                                                        {order.mailClient}
-                                                    </h3>
-                                                    <p className="text-sm text-gray-500 flex items-center gap-1">
-                                                        <FaClock size={12} /> {new Date(order.createdAt).toLocaleString()}
-                                                    </p>
-                                                </div>
-                                                <div className="text-right">
-                                                    <div className="text-2xl font-bold text-red-600">{order.totalPrice} €</div>
-                                                    <p className="text-xs text-gray-500">Payé via Stripe</p>
-                                                </div>
-                                            </div>
-
-                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4 border-t border-b border-gray-50 dark:border-gray-700 mb-4">
-                                                <div>
-                                                    <span className="text-xs text-gray-400 block uppercase font-bold">Détails Service</span>
-                                                    <p className="text-sm dark:text-gray-300">{order.numberOfPages} pages / {order.numberOfDocuments} docs</p>
-                                                    <p className="text-sm dark:text-gray-300">{order.legalization}</p>
-                                                </div>
-                                                <div>
-                                                    <span className="text-xs text-gray-400 block uppercase font-bold">Livraison</span>
-                                                    <p className="text-sm dark:text-gray-300">{order.deliveryMethod}</p>
-                                                </div>
-                                                <div>
-                                                    <span className="text-xs text-gray-400 block uppercase font-bold">Actions</span>
-                                                    <div className="flex gap-2 mt-1">
-                                                        {order.status === 'paid' && (
-                                                            <button
-                                                                onClick={() => handleStatusUpdate(order.id, 'processing')}
-                                                                className="p-2 bg-yellow-50 text-yellow-600 rounded-lg hover:bg-yellow-100 title='En cours'"
-                                                            >
-                                                                <FaSyncAlt />
-                                                            </button>
-                                                        )}
-                                                        {order.status !== 'shipped' && order.status !== 'completed' && (
-                                                            <button
-                                                                onClick={() => handleStatusUpdate(order.id, 'shipped')}
-                                                                className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 title='Expédié'"
-                                                            >
-                                                                <FaTruck />
-                                                            </button>
-                                                        )}
-                                                        {order.status !== 'completed' && (
-                                                            <button
-                                                                onClick={() => handleStatusUpdate(order.id, 'completed')}
-                                                                className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 title='Terminé'"
-                                                            >
-                                                                <FaCheck />
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            {order.comment && (
-                                                <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg italic text-sm text-gray-600 dark:text-gray-400">
-                                                    "{order.comment}"
-                                                </div>
-                                            )}
-
-                                            {order.files && order.files.length > 0 && (
-                                                <div>
-                                                    <span className="text-xs text-gray-400 block uppercase font-bold mb-2">Fichiers Client</span>
-                                                    <div className="flex flex-wrap gap-2">
-                                                        {order.files.map((file, idx) => (
-                                                            <a
-                                                                key={idx}
-                                                                href={file.url}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                                className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-full text-xs hover:bg-gray-200 transition"
-                                                            >
-                                                                <FaDownload size={10} /> {file.name}
-                                                            </a>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
                     </div>
-                ) : (
-                    <div className="space-y-6">
-                        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Conversations Clients</h2>
-                        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700">
-                            <ul className="divide-y divide-gray-100 dark:divide-gray-700">
-                                {conversations.map((conv) => (
-                                    <li key={conv.id} className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition">
-                                        <div className="flex justify-between items-center">
-                                            <div className="flex items-center gap-3">
-                                                <div className="h-10 w-10 bg-red-100 text-red-600 rounded-full flex items-center justify-center font-bold">
-                                                    {conv.email[0].toUpperCase()}
+
+                    {orders.length === 0 ? (
+                        <div className="bg-white dark:bg-gray-800 p-12 text-center rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+                            <FaBox className="text-gray-300 text-6xl mx-auto mb-4" />
+                            <p className="text-gray-500">Aucune commande reçue pour le moment.</p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 gap-6">
+                            {orders.map((order) => (
+                                <div key={order.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden transform transition hover:shadow-md">
+                                    <div className="p-6">
+                                        <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
+                                            <div>
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <span className="text-xs font-mono text-gray-400">ID: {order.id.slice(0, 10)}...</span>
+                                                    <span className={`px-2 py-1 rounded text-xs font-semibold ${order.status === 'paid' ? 'bg-green-100 text-green-700' :
+                                                        order.status === 'shipped' ? 'bg-blue-100 text-blue-700' :
+                                                            order.status === 'completed' ? 'bg-gray-100 text-gray-700' :
+                                                                'bg-yellow-100 text-yellow-700'
+                                                        }`}>
+                                                        {order.status.toUpperCase()}
+                                                    </span>
                                                 </div>
-                                                <div>
-                                                    <h4 className="font-bold text-gray-900 dark:text-white">{conv.email}</h4>
-                                                    <p className="text-sm text-gray-500 truncate max-w-md">{conv.lastMessage}</p>
-                                                </div>
+                                                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                                                    {order.mailClient}
+                                                </h3>
+                                                <p className="text-sm text-gray-500 flex items-center gap-1">
+                                                    <FaClock size={12} /> {new Date(order.createdAt).toLocaleString()}
+                                                </p>
                                             </div>
                                             <div className="text-right">
-                                                <span className="text-xs text-gray-400">{new Date(conv.lastMessageTime).toLocaleDateString()}</span>
-                                                <button
-                                                    onClick={() => router.push(`/messages?id=${conv.id}`)}
-                                                    className="block text-red-600 text-sm hover:underline mt-1"
-                                                >
-                                                    Répondre
-                                                </button>
+                                                <div className="text-2xl font-bold text-red-600">{order.totalPrice} €</div>
+                                                <p className="text-xs text-gray-500">Payé via Stripe</p>
                                             </div>
                                         </div>
-                                    </li>
-                                ))}
-                                {conversations.length === 0 && (
-                                    <li className="p-12 text-center text-gray-500 italic">Aucune conversation active.</li>
-                                )}
-                            </ul>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-4 border-t border-b border-gray-50 dark:border-gray-700 mb-4">
+                                            <div>
+                                                <span className="text-xs text-gray-400 block uppercase font-bold">Détails Service</span>
+                                                <p className="text-sm dark:text-gray-300">{order.numberOfPages} pages / {order.numberOfDocuments} docs</p>
+                                                <p className="text-sm dark:text-gray-300">{order.legalization}</p>
+                                            </div>
+                                            <div>
+                                                <span className="text-xs text-gray-400 block uppercase font-bold">Livraison</span>
+                                                <p className="text-sm dark:text-gray-300">{order.deliveryMethod}</p>
+                                            </div>
+                                            <div>
+                                                <span className="text-xs text-gray-400 block uppercase font-bold">Actions</span>
+                                                <div className="flex gap-2 mt-1">
+                                                    {order.status === 'paid' && (
+                                                        <button
+                                                            onClick={() => handleStatusUpdate(order.id, 'processing')}
+                                                            className="p-2 bg-yellow-50 text-yellow-600 rounded-lg hover:bg-yellow-100 title='En cours'"
+                                                        >
+                                                            <FaSyncAlt />
+                                                        </button>
+                                                    )}
+                                                    {order.status !== 'shipped' && order.status !== 'completed' && (
+                                                        <button
+                                                            onClick={() => handleStatusUpdate(order.id, 'shipped')}
+                                                            className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 title='Expédié'"
+                                                        >
+                                                            <FaTruck />
+                                                        </button>
+                                                    )}
+                                                    {order.status !== 'completed' && (
+                                                        <button
+                                                            onClick={() => handleStatusUpdate(order.id, 'completed')}
+                                                            className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 title='Terminé'"
+                                                        >
+                                                            <FaCheck />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {order.comment && (
+                                            <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg italic text-sm text-gray-600 dark:text-gray-400">
+                                                "{order.comment}"
+                                            </div>
+                                        )}
+
+                                        {order.files && order.files.length > 0 && (
+                                            <div>
+                                                <span className="text-xs text-gray-400 block uppercase font-bold mb-2">Fichiers Client</span>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {order.files.map((file, idx) => (
+                                                        <a
+                                                            key={idx}
+                                                            href={file.url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-full text-xs hover:bg-gray-200 transition"
+                                                        >
+                                                            <FaDownload size={10} /> {file.name}
+                                                        </a>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </main>
         </div>
     );

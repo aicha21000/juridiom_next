@@ -1,27 +1,41 @@
 import * as admin from 'firebase-admin';
 
-export function initializeFirebase() {
-    if (!admin.apps.length) {
-        try {
-            let serviceAccount;
-            if (process.env.FIREBASE_ADMIN_SDK_KEY) {
-                serviceAccount = typeof process.env.FIREBASE_ADMIN_SDK_KEY === 'string'
-                    ? JSON.parse(process.env.FIREBASE_ADMIN_SDK_KEY)
-                    : process.env.FIREBASE_ADMIN_SDK_KEY;
-            }
-
-            if (serviceAccount) {
-                admin.initializeApp({
-                    credential: admin.credential.cert(serviceAccount),
-                    databaseURL: process.env.VITE_FIREBASE_DATABASE_URL || process.env.FIREBASE_DATABASE_URL,
-                    storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET || process.env.FIREBASE_STORAGE_BUCKET
-                });
-            }
-        } catch (error) {
-            console.error('Firebase admin initialization error', error);
-        }
+/**
+ * Initialise Firebase Admin de manière sécurisée (Singleton)
+ */
+const initializeFirebaseAdmin = () => {
+    if (admin.apps.length > 0) {
+        return admin;
     }
-    return admin;
-}
 
-export const firebaseAdmin = initializeFirebase();
+    try {
+        const serviceAccountKey = process.env.FIREBASE_ADMIN_SDK_KEY;
+
+        if (serviceAccountKey) {
+            // Si la clé est une chaîne JSON (cas typique sur Vercel/Env)
+            const serviceAccount = typeof serviceAccountKey === 'string'
+                ? JSON.parse(serviceAccountKey)
+                : serviceAccountKey;
+
+            admin.initializeApp({
+                credential: admin.credential.cert(serviceAccount),
+                databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+                storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+            });
+            console.log('✅ Firebase Admin initialisé avec succès');
+        } else {
+            console.warn('⚠️ FIREBASE_ADMIN_SDK_KEY manquante. Certaines fonctions serveur (Upload/Admin) ne fonctionneront pas.');
+            // Initialisation minimale pour éviter les crashs immédiats au build
+            admin.initializeApp({
+                databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+                storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+            });
+        }
+    } catch (error) {
+        console.error('❌ Erreur lors de l’initialisation de Firebase Admin:', error);
+    }
+
+    return admin;
+};
+
+export const firebaseAdmin = initializeFirebaseAdmin();

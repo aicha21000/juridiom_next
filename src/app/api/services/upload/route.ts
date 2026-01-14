@@ -11,7 +11,40 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Aucun fichier n\'a été uploadé.' }, { status: 400 });
         }
 
-        const bucket = firebaseAdmin.storage().bucket();
+        // --- DÉBUT LOGIQUE DE DÉTECTION DU BUCKET ---
+        const projectId = "juridiom-bf4f8";
+        const possibleBuckets = [
+            process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+            process.env.FIREBASE_STORAGE_BUCKET,
+            `${projectId}.appspot.com`,
+            `${projectId}.firebasestorage.app`,
+            projectId
+        ].filter(Boolean);
+
+        let bucket = null;
+        let lastError = null;
+
+        for (const bucketName of possibleBuckets) {
+            try {
+                const tempBucket = firebaseAdmin.storage().bucket(bucketName as string);
+                // On vérifie si le bucket existe vraiment
+                const [exists] = await tempBucket.exists();
+                if (exists) {
+                    bucket = tempBucket;
+                    console.log(`✅ Bucket trouvé et utilisé : ${bucketName}`);
+                    break;
+                }
+            } catch (err) {
+                lastError = err;
+            }
+        }
+
+        if (!bucket) {
+            console.error("❌ Aucun des buckets possibles n'existe:", possibleBuckets);
+            throw lastError || new Error("Bucket introuvable");
+        }
+        // --- FIN LOGIQUE DE DÉTECTION DU BUCKET ---
+
         const tempFolder = 'temp-files';
         const fileUrls = [];
 
@@ -77,6 +110,6 @@ export async function POST(req: Request) {
 
     } catch (error: any) {
         console.error("Erreur lors de l'upload vers Firebase:", error);
-        return NextResponse.json({ message: "Erreur lors de l'upload des fichiers" }, { status: 500 });
+        return NextResponse.json({ message: "Erreur lors de l'upload des fichiers", details: error.message }, { status: 500 });
     }
 }

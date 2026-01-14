@@ -38,7 +38,7 @@ export async function POST(req: Request) {
             }
         });
 
-        return NextResponse.json({ sessionId: session.id });
+        return NextResponse.json({ id: session.id, url: session.url });
     } catch (error: any) {
         console.error('Erreur lors de la création de la session:', error);
         return NextResponse.json({ error: error.message }, { status: 400 });
