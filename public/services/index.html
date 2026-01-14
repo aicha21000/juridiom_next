@@ -1,0 +1,183 @@
+<html lang="fr"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/favicon-Bj65HHCq.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/favicon-Bj65HHCq.ico" type="image/x-icon">
+  
+    <!-- Préconnexion aux origines externes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="preconnect" href="https://analytics.google.com">
+  
+    <!-- Police moderne -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  
+    <!-- Accessibilité -->
+    <meta name="theme-color" content="#E7000B">
+  
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Service professionnel de traduction juridique, commerciale et légalisation en arabe et français.">
+    <meta name="keywords" content="traduction, légalisation, arabe, français, anglais, traducteur juridique, certification, assermentation">
+    <meta name="author" content="TraductionEnArabe">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="language" content="fr">
+    <meta name="geo.region" content="FR">
+    <meta name="geo.placename" content="Paris">
+    <meta name="revised" content="12/04/2025">
+  
+  
+  
+    <!-- Titre de la page -->
+    <title>À Propos | Traduction en Arabe Aicha Salhi</title>
+  
+  
+  
+    <!-- Styles et Scripts -->
+  
+    <!-- Script de prérendu optimisé - REMPLACEZ TOUT LE SCRIPT EXISTANT PAR CELUI-CI -->
+    <script>
+      // Script de prérendu optimisé
+      window.prerenderReady = false;
+  
+      // Fonction améliorée pour vérifier si le contenu est chargé
+      function checkContentLoaded() {
+        // Vérifier si nous sommes sur une page d'article
+        const isArticlePage = window.location.pathname.includes('/blog/');
+  
+        if (isArticlePage) {
+          // Pour les pages d'article, vérifier si l'article est chargé
+          const article = document.querySelector('article');
+          const articleTitle = document.querySelector('article h1');
+  
+          if (article && article.innerHTML && article.innerHTML.length > 100 && articleTitle) {
+            window.prerenderReady = true;
+            return true;
+          }
+            } else {
+          // Pour les autres pages, vérifier le contenu principal
+          const root = document.getElementById('root');
+          const main = document.querySelector('main') || document.querySelector('.main-content') || root;
+  
+          if (main && main.innerHTML && main.innerHTML.length > 100) {
+            window.prerenderReady = true;
+            return true;
+          }
+        }
+  
+        return false;
+      }
+  
+      // Fonction pour injecter des métadonnées pour le debug
+      function injectPrerenderDebug() {
+        if (window.location.pathname.includes('/blog/')) {
+          const meta = document.createElement('meta');
+          meta.setAttribute('name', 'prerender-status');
+          meta.setAttribute('content', 'injected');
+          document.head.appendChild(meta);
+        }
+      }
+  
+      // Vérifier si nous sommes dans un contexte Prerender
+      const isPrerender = /prerender|bot|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegram/i.test(navigator.userAgent);
+  
+      // Fonction pour observer les changements de DOM
+      function setupObserver() {
+        const observer = new MutationObserver((mutations) => {
+          for (const mutation of mutations) {
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+              if (checkContentLoaded()) {
+                observer.disconnect();
+                break;
+              }
+            }
+          }
+        });
+  
+        observer.observe(document.body, { childList: true, subtree: true });
+  
+        // Timeout de sécurité pour l'observer
+        setTimeout(() => {
+          observer.disconnect();
+          window.prerenderReady = true;
+        }, 10000);
+      }
+  
+      if (isPrerender) {
+        injectPrerenderDebug();
+  
+        // Vérifier immédiatement si le contenu est déjà chargé
+        if (!checkContentLoaded()) {
+          // Configurer un intervalle pour vérifier périodiquement
+          const checkInterval = setInterval(() => {
+            if (checkContentLoaded()) {
+              clearInterval(checkInterval);
+            }
+          }, 500);
+  
+          // Configurer un observer pour détecter les changements de DOM
+          setupObserver();
+  
+          // Timeout de sécurité général
+          setTimeout(() => {
+            clearInterval(checkInterval);
+            window.prerenderReady = true;
+          }, 15000);
+        }
+  
+        // Écouter les changements de route
+        window.addEventListener('popstate', () => {
+          window.prerenderReady = false;
+          checkContentLoaded();
+        });
+      } else {
+        // En mode normal, attendre le DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+          window.prerenderReady = true;
+        });
+      }
+    </script>
+    <script type="module" crossorigin="" src="/assets/main-62uW_KO1.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/vendor-CDaM45aE.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/router-rhJQCyG-.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/utils-B54Vy4e6.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/main-Ba1f1GnK.css">
+  <style>
+      .wcag-auditor-highlight {
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(1, 25, 209, 0.5);
+        pointer-events: none;
+      }
+    </style><meta property="og:type" content="website" data-rh="true"><style>
+      .wcag-auditor-highlight {
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(1, 25, 209, 0.5);
+        pointer-events: none;
+      }
+    </style><style>
+      .wcag-auditor-highlight {
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(1, 25, 209, 0.5);
+        pointer-events: none;
+      }
+    </style><style>
+      .wcag-auditor-highlight {
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(1, 25, 209, 0.5);
+        pointer-events: none;
+      }
+    </style><link rel="canonical" href="https://traductionenarabe.fr/about" data-rh="true"><meta name="description" content="Découvrez Aicha Salhi, traductrice-interprète assermentée à Dijon, spécialisée en traduction français-arabe. Services professionnels et personnalisés." data-rh="true"><meta name="keywords" content="traductrice assermentée, Aicha Salhi, traduction français-arabe, Dijon, interprète" data-rh="true"><meta property="og:title" content="À Propos | Traduction en Arabe Aicha Salhi" data-rh="true"><meta property="og:description" content="Découvrez Aicha Salhi, traductrice-interprète assermentée à Dijon, spécialisée en traduction français-arabe. Services professionnels et personnalisés." data-rh="true"><style>
+      .wcag-auditor-highlight {
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(1, 25, 209, 0.5);
+        pointer-events: none;
+      }
+    </style></head>
+  
+  <body>
+    <div id="root"><div class="min-h-screen flex flex-col"><header class="w-full h-16 py-0 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-white/70 border-b border-black/10 fixed top-0 left-0 z-20"><div class="max-w-7xl mx-auto flex justify-between items-center text-gray-800"><div class="flex items-center"><a aria-label="traductionenarabe.fr - Accueil" class="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded" href="/"><img src="/assets/logo_trad-BtUfo88p.svg" alt="traductionenarabe.fr" class="h-14 w-auto object-contain transition" style="filter: none;"></a></div><div class="lg:hidden"><button class="text-2xl rounded-md px-2 py-1 hover:bg-black/5 focus:outline-none focus:ring-2 focus:ring-red-500" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navigation-menu">☰</button></div><nav class="lg:flex lg:block hidden " id="navigation-menu" aria-label="Navigation principale"><ul class="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-6 px-6 py-4 lg:p-0"><li><a aria-label="Navigation vers l'accueil" class="text-gray-800 hover:text-red-700 transition-colors" href="/">Accueil</a></li><li><a class="text-gray-800 hover:text-red-700 transition-colors" href="/services">Services</a></li><li><a class="text-red-700 font-semibold" href="/about" aria-current="page">À Propos</a></li><li><a class="text-gray-800 hover:text-red-700 transition-colors" href="/blog">Blog</a></li><li><a class="text-gray-800 hover:text-red-700 transition-colors" href="/contact">Contact</a></li><li><a class="text-gray-800 hover:text-red-700 transition-colors" href="/panier">Panier</a></li><li><a class="text-gray-800 hover:text-red-700 transition-colors" href="/faq">FAQ</a></li><li><a class="text-gray-800 hover:text-red-700 transition-colors" href="/admin/dashboard">Admin Dashboard</a></li><li><button class="text-gray-800 hover:text-red-700 transition-colors" aria-label="Se déconnecter">Logout</button></li><li><button class="text-gray-800 hover:text-red-700 hover:bg-black/5 transition-colors rounded-md px-2 py-1" aria-label="Passer en mode sombre"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" class="inline-block mr-2 text-blue-700" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M283.211 512c78.962 0 151.079-35.925 198.857-94.792 7.068-8.708-.639-21.43-11.562-19.35-124.203 23.654-238.262-71.576-238.262-196.954 0-72.222 38.662-138.635 101.498-174.394 9.686-5.512 7.25-20.197-3.756-22.23A258.156 258.156 0 0 0 283.211 0c-141.309 0-256 114.511-256 256 0 141.309 114.511 256 256 256z"></path></svg></button></li></ul></nav></div></header><main class="flex-grow"><div class="min-h-screen bg-gray-100 text-gray-900 px-6 py-12"><div class="max-w-4xl mx-auto"><div class="text-center mb-12"><h1 class="text-5xl font-bold text-red-700 mb-8">À Propos</h1><h2 class="text-4xl font-bold text-red-700 mb-6">À propos de Aicha Salhi</h2><div class="prose text-gray-700 max-w-none"><p class="text-lg mb-6 leading-relaxed">Je suis Aicha Salhi, traductrice-interprète assermentée près la Cour d'appel de Dijon, spécialisée dans les traductions entre le français et l'arabe. Depuis 2017, j'accompagne particuliers, entreprises et institutions dans leurs besoins linguistiques, en garantissant des traductions précises et conformes aux exigences légales.</p><p class="text-lg mb-6 leading-relaxed">Titulaire d'un Master en traduction de l'Université de Strasbourg, je maîtrise plusieurs combinaisons linguistiques français ↔ arabe, espagnol ↔ arabe et anglais → arabe. Cette polyvalence me permet de répondre à une large gamme de demandes, qu'il s'agisse de documents juridiques, techniques, médicaux ou commerciaux.</p><p class="text-lg mb-6 leading-relaxed">Mon engagement repose sur trois piliers : rigueur, confidentialité et réactivité. Chaque projet est traité avec le plus grand soin, en respectant les délais convenus et en assurant une communication fluide avec mes clients.</p><h3 class="text-2xl font-semibold text-red-700 mt-8 mb-4">Services proposés</h3><ul class="text-lg space-y-2 list-disc list-inside"><li>Traductions certifiées (arabe ↔ français) (actes de naissance, diplômes, contrats, etc.)</li><li>Interprétariat lors de rendez-vous officiels ou professionnels</li><li>Traductions spécialisées : juridique, technique, médical, etc.</li><li>Relecture et révision de documents</li></ul><h3 class="text-2xl font-semibold text-red-700 mt-8 mb-4">Coordonnées</h3><div class="text-lg space-y-2"><p class="flex items-center justify-center"><span class="mr-2">📍</span><span>4 bis Avenue Champollion, 21000 Dijon</span></p><p class="flex items-center justify-center"><span class="mr-2">📞</span><span>06 69 15 12 16</span></p><p class="flex items-center justify-center"><a class="flex items-center text-red-600 hover:text-red-700 transition-colors duration-300 font-semibold" href="/contact"><span class="mr-2">📧</span><span>Contactez-moi</span></a></p></div><p class="text-lg mt-6 leading-relaxed">Pour toute demande de devis ou d'information complémentaire, n'hésitez pas à me contacter. Je me ferai un plaisir de vous accompagner dans vos projets de traduction.</p></div></div><div class="mt-12 bg-white p-6 rounded-lg shadow-lg"><h3 class="text-2xl font-semibold text-center mb-6 text-red-700">Notre localisation</h3><div class="w-full overflow-hidden rounded-lg"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3207.3787549213425!2d5.0599345294158145!3d47.33552448016567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f29fb18179df77%3A0xa98ae876ad6e51aa!2sAicha%20SALHI!5e1!3m2!1sfr!2sfr!4v1745403430181!5m2!1sfr!2sfr" width="100%" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Localisation de Aicha Salhi" style="border: 0px;"></iframe></div></div></div></div></main><div class="fixed bottom-8 right-8 z-60"><button class="p-4 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 flex items-center justify-center relative"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg><span class="sr-only">Besoin d'aide ?</span></button></div><footer class="bg-gray-900 text-gray-100 text-sm"><div class="max-w-7xl mx-auto py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"><div><h3 class="text-white font-semibold mb-3">Traduction en Arabe</h3><p class="text-gray-200">Traductrice professionnelle à Dijon – Traduction certifiée.</p></div><div><h4 class="text-white font-semibold mb-3">Liens</h4><ul class="space-y-2"><li><a class="text-gray-200 hover:text-white transition-colors" href="/services">Services</a></li><li><a class="text-gray-200 hover:text-white transition-colors" href="/blog">Blog</a></li><li><a class="text-gray-200 hover:text-white transition-colors" href="/traduction-arabe-dijon">Traduction à Dijon</a></li><li><a class="text-gray-200 hover:text-white transition-colors" href="/contact">Contact</a></li></ul></div><div><h4 class="text-white font-semibold mb-3">Coordonnées</h4><ul class="space-y-2 text-gray-200"><li>4 Avenue Champollion, 21000 Dijon</li><li><a class="text-gray-200 hover:text-white transition-colors" href="tel:+33644099983">+33 6 44 09 99 83</a></li><li><a class="text-gray-200 hover:text-white transition-colors" href="mailto:contact@traductionenarabe.fr">contact@traductionenarabe.fr</a></li></ul></div><div><h4 class="text-white font-semibold mb-3">Suivez-nous</h4><div class="flex gap-4"><a href="https://www.linkedin.com/in/aicha-salhi-1a7bb21a?trk" class="text-gray-200 hover:text-white transition-colors">LinkedIn</a><a href="https://twitter.com/aicha-salhi" class="text-gray-200 hover:text-white transition-colors">Twitter</a><a href="https://www.facebook.com/aicha.salhi.502256" class="text-gray-200 hover:text-white transition-colors">Facebook</a></div></div></div><div class="border-t border-gray-700"><div class="max-w-7xl mx-auto py-4 flex items-center justify-between text-gray-200"><p>© 2025 Traduction en Arabe – Aicha Salhi</p><div class="flex gap-4"><a class="text-gray-200 hover:text-white transition-colors" href="/legal">Mentions légales</a><a class="text-gray-200 hover:text-white transition-colors" href="/cgu">CGU</a><a class="text-gray-200 hover:text-white transition-colors" href="/cookies">Cookies</a><a class="text-gray-200 hover:text-white transition-colors" href="/securite-ssl">Sécurité &amp; SSL</a><a class="text-gray-200 hover:text-white transition-colors" href="/rgpd">RGPD &amp; Confidentialité</a></div></div></div></footer></div></div>
+  
+  
+  <div></div></body></html>

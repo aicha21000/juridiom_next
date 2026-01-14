@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Blog Article Styles */
+.prose {
+  max-width: none;
+  line-height: 1.8;
+}
+.prose p {
+  margin-bottom: 1.5em;
+}
+.prose em {
+  font-style: italic;
+}
+.prose .texte {
+  text-align: justify;
+}
+.prose h1.texte {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 1.5em 0 1em 0;
+  color: #dc2626;
+  line-height: 1.4;
+  display: block;
+  white-space: normal;
+}
+.dark .prose h1.texte {
+  color: #ef4444;
+}
+.prose h1.texte a {
+  color: inherit;
+  text-decoration: none;
+  display: inline;
+  white-space: normal;
+}
+.prose h1.texte a:hover {
+  text-decoration: underline;
+}
+.prose h1.texte em {
+  font-style: italic;
+  display: inline;
+  white-space: normal;
+}
+.prose .FootnoteSymbol, .prose .footnotecall {
+  vertical-align: super;
+  font-size: 0.6em;
+  text-decoration: none;
+  color: #dc2626;
+  margin-left: 0.2em;
+}
+.dark .prose .FootnoteSymbol, .dark .prose .footnotecall {
+  color: #ef4444;
+}
+.prose .paranumber {
+  font-weight: bold;
+  margin-right: 0.5em;
+  font-size: 0.9em;
+}
+.prose span[style*="font-variant:small-caps"] {
+  font-variant: small-caps;
+}
+.prose a {
+  color: #dc2626;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.dark .prose a {
+  color: #ef4444;
+}
+.prose a:hover {
+  text-decoration: underline;
+}
+.prose .anchor--note {
+  font-size: 0.6em;
+  vertical-align: super;
+  margin-left: 0.2em;
+}
+.prose .svg-inline--fa, .prose .fa-up-right-from-square {
+  width: 0.6em;
+  height: 0.6em;
+  vertical-align: middle;
+  margin-left: 0.2em;
+  display: inline-block;
+  color: #dc2626;
+}
+.dark .prose .svg-inline--fa, .dark .prose .fa-up-right-from-square {
+  color: #ef4444;
+}
+.prose a svg {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}

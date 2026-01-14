@@ -1,0 +1,134 @@
+# Activation du module mod_expires
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS, JavaScript
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    
+    # Autres
+    ExpiresByType application/pdf "access plus 1 year"
+    ExpiresByType application/x-shockwave-flash "access plus 1 year"
+</IfModule>
+
+# Compression GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Headers de cache
+<IfModule mod_headers.c>
+    # Cache-Control pour les ressources statiques
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|webp)$">
+        Header set Cache-Control "max-age=31536000, public"
+    </FilesMatch>
+    
+    # Cache-Control pour les ressources dynamiques
+    <FilesMatch "\.(html|htm|php)$">
+        Header set Cache-Control "max-age=0, private, no-cache, no-store, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# Configuration Prerender et routage SPA
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # 1. SERVIR LES FICHIERS STATIQUES EXISTANTS EN PRIORITÉ
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule .* - [L]
+
+    # 2. SERVIR LES DOSSIERS EXISTANTS
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule .* - [L]
+
+    # 3. RÈGLES SPÉCIFIQUES POUR LES ARTICLES DE BLOG
+    # Si l'URL est /blog/slug et qu'un fichier /blog/slug/index.html existe, le servir
+    RewriteCond %{REQUEST_URI} ^/blog/([^/]+)/?$
+    RewriteCond %{DOCUMENT_ROOT}/blog/%1/index.html -f
+    RewriteRule ^blog/([^/]+)/?$ /blog/$1/index.html [L]
+
+    # 4. CONFIGURATION PRERENDER POUR LES BOTS (excluant les articles de blog)
+    RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegram|slack|discord|googlebot|bingbot|yandex) [NC]
+    RewriteCond %{REQUEST_URI} !^/assets/
+    RewriteCond %{REQUEST_URI} !^/robots\.txt$
+    RewriteCond %{REQUEST_URI} !^/favicon\.ico$
+    RewriteCond %{REQUEST_URI} !^/manifest\.json$
+    RewriteCond %{REQUEST_URI} !^/sitemap\.xml$
+    RewriteCond %{REQUEST_URI} !^/blog/
+    RewriteRule ^(.*)$ https://service.prerender.io/$1?waitForSelector=article&waitForTimeout=15000&js=true&waitUntil=networkidle0&renderAll=true&waitForFunction=window.prerenderReady [P,L,E=PRERENDER_DEBUG:1,QSA]
+
+    # 5. CONFIGURATION PRERENDER POUR LES ARTICLES DE BLOG (si pas de fichier statique)
+    RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|facebookcatalog|twitterbot|linkedinbot|whatsapp|telegram) [NC]
+    RewriteCond %{REQUEST_URI} ^/blog/([^/]+)/?$
+    RewriteCond %{DOCUMENT_ROOT}/blog/%1/index.html !-f
+    RewriteRule ^blog/([^/]+)/?$ https://service.prerender.io/blog/$1/?waitForSelector=article&waitForTimeout=15000&js=true&waitUntil=networkidle0&renderAll=true&waitForFunction=window.prerenderReady [P,L,E=PRERENDER_DEBUG:1,QSA]
+
+    # 6. CONFIGURATION PRERENDER POUR LES REQUÊTES AVEC _escaped_fragment_
+    RewriteCond %{QUERY_STRING} _escaped_fragment_= [NC]
+    RewriteRule ^(.*)$ https://service.prerender.io/$1?waitForSelector=article&waitForTimeout=15000&js=true&waitUntil=networkidle0&renderAll=true&waitForFunction=window.prerenderReady [P,L,E=PRERENDER_DEBUG:1,QSA]
+
+    # 7. FALLBACK SPA - TOUTES LES AUTRES REQUÊTES VONT VERS index.html
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.html [L,QSA]
+</IfModule>
+
+# Headers pour le débogage et Prerender
+<IfModule mod_headers.c>
+    SetEnvIf PRERENDER_DEBUG 1 PRERENDER_DEBUG_HEADERS
+    Header set X-Prerender-Debug "%{PRERENDER_DEBUG_HEADERS}e" env=PRERENDER_DEBUG
+    
+    # Headers Prerender
+    SetEnvIf X-Prerender 1 PRERENDER=1
+    Header set X-Prerender-Token "fjZN1n39lrNfNONeZBO2" env=PRERENDER
+    Header set X-Prerender "1" env=PRERENDER
+    
+    # Headers supplémentaires pour les bots
+    SetEnvIf User-Agent "facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegram|slack|discord|googlebot|bingbot|yandex" BOT=1
+    Header set X-Bot-Detected "1" env=BOT
+    
+    # Headers pour le cache
+    Header set Cache-Control "no-cache, no-store, must-revalidate" env=PRERENDER
+    Header set Pragma "no-cache" env=PRERENDER
+    Header set Expires "0" env=PRERENDER
+</IfModule>
+
+# Optimisations pour éviter les erreurs 504 (timeouts)
+<IfModule mod_reqtimeout.c>
+    RequestReadTimeout header=30-60,MinRate=500
+    RequestReadTimeout body=30,MinRate=500
+</IfModule>
+
+# Limites de taille de fichier pour éviter les timeouts
+<IfModule mod_php.c>
+    php_value upload_max_filesize 20M
+    php_value post_max_size 20M
+    php_value max_execution_time 600
+    php_value max_input_time 600
+    php_value memory_limit 256M
+</IfModule>
+
+# Optimisations pour les images WebP
+<IfModule mod_mime.c>
+    AddType image/webp .webp
+    AddType image/svg+xml .svg
+</IfModule> 
