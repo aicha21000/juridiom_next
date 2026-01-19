@@ -60,10 +60,10 @@ export async function POST(req: Request) {
                 }
             });
 
-            // Generate a signed URL (valid for 24 hours) instead of making the file public
+            // Generate a signed URL (valid for 24 h) instead of making the file public
             const [signedUrl] = await fileRef.getSignedUrl({
                 action: 'read',
-                expires: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
+                expires: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
             });
 
             fileUrls.push({

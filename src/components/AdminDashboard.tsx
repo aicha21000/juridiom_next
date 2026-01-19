@@ -191,9 +191,27 @@ const AdminDashboard = () => {
                                                     {order.files.map((file, idx) => (
                                                         <a
                                                             key={idx}
-                                                            href={file.url}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
+                                                            href="#"
+                                                            onClick={async (e) => {
+                                                                e.preventDefault();
+                                                                // If the file already contains a signed URL, use it directly
+                                                                if (file.url) {
+                                                                    window.open(file.url, '_blank');
+                                                                    return;
+                                                                }
+                                                                try {
+                                                                    const res = await fetch(`/api/services/download?path=${encodeURIComponent(file.path)}`);
+                                                                    const data = await res.json();
+                                                                    if (data.url) {
+                                                                        window.open(data.url, '_blank');
+                                                                    } else {
+                                                                        alert('Impossible de récupérer le lien de téléchargement.');
+                                                                    }
+                                                                } catch (err) {
+                                                                    console.error(err);
+                                                                    alert('Erreur lors du téléchargement.');
+                                                                }
+                                                            }}
                                                             className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-full text-xs hover:bg-gray-200 transition"
                                                         >
                                                             <FaDownload size={10} /> {file.name}

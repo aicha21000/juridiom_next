@@ -23,7 +23,7 @@ export interface Order {
   status: 'paid' | 'processing' | 'shipped' | 'completed' | 'cancelled';
   createdAt: string;
   comment?: string;
-  files?: Array<{ name: string; url: string; }>;
+  files?: Array<{ name: string; url: string; path: string }>;
   stripeSessionId: string;
 }
 
