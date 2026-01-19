@@ -14,6 +14,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Traduction en Arabe - Aicha Salhi",
   description: "Services de traduction professionnelle et certifiée à Dijon",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png"
+  }
 };
 
 export default function RootLayout({
