@@ -60,12 +60,15 @@ export async function POST(req: Request) {
                 }
             });
 
-            await fileRef.makePublic();
-            const firebaseUrl = `https://storage.googleapis.com/${bucket.name}/${firebaseFileName}`;
+            // Generate a signed URL (valid for 24 hours) instead of making the file public
+            const [signedUrl] = await fileRef.getSignedUrl({
+                action: 'read',
+                expires: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
+            });
 
             fileUrls.push({
                 name: file.name,
-                url: firebaseUrl,
+                url: signedUrl,
                 path: firebaseFileName
             });
         }
