@@ -13,12 +13,9 @@ const nextConfig: NextConfig = {
       }
     ],
   },
-  // Ignorer les erreurs TypeScript et ESLint au build pour permettre le déploiement
+  // Ignorer les erreurs TypeScript au build pour permettre le déploiement
   typescript: {
     ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
 };
 
