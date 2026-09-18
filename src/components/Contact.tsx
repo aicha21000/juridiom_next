@@ -77,8 +77,9 @@ const Contact: FC = () => {
                 <div>
                   <h3 className="text-lg font-bold mb-1">Notre Adresse</h3>
                   <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                    10 avenue Jean-Baptiste Greuze,<br />
-                    21000 Dijon
+                    Centre d'Affaires Regus Longvic,<br />
+                    8 Chemin De La Noue,<br />
+                    21600 Longvic
                   </p>
                 </div>
               </div>

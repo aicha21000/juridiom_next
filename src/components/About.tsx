@@ -95,7 +95,7 @@ const APropos: React.FC = () => {
                 </div>
                 <div>
                   <span className="block text-sm font-semibold opacity-70 mb-1">Adresse</span>
-                  <span className="text-lg">10 avenue Jean-Baptiste Greuze<br />21000 Dijon</span>
+                  <span className="text-lg">Centre d'Affaires Regus Longvic<br />8 Chemin De La Noue<br />21600 Longvic</span>
                 </div>
               </li>
               <li className="flex items-center">

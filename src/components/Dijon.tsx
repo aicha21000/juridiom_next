@@ -37,7 +37,7 @@ const Dijon: React.FC = () => {
         <h2 className="text-2xl font-bold mb-4">Coordonnées</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2 text-gray-700 dark:text-gray-300">
-            <p><strong>Adresse:</strong> 4 Avenue Champollion, 21000 Dijon</p>
+            <p><strong>Adresse:</strong> Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic</p>
             <p><strong>Téléphone:</strong> <a href="tel:+33669151216" className="text-red-600">+33 6 69 15 12 16</a></p>
             <p><strong>Email:</strong> <a href="mailto:contact@traductionenarabe.fr" className="text-red-600">contact@traductionenarabe.fr</a></p>
           </div>

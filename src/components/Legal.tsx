@@ -21,7 +21,7 @@ const Legal: FC = () => {
               <li><strong>SIRET (siège)</strong> : 830 915 666 00010</li>
               <li><strong>TVA intracommunautaire</strong> : FR76830915666</li>
               <li><strong>Code APE/NAF</strong> : 7430Z — Traduction et interprétation</li>
-              <li><strong>Adresse</strong> : 4 B Avenue Champollion, 21000 Dijon, France</li>
+              <li><strong>Adresse</strong> : Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic, France</li>
               <li><strong>Email</strong> : <a className="text-red-600" href="mailto:contact@traductionenarabe.fr">contact@traductionenarabe.fr</a></li>
               <li><strong>Téléphone</strong> : <a className="text-red-600" href="tel:+33669151216">+33 6 69 15 12 16</a></li>
               <li><strong>Directrice de publication</strong> : Aicha Salhi</li>
