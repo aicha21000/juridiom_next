@@ -122,7 +122,7 @@ const APropos: React.FC = () => {
           {/* Map Card */}
           <div className={`rounded-3xl shadow-lg border overflow-hidden ${isDarkMode ? "border-gray-800" : "border-gray-200"}`}>
             <iframe
-              src={process.env.NEXT_PUBLIC_MAPS_URL || ""}
+              src={process.env.NEXT_PUBLIC_MAPS_URL || "https://maps.google.com/maps?q=Centre+d'Affaires+Regus+Longvic,+8+Chemin+De+La+Noue,+21600+Longvic&t=&z=15&ie=UTF8&iwloc=&output=embed"}
               width="100%"
               height="100%"
               style={{ border: 0, minHeight: '300px' }}

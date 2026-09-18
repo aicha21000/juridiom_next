@@ -126,7 +126,7 @@ const Contact: FC = () => {
             {/* Map Preview */}
             <div className={`rounded-3xl overflow-hidden shadow-lg border ${isDarkMode ? "border-gray-800" : "border-gray-200"}`}>
               <iframe
-                src={process.env.NEXT_PUBLIC_MAPS_URL_CONTACT || ""}
+                src={process.env.NEXT_PUBLIC_MAPS_URL_CONTACT || "https://maps.google.com/maps?q=Centre+d'Affaires+Regus+Longvic,+8+Chemin+De+La+Noue,+21600+Longvic&t=&z=15&ie=UTF8&iwloc=&output=embed"}
                 width="100%"
                 height="300"
                 style={{ border: 0 }}

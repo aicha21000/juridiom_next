@@ -42,7 +42,7 @@ const Dijon: React.FC = () => {
             <p><strong>Email:</strong> <a href="mailto:contact@traductionenarabe.fr" className="text-red-600">contact@traductionenarabe.fr</a></p>
           </div>
           <div>
-            <iframe title="Localisation Dijon" className="w-full h-64 rounded-xl border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" src={process.env.NEXT_PUBLIC_MAPS_URL_DIJON || ""}></iframe>
+            <iframe title="Localisation Dijon" className="w-full h-64 rounded-xl border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" src={process.env.NEXT_PUBLIC_MAPS_URL_DIJON || "https://maps.google.com/maps?q=Centre+d'Affaires+Regus+Longvic,+8+Chemin+De+La+Noue,+21600+Longvic&t=&z=15&ie=UTF8&iwloc=&output=embed"}></iframe>
           </div>
         </div>
       </section>
