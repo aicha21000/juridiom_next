@@ -121,7 +121,7 @@ const AdminDashboard = () => {
                                                             order.status === 'completed' ? 'bg-gray-100 text-gray-700' :
                                                                 'bg-yellow-100 text-yellow-700'
                                                         }`}>
-                                                        {order.status.toUpperCase()}
+                                                        {order.status ? order.status.toUpperCase() : 'UNKNOWN'}
                                                     </span>
                                                 </div>
                                                 <h3 className="text-lg font-bold text-gray-900 dark:text-white">

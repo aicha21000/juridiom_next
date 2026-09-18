@@ -24,12 +24,15 @@ export async function GET(req: Request) {
     }
 
     try {
+        // Validate Stripe configuration
+        if (!process.env.STRIPE_PRIVATE) {
+          console.error('Stripe private key missing');
+          return NextResponse.json({ error: 'Stripe configuration missing' }, { status: 500 });
+        }
         const session = await stripe.checkout.sessions.retrieve(session_id);
-
         if (!session) {
           return NextResponse.json({ error: 'Session not found' }, { status: 404 });
         }
-
         if (session.payment_status !== 'paid') {
           return NextResponse.json({ error: 'Payment not confirmed' }, { status: 400 });
         }
