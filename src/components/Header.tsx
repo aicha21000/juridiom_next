@@ -181,6 +181,19 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link
+                    href="/client-dashboard"
+                    className={`flex items-center space-x-1 ${pathname === "/client-dashboard"
+                      ? isDarkMode ? "text-red-400" : "text-red-700"
+                      : isDarkMode
+                        ? "text-gray-100 hover:text-red-400"
+                        : "text-gray-800 hover:text-red-700"
+                      } transition-colors`}
+                  >
+                    Mes commandes
+                  </Link>
+                </li>
+                <li>
                   <button
                     onClick={handleLogout}
                     className={`${isDarkMode
