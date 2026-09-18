@@ -34,8 +34,20 @@ export async function GET(req: Request) {
           return NextResponse.json({ error: 'Payment not confirmed' }, { status: 400 });
         }
 
-        const cartData = session.metadata?.cart ? JSON.parse(session.metadata.cart) : null;
-            if (!cartData) throw new Error("Données du panier manquantes");
+        // Attempt to get cart data from Stripe session metadata
+        let cartData: any = null;
+        if (session.metadata?.cart) {
+          cartData = JSON.parse(session.metadata.cart);
+        }
+        // Fallback to cookie if metadata is missing or parsing failed
+        if (!cartData) {
+          const cookieStore = await cookies();
+          const cartCookie = cookieStore.get('cart')?.value;
+          cartData = cartCookie ? JSON.parse(cartCookie) : null;
+        }
+        if (!cartData) {
+          return NextResponse.json({ error: 'Cart data missing' }, { status: 400 });
+        }
 
             // Get files from session metadata or handle separately? 
             // In the DB version, we looked at "cookies" or "Order" logic. 
