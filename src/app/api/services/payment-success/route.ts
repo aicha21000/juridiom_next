@@ -26,8 +26,15 @@ export async function GET(req: Request) {
     try {
         const session = await stripe.checkout.sessions.retrieve(session_id);
 
-        if (session.payment_status === 'paid') {
-            const cartData = session.metadata?.cart ? JSON.parse(session.metadata.cart) : null;
+        if (!session) {
+          return NextResponse.json({ error: 'Session not found' }, { status: 404 });
+        }
+
+        if (session.payment_status !== 'paid') {
+          return NextResponse.json({ error: 'Payment not confirmed' }, { status: 400 });
+        }
+
+        const cartData = session.metadata?.cart ? JSON.parse(session.metadata.cart) : null;
             if (!cartData) throw new Error("Données du panier manquantes");
 
             // Get files from session metadata or handle separately? 
@@ -145,9 +152,8 @@ export async function GET(req: Request) {
             const response = NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/confirmation`);
             response.cookies.set('cart', JSON.stringify([]), { maxAge: 0 });
             return response;
-        } else {
-            return NextResponse.json({ error: 'Paiement non confirmé' }, { status: 400 });
-        }
+
+
     } catch (error: any) {
         console.error("Error:", error);
         return NextResponse.json({ error: error.message }, { status: 500 });
