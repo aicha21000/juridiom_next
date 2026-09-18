@@ -1,4 +1,4 @@
-﻿// services/firebase.ts - Correctif pour les API obsolètes
+// services/firebase.ts - Correctif pour les API obsolètes
 import { initializeApp } from 'firebase/app';
 import {
   getDatabase,
@@ -44,9 +44,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Only initialize database if URL is provided (optional for auth-only usage)
-const database = firebaseConfig.databaseURL
-  ? getDatabase(app)
-  : null as any;
+const database = getDatabase(app);
 
 const auth = getAuth(app);
 
