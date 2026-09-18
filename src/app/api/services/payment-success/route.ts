@@ -94,54 +94,74 @@ export async function GET(req: Request) {
                 }
             }
 
+            // Verify transporter configuration before sending emails
+            try {
+              await transporter.verify();
+            } catch (verifyErr) {
+              console.error('Email transporter verification failed:', verifyErr);
+            }
+
             // Send email to Client
+            const shortOrderId = String(Date.now()).slice(-10);
             const mailOptionsClient = {
-                from: process.env.EMAIL_ADMIN,
-                to: cartData.mailClient,
-                subject: "Confirmation de votre commande - Traduction en Arabe",
-                html: `
-                  <h1>Merci pour votre commande !</h1>
-                  <p>Votre paiement a été validé.</p>
-                  <h2>Détails:</h2>
+              from: process.env.EMAIL_ADMIN,
+              to: cartData.mailClient,
+              subject: `🎉 Confirmation de votre commande #${shortOrderId} - Traduction en Arabe`,
+              html: `
+                <div style="background:#f0f9ff;padding:20px;border-radius:8px;font-family:Arial,Helvetica,sans-serif;color:#333;">
+                  <h1 style="color:#2563eb;">🎉 Merci pour votre commande #${shortOrderId} !</h1>
+                  <p>✅ Votre paiement a été validé.</p>
+                  <h2 style="color:#2563eb;">📦 Détails :</h2>
                   <ul>
-                    <li>Pages: ${cartData.numberOfPages}</li>
-                    <li>Documents: ${cartData.numberOfDocuments}</li>
-                    <li>Type: ${cartData.legalization || 'Standard'}</li>
-                    <li>Livraison: ${cartData.deliveryMethod}</li>
-                    <li>Total: ${cartData.totalPrice} €</li>
+                    <li>📄 Pages : ${cartData.numberOfPages}</li>
+                    <li>📂 Documents : ${cartData.numberOfDocuments}</li>
+                    <li>🛠️ Type : ${cartData.legalization || 'Standard'}</li>
+                    <li>🚚 Livraison : ${cartData.deliveryMethod}</li>
+                    <li>💶 Total : ${cartData.totalPrice} €</li>
                   </ul>
-                  <p>Nous allons traiter votre demande dans les plus brefs délais.</p>
-                `
+                  <p>🔧 Nous allons traiter votre demande dans les plus brefs délais.</p>
+                  <p>🔗 <a href="${process.env.NEXT_PUBLIC_SITE_URL}/confirmation?orderId=${session.id}" style="color:#2563eb; text-decoration:underline;">Voir votre commande #${shortOrderId}</a></p>
+                </div>
+              `,
             };
-            await transporter.sendMail(mailOptionsClient);
+            try {
+              await transporter.sendMail(mailOptionsClient);
+            } catch (mailErr) {
+              console.error('Failed to send client email:', mailErr);
+            }
 
             // Send email to Admin
             const mailOptionsAdmin = {
-                from: process.env.EMAIL_ADMIN,
-                to: process.env.EMAIL_ADMIN,
-                subject: `Nouvelle Commande (Payée) - ${cartData.mailClient}`,
-                html: `
-                  <h1>Nouvelle Commande Reçue</h1>
-                  <p>Client: ${cartData.mailClient}</p>
-                  <p>Montant: ${cartData.totalPrice} €</p>
-                  <p>Session Stripe: ${session.id}</p>
-                  <h2>Détails:</h2>
-                  <ul>
-                    <li>Pages: ${cartData.numberOfPages}</li>
-                    <li>Documents: ${cartData.numberOfDocuments}</li>
-                    <li>Commentaire: ${cartData.comment}</li>
-                  </ul>
-                  <h2>Fichiers:</h2>
-                  <ul>${fileLinksHtml || "Aucun fichier (ou erreur lien)"}</ul>
-                `
+              from: process.env.EMAIL_ADMIN,
+              to: process.env.EMAIL_ADMIN,
+              subject: `Nouvelle Commande (Payée) - ${cartData.mailClient}`,
+              html: `
+                <h1>Nouvelle Commande Reçue</h1>
+                <p>Client: ${cartData.mailClient}</p>
+                <p>Montant: ${cartData.totalPrice} €</p>
+                <p>Session Stripe: ${session.id}</p>
+                <h2>Détails:</h2>
+                <ul>
+                  <li>Pages: ${cartData.numberOfPages}</li>
+                  <li>Documents: ${cartData.numberOfDocuments}</li>
+                  <li>Commentaire: ${cartData.comment}</li>
+                </ul>
+                <h2>Fichiers:</h2>
+                <ul>${fileLinksHtml || "Aucun fichier (ou erreur lien)"}</ul>
+              `
             };
-            await transporter.sendMail(mailOptionsAdmin);
+            try {
+              await transporter.sendMail(mailOptionsAdmin);
+            } catch (mailErr) {
+              console.error('Failed to send admin email:', mailErr);
+            }
 
             // Sauvegarder la commande dans Firebase Realtime Database
             try {
                 const db = firebaseAdmin.database();
                 await db.ref(`orders/${session.id}`).set({
                     id: session.id,
+                    orderNumber: shortOrderId,
                     mailClient: cartData.mailClient,
                     numberOfPages: cartData.numberOfPages,
                     numberOfDocuments: cartData.numberOfDocuments,
@@ -163,8 +183,8 @@ export async function GET(req: Request) {
                 // On continue quand même car l'email a été envoyé
             }
 
-            // Clear cart and redirect
-            const response = NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/confirmation`);
+            // Clear cart and redirect with orderId
+            const response = NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/confirmation?orderId=${session.id}`);
             response.cookies.set('cart', JSON.stringify([]), { maxAge: 0 });
             return response;
 

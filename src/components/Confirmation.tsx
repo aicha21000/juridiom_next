@@ -8,23 +8,32 @@ const Confirmation = () => {
   const [orderDetails, setOrderDetails] = useState<any[] | null>(null);
 
   useEffect(() => {
-    const storedMail = Cookies.get("mailClient");
-    if (storedMail) {
-      setMailClient(storedMail);
+    // Parse orderId from URL
+    const searchParams = new URLSearchParams(window.location.search);
+    const orderId = searchParams.get('orderId');
+
+    if (orderId) {
+      fetch(`/api/services/get-order?orderId=${orderId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.order) {
+            setOrderDetails([data.order]);
+            setMailClient(data.order.mailClient || '');
+          }
+        })
+        .catch((err) => {
+          console.error('Failed to fetch order details:', err);
+        });
     }
 
-    const storedCart = Cookies.get("cart");
-    if (storedCart) {
-      setOrderDetails(JSON.parse(storedCart));
-    }
+    // Clean up cookies (no longer needed)
+    Cookies.remove('mailClient');
+    Cookies.remove('cart');
+    localStorage.removeItem('cart');
 
     const timer = setTimeout(() => {
-      Cookies.remove("mailClient");
-
+      Cookies.remove('mailClient');
     }, 1800000);
-    Cookies.remove("cart");
-    Cookies.remove("mailClient");
-    localStorage.removeItem("cart");
     return () => clearTimeout(timer);
   }, []);
 

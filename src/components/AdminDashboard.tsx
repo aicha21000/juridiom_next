@@ -33,11 +33,40 @@ const AdminDashboard = () => {
         };
     }, [user, router]);
 
-    const handleStatusUpdate = async (orderId: string, status: Order['status']) => {
+    const handleDeleteOrder = async (orderId: string) => {
+        if (!confirm('Êtes‑vous sûr de vouloir supprimer cette commande et tous ses fichiers ?')) {
+            return;
+        }
         try {
-            await updateOrderStatus(orderId, status);
-        } catch (error) {
-            alert("Erreur lors de la mise à jour du statut");
+            const response = await fetch('/api/services/delete-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderId })
+            });
+            if (!response.ok) {
+                const data = await response.json();
+                alert(`Erreur lors de la suppression : ${data.error || response.statusText}`);
+            }
+            // Listener will auto‑refresh the list
+        } catch (err) {
+            console.error('Error deleting order:', err);
+            alert('Erreur lors de la suppression de la commande');
+        }
+    };
+    const handleStatusUpdate = async (orderId: string, status: string) => {
+        try {
+            const response = await fetch('/api/services/update-order-status', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderId, status })
+            });
+            if (!response.ok) {
+                const data = await response.json();
+                alert(`Erreur lors de la mise à jour du statut : ${data.error || response.statusText}`);
+            }
+        } catch (err) {
+            console.error('Error updating order status:', err);
+            alert('Erreur lors de la mise à jour du statut');
         }
     };
 
@@ -174,7 +203,12 @@ const AdminDashboard = () => {
                                                             <FaCheck />
                                                         </button>
                                                     )}
-                                                </div>
+                                                                                                 <button
+                                                     onClick={() => handleDeleteOrder(order.id)}
+                                                     className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 title='Supprimer'">
+                                                     <FaTimes />
+                                                 </button>
+                                                 </div>
                                             </div>
                                         </div>
 
