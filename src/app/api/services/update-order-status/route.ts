@@ -34,20 +34,24 @@ export async function POST(req: Request) {
       });
       await transporter.verify();
 
+      const displayOrderId = order.orderNumber || orderId;
       const fileLinks = order.files?.
         map((f) => `<li><a href="${f.url}" target="_blank">${f.name}</a></li>`)
         .join('') || '';
       const html = `
-        <p>Bonjour ${order.mailClient},</p>
-        <p>Votre commande ${orderId} est maintenant en cours de traitement.</p>
-        <p>Voici les liens de suivi des fichiers :</p>
-        <ul>${fileLinks}</ul>
-        <p>Merci pour votre confiance.</p>
+        <div style="background:#f0f9ff;padding:20px;border-radius:8px;font-family:Arial,Helvetica,sans-serif;color:#333;">
+          <h1 style="color:#2563eb;">🔄 Votre commande est en cours de traitement !</h1>
+          <p>Bonjour ${order.mailClient},</p>
+          <p>Votre commande <strong>#${displayOrderId}</strong> est maintenant prise en charge par notre équipe.</p>
+          ${fileLinks ? `<h2 style="color:#2563eb;">📎 Vos fichiers :</h2><ul>${fileLinks}</ul>` : ''}
+          <p>🔔 Nous vous contacterons dès que la traduction sera prête.</p>
+          <p>Merci pour votre confiance. 🙏</p>
+        </div>
       `;
       const mailOptions = {
         from: process.env.EMAIL_ADMIN,
         to: order.mailClient,
-        subject: `Suivi de votre commande ${orderId}`,
+        subject: `🔄 Commande #${displayOrderId} en cours de traitement`,
         html,
       };
       try {
