@@ -8,6 +8,22 @@ import {
 } from "react-icons/fa";
 import { listenToAllOrders, updateOrderStatus, Order } from "@/services/firebase";
 
+const LEGALIZATION_LABELS: Record<string, string> = {
+    none: "Aucune légalisation",
+    mairie: "Mairie",
+    chamberOfCommerce: "Chambre de commerce",
+    foreignAffairs: "Ministère des Affaires étrangères",
+    consulate: "Consulat et ambassade",
+};
+
+const DELIVERY_LABELS: Record<string, string> = {
+    email: "Email",
+    standard: "Livraison standard",
+    priority: "Livraison prioritaire",
+    international: "Livraison à l'étranger",
+    dhl: "Livraison DHL",
+};
+
 const AdminDashboard = () => {
     const { user, logout } = useAuth();
     const router = useRouter();
@@ -203,11 +219,11 @@ const AdminDashboard = () => {
                                             <div>
                                                 <span className="text-xs text-gray-400 block uppercase font-bold">Détails Service</span>
                                                 <p className="text-sm dark:text-gray-300">{order.numberOfPages} pages / {order.numberOfDocuments} docs</p>
-                                                <p className="text-sm dark:text-gray-300">{order.legalization}</p>
+                                                <p className="text-sm dark:text-gray-300">{LEGALIZATION_LABELS[order.legalization as string] || order.legalization}</p>
                                             </div>
                                             <div>
                                                 <span className="text-xs text-gray-400 block uppercase font-bold">Livraison</span>
-                                                <p className="text-sm dark:text-gray-300">{order.deliveryMethod}</p>
+                                                <p className="text-sm dark:text-gray-300">{DELIVERY_LABELS[order.deliveryMethod as string] || order.deliveryMethod}</p>
                                             </div>
                                             <div>
                                                 <span className="text-xs text-gray-400 block uppercase font-bold">Actions</span>

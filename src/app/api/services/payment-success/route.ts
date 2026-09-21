@@ -15,6 +15,22 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+const LEGALIZATION_LABELS: Record<string, string> = {
+    none: "Aucune légalisation",
+    mairie: "Mairie",
+    chamberOfCommerce: "Chambre de commerce",
+    foreignAffairs: "Ministère des Affaires étrangères",
+    consulate: "Consulat et ambassade",
+};
+
+const DELIVERY_LABELS: Record<string, string> = {
+    email: "Email",
+    standard: "Livraison standard",
+    priority: "Livraison prioritaire",
+    international: "Livraison à l'étranger",
+    dhl: "Livraison DHL",
+};
+
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const session_id = searchParams.get('session_id');
@@ -116,8 +132,8 @@ export async function GET(req: Request) {
                   <ul>
                     <li>📄 Pages : ${cartData.numberOfPages}</li>
                     <li>📂 Documents : ${cartData.numberOfDocuments}</li>
-                    <li>🛠️ Type : ${cartData.legalization || 'Standard'}</li>
-                    <li>🚚 Livraison : ${cartData.deliveryMethod}</li>
+                    <li>🛠️ Type : ${LEGALIZATION_LABELS[cartData.legalization as string] || cartData.legalization || 'Standard'}</li>
+                    <li>🚚 Livraison : ${DELIVERY_LABELS[cartData.deliveryMethod as string] || cartData.deliveryMethod}</li>
                     <li>💶 Total : ${cartData.totalPrice} €</li>
                   </ul>
                   <p>🔧 Nous allons traiter votre demande dans les plus brefs délais.</p>
