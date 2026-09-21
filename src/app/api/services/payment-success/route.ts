@@ -103,9 +103,10 @@ export async function GET(req: Request) {
 
             // Send email to Client
             const shortOrderId = String(Date.now()).slice(-10);
+            const clientEmail = cartData.mailClient || session.customer_details?.email;
             const mailOptionsClient = {
               from: process.env.EMAIL_ADMIN,
-              to: cartData.mailClient,
+              to: clientEmail,
               subject: `🎉 Confirmation de votre commande #${shortOrderId} - Traduction en Arabe`,
               html: `
                 <div style="background:#f0f9ff;padding:20px;border-radius:8px;font-family:Arial,Helvetica,sans-serif;color:#333;">
@@ -162,7 +163,7 @@ export async function GET(req: Request) {
                 await db.ref(`orders/${session.id}`).set({
                     id: session.id,
                     orderNumber: shortOrderId,
-                    mailClient: cartData.mailClient || 'Non renseigné',
+                    mailClient: clientEmail || 'Non renseigné',
                     numberOfPages: cartData.numberOfPages || 0,
                     numberOfDocuments: cartData.numberOfDocuments || 0,
                     deliveryMethod: cartData.deliveryMethod || 'Non renseigné',
