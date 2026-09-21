@@ -48,7 +48,7 @@ export async function POST(req: Request) {
       });
     }
 
-    const defaultMessage = `Bonjour,\n\nNous avons le plaisir de vous faire parvenir votre traduction pour la commande #${displayOrderId}.\n\nNous espérons que ce travail vous donnera entière satisfaction. N'hésitez pas à nous contacter si vous avez la moindre question.\n\nMerci de votre confiance et à bientôt !\n\nCordialement,\nL'équipe Traduction en Arabe`;
+    const defaultMessage = `Bonjour,\n\nNous avons le plaisir de vous faire parvenir votre traduction pour la commande #${displayOrderId}.\n\nNous espérons que ce travail vous donnera entière satisfaction. N'hésitez pas à nous contacter si vous avez la moindre question.\n\nMerci de votre confiance et à bientôt !\n\nCordialement,\nAicha Salhi`;
 
     const finalMessage = message || defaultMessage;
 
