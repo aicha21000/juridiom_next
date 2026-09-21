@@ -1,10 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 import {
     FaBox, FaTruck, FaCheck, FaTimes, FaEnvelope,
-    FaDownload, FaClock, FaSyncAlt, FaSignOutAlt
+    FaDownload, FaClock, FaSyncAlt, FaSignOutAlt, FaPaperPlane
 } from "react-icons/fa";
 import { listenToAllOrders, updateOrderStatus, Order } from "@/services/firebase";
 
@@ -13,6 +13,13 @@ const AdminDashboard = () => {
     const router = useRouter();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
+
+    // Modal state for sending translation
+    const [sendModal, setSendModal] = useState<{ open: boolean; orderId: string; orderNumber: string; clientEmail: string } | null>(null);
+    const [sendFile, setSendFile] = useState<File | null>(null);
+    const [sendMessage, setSendMessage] = useState('');
+    const [sending, setSending] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Simple security check (à améliorer plus tard avec des rôles Firebase)
     const isAdmin = user?.email === "salhi.aicha@traductionenarabe.fr" || user?.email?.includes("admin");
@@ -67,6 +74,32 @@ const AdminDashboard = () => {
         } catch (err) {
             console.error('Error updating order status:', err);
             alert('Erreur lors de la mise à jour du statut');
+        }
+    };
+
+    const handleSendTranslation = async () => {
+        if (!sendModal) return;
+        if (!sendFile) { alert('Veuillez sélectionner un fichier de traduction.'); return; }
+        setSending(true);
+        try {
+            const formData = new FormData();
+            formData.append('orderId', sendModal.orderId);
+            formData.append('message', sendMessage);
+            formData.append('file', sendFile);
+            const response = await fetch('/api/services/send-translation', { method: 'POST', body: formData });
+            if (response.ok) {
+                alert(`✅ Traduction envoyée à ${sendModal.clientEmail} !`);
+                setSendModal(null);
+                setSendFile(null);
+                setSendMessage('');
+            } else {
+                const data = await response.json();
+                alert(`Erreur : ${data.error}`);
+            }
+        } catch (err) {
+            alert('Erreur lors de l\'envoi.');
+        } finally {
+            setSending(false);
         }
     };
 
@@ -208,6 +241,13 @@ const AdminDashboard = () => {
                                                      className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 title='Supprimer'">
                                                      <FaTimes />
                                                  </button>
+                                                 <button
+                                                     title="Envoyer la traduction"
+                                                     onClick={() => setSendModal({ open: true, orderId: order.id, orderNumber: order.orderNumber || order.id.slice(0,10), clientEmail: order.mailClient })}
+                                                     className="p-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100"
+                                                 >
+                                                     <FaPaperPlane />
+                                                 </button>
                                                  </div>
                                             </div>
                                         </div>
@@ -261,6 +301,71 @@ const AdminDashboard = () => {
                     )}
                 </div>
             </main>
+
+            {/* Modal - Envoyer la traduction */}
+            {sendModal && (
+                <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg p-6">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                                📤 Envoyer la traduction
+                            </h2>
+                            <button onClick={() => setSendModal(null)} className="text-gray-400 hover:text-gray-600">
+                                <FaTimes size={20} />
+                            </button>
+                        </div>
+
+                        <p className="text-sm text-gray-500 mb-4">
+                            Commande <strong>#{sendModal.orderNumber}</strong> — Client : <strong>{sendModal.clientEmail}</strong>
+                        </p>
+
+                        {/* File upload */}
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                📎 Fichier traduit <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                onChange={(e) => setSendFile(e.target.files?.[0] || null)}
+                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
+                            />
+                            {sendFile && <p className="text-xs text-green-600 mt-1">✅ {sendFile.name}</p>}
+                        </div>
+
+                        {/* Message */}
+                        <div className="mb-6">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                ✉️ Message (optionnel)
+                            </label>
+                            <textarea
+                                rows={5}
+                                placeholder="Laissez vide pour utiliser le message par défaut..."
+                                value={sendMessage}
+                                onChange={(e) => setSendMessage(e.target.value)}
+                                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-3 text-sm dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-400"
+                            />
+                        </div>
+
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setSendModal(null)}
+                                className="flex-1 py-2 border border-gray-300 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                            >
+                                Annuler
+                            </button>
+                            <button
+                                onClick={handleSendTranslation}
+                                disabled={sending || !sendFile}
+                                className="flex-1 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                            >
+                                <FaPaperPlane />
+                                {sending ? 'Envoi...' : 'Envoyer'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
