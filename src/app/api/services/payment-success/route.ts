@@ -162,18 +162,17 @@ export async function GET(req: Request) {
                 await db.ref(`orders/${session.id}`).set({
                     id: session.id,
                     orderNumber: shortOrderId,
-                    mailClient: cartData.mailClient,
-                    numberOfPages: cartData.numberOfPages,
-                    numberOfDocuments: cartData.numberOfDocuments,
-                    deliveryMethod: cartData.deliveryMethod,
+                    mailClient: cartData.mailClient || 'Non renseigné',
+                    numberOfPages: cartData.numberOfPages || 0,
+                    numberOfDocuments: cartData.numberOfDocuments || 0,
+                    deliveryMethod: cartData.deliveryMethod || 'Non renseigné',
                     legalization: cartData.legalization || 'Standard',
-                    totalPrice: cartData.totalPrice,
+                    totalPrice: cartData.totalPrice || 0,
                     status: 'paid',
                     createdAt: new Date().toISOString(),
                     comment: cartData.comment || '',
                     files: files.map((f: any) => ({
                         name: f.name,
-                        // On utilise l'URL publique générée plus haut ou on construit l'URL
                         url: f.url || `https://storage.googleapis.com/${firebaseAdmin.storage().bucket().name}/order-files/${session.id}/${f.name}`
                     })),
                     stripeSessionId: session.id

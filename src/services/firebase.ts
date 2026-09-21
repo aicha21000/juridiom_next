@@ -13,6 +13,7 @@ import { getAuth } from 'firebase/auth';
 
 export interface Order {
   id: string;
+  orderNumber?: string;
   userId?: string;
   mailClient: string;
   numberOfPages: number;

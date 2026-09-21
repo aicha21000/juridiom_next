@@ -144,7 +144,7 @@ const AdminDashboard = () => {
                                         <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
                                             <div>
                                                 <div className="flex items-center gap-2 mb-1">
-                                                    <span className="text-xs font-mono text-gray-400">ID: {order.id.slice(0, 10)}...</span>
+                                                    <span className="text-xs font-mono text-gray-400">N° {order.orderNumber || order.id.slice(0, 10)}...</span>
                                                     <span className={`px-2 py-1 rounded text-xs font-semibold ${order.status === 'paid' ? 'bg-green-100 text-green-700' :
                                                         order.status === 'shipped' ? 'bg-blue-100 text-blue-700' :
                                                             order.status === 'completed' ? 'bg-gray-100 text-gray-700' :
@@ -157,11 +157,11 @@ const AdminDashboard = () => {
                                                     {order.mailClient}
                                                 </h3>
                                                 <p className="text-sm text-gray-500 flex items-center gap-1">
-                                                    <FaClock size={12} /> {new Date(order.createdAt).toLocaleString()}
+                                                    <FaClock size={12} /> {order.createdAt ? new Date(order.createdAt).toLocaleString() : 'Date inconnue'}
                                                 </p>
                                             </div>
                                             <div className="text-right">
-                                                <div className="text-2xl font-bold text-red-600">{order.totalPrice} €</div>
+                                                <div className="text-2xl font-bold text-red-600">{order.totalPrice || 0} €</div>
                                                 <p className="text-xs text-gray-500">Payé via Stripe</p>
                                             </div>
                                         </div>
