@@ -198,18 +198,6 @@ const MobileHeader = () => {
                   <span className="font-medium">Déconnexion</span>
                 </button>
               </div>
-            ) : (
-              <Link
-                href="/login"
-                onClick={closeMenu}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${pathname === "/login"
-                  ? `${isDarkMode ? "bg-red-500/20 text-red-400" : "bg-red-100 text-red-600"}`
-                  : `${isDarkMode ? "text-gray-300 hover:text-white hover:bg-white/10" : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"}`
-                  }`}
-              >
-                <FaSignInAlt className="w-5 h-5" />
-                <span className="font-medium">Connexion</span>
-              </Link>
             )}
           </div>
         </nav>
