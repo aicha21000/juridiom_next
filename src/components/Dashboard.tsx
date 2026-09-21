@@ -58,7 +58,7 @@ const Dashboard = () => {
                         </button>
                     </div>
 
-                    {/* Orders Placeholder */}
+                    {/* Orders - Coming Soon
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:col-span-2">
                         <div className="flex items-center space-x-4 mb-4">
                             <div className="p-3 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-full">
@@ -73,6 +73,7 @@ const Dashboard = () => {
                             </p>
                         </div>
                     </div>
+                    */}
                 </div>
             </div>
         </div>
