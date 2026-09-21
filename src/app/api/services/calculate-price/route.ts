@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const BASE_PRICE_PER_PAGE = 1; // FIXME: Remis à 1 euro pour test (était 30)
+const BASE_PRICE_PER_PAGE = 30;
 
 const DELIVERY_METHODS = [
     { id: "email", name: "Email", price: 0 },
