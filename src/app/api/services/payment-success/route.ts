@@ -183,8 +183,8 @@ export async function GET(req: Request) {
                 // On continue quand même car l'email a été envoyé
             }
 
-            // Clear cart and redirect with orderId
-            const response = NextResponse.redirect(`${process.env.NEXT_PUBLIC_SITE_URL}/confirmation?orderId=${session.id}`);
+            // Return orderId for client-side redirect (avoid CORS with fetch)
+            const response = NextResponse.json({ success: true, orderId: session.id, orderNumber: shortOrderId });
             response.cookies.set('cart', JSON.stringify([]), { maxAge: 0 });
             return response;
 

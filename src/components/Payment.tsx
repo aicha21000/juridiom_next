@@ -18,9 +18,8 @@ const PaymentSuccess = () => {
       });
 
       if (response.ok) {
-
-
-        router.push("/confirmation");
+        const data = await response.json();
+        router.push(`/confirmation?orderId=${data.orderId}`);
       } else {
         throw new Error("Failed to validate payment.");
       }
@@ -28,6 +27,7 @@ const PaymentSuccess = () => {
 
     if (sessionId) {
       validatePayment().catch(error => {
+        console.error("Payment validation error:", error);
         router.push("/");
       });
     }
@@ -35,7 +35,7 @@ const PaymentSuccess = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-      <p>Validating payment...</p>
+      <p>Validation du paiement en cours...</p>
     </div>
   );
 };
