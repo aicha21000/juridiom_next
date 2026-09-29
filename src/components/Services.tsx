@@ -323,7 +323,7 @@ const Services = () => {
         {/* Header Section */}
         <div className="text-center mb-16">
           <h1 className={`text-4xl md:text-5xl font-extrabold tracking-tight mb-4 ${isDarkMode ? "text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500" : "text-gray-900"}`}>
-            Services de <span className="text-red-700">Traduction</span>
+            Services de <span className="text-red-700">Traduction Assermentée</span>
           </h1>
           <p className={`text-lg max-w-2xl mx-auto ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
             Configurez votre commande en quelques étapes simples. Devis immédiat et transparent.

@@ -137,11 +137,12 @@ const Home = () => {
           <div className="inline-block px-4 py-1.5 mb-6 rounded-full text-sm font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800">
             ✨ Traduction Certifiée & Professionnelle
           </div>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
-            Aicha <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600">Salhi</span>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+            Traductrice Français-Arabe <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600">Aicha Salhi</span>
           </h1>
           <h2 className={`text-2xl md:text-3xl font-medium mb-8 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
-            Expertise en traduction Français-Arabe depuis plus de 10 ans
+            Expertise en traduction certifiée depuis plus de 10 ans à Dijon et en ligne
           </h2>
           <p className={`text-lg md:text-xl max-w-3xl mx-auto mb-12 leading-relaxed ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
             Des traductions précises et reconnues pour vos documents officiels, juridiques et commerciaux.
