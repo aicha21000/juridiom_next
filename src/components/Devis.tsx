@@ -72,9 +72,9 @@ const Devis: FC = () => {
   return (
     <div className={`min-h-screen px-6 py-12 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
       <div className="max-w-2xl mx-auto">
-        <h2 className={`text-4xl font-bold text-center ${isDarkMode ? 'text-red-500' : 'text-red-700'}`}>
+        <h1 className={`text-4xl font-bold text-center ${isDarkMode ? 'text-red-500' : 'text-red-700'}`}>
           Demandez un devis
-        </h2>
+        </h1>
         <p className={`text-center mt-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
           Besoin d'un devis pour une traduction ? Nous sommes là pour vous aider !
         </p>
