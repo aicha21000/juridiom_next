@@ -25,7 +25,7 @@ const DELIVERY_LABELS: Record<string, string> = {
 };
 
 const AdminDashboard = () => {
-    const { user, logout } = useAuth();
+    const { user, loading: authLoading, logout } = useAuth();
     const router = useRouter();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
@@ -41,6 +41,8 @@ const AdminDashboard = () => {
     const isAdmin = user?.email === "salhi.aicha@traductionenarabe.fr" || user?.email?.includes("admin");
 
     useEffect(() => {
+        if (authLoading) return;
+
         if (!user) {
             router.push("/login");
             return;
@@ -54,7 +56,7 @@ const AdminDashboard = () => {
         return () => {
             unsubscribeOrders();
         };
-    }, [user, router]);
+    }, [user, authLoading, router]);
 
     const handleDeleteOrder = async (orderId: string) => {
         if (!confirm('Êtes‑vous sûr de vouloir supprimer cette commande et tous ses fichiers ?')) {
@@ -119,7 +121,7 @@ const AdminDashboard = () => {
         }
     };
 
-    if (loading) {
+    if (authLoading || loading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>

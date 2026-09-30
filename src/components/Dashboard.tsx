@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { FaUser, FaSignOutAlt, FaHistory } from "react-icons/fa";
 
 const Dashboard = () => {
-    const { user, logout } = useAuth();
+    const { user, loading: authLoading, logout } = useAuth();
     const router = useRouter();
 
     const handleLogout = async () => {
@@ -13,10 +13,16 @@ const Dashboard = () => {
         router.push("/login");
     };
 
-    if (!user) {
+    React.useEffect(() => {
+        if (!authLoading && !user) {
+            router.push("/login");
+        }
+    }, [user, authLoading, router]);
+
+    if (authLoading || !user) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <p>Chargement...</p>
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+                <p className="text-lg text-gray-600 dark:text-gray-300">Chargement...</p>
             </div>
         );
     }

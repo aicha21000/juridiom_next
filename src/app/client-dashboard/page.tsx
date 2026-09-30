@@ -6,11 +6,12 @@ import { Order } from "@/services/firebase";
 import { FaBox, FaDownload, FaClock } from "react-icons/fa";
 
 export default function ClientDashboard() {
-  const { user, logout } = useAuth();
+  const { user, loading: authLoading, logout } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (authLoading) return;
     if (!user) {
       window.location.href = "/login";
       return;
@@ -29,9 +30,9 @@ export default function ClientDashboard() {
         console.error("Error fetching orders:", err);
         setLoading(false);
       });
-  }, [user]);
+  }, [user, authLoading]);
 
-  if (loading) {
+  if (authLoading || loading) {
     return <div className="p-8 text-center">Chargement…</div>;
   }
 
