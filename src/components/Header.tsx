@@ -2,21 +2,41 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
-import { FaSun, FaMoon, FaUser, FaSignInAlt } from "react-icons/fa";
+import { FaSun, FaMoon, FaUser } from "react-icons/fa";
 import Image from "next/image";
 import logo from "../assets/logo_trad.svg";
+import Cookies from "js-cookie";
 
 const Header = () => {
-  const { user, logout } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
 
+  // Utilisation du cookie auth_token au lieu de Firebase Auth
+  // Firebase ne charge ainsi que sur les pages admin/dashboard/login
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const checkAuth = () => setIsLoggedIn(!!Cookies.get("auth_token"));
+    checkAuth();
+    // Vérifier à chaque changement de route
+    const interval = setInterval(checkAuth, 2000);
+    return () => clearInterval(interval);
+  }, [pathname]);
+
+  const handleLogout = async () => {
+    // Import dynamique de Firebase Auth uniquement si l'utilisateur clique sur déconnexion
+    const { signOut } = await import("firebase/auth");
+    const { auth } = await import("../services/firebase");
+    await signOut(auth);
+    Cookies.remove("auth_token");
+    setIsLoggedIn(false);
+    router.push("/login");
+  };
 
   // Ferme le menu si clic à l'extérieur
   useEffect(() => {
@@ -33,11 +53,6 @@ const Header = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const handleLogout = async () => {
-    await logout();
-    router.push("/login");
-  };
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
@@ -164,7 +179,7 @@ const Header = () => {
             })}
 
             {/* Auth buttons */}
-            {user ? (
+            {isLoggedIn ? (
               <>
                 <li>
                   <Link
