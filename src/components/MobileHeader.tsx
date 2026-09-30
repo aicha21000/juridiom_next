@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import {
   FaSun, FaMoon, FaBars, FaTimes,
@@ -10,14 +9,32 @@ import {
   FaUser, FaSignInAlt, FaSignOutAlt
 } from "react-icons/fa";
 import logo from "../assets/logo_trad.svg";
+import Cookies from "js-cookie";
 
 const MobileHeader = () => {
-  const { user, logout } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = () => setIsLoggedIn(!!Cookies.get("auth_token"));
+    checkAuth();
+    const interval = setInterval(checkAuth, 2000);
+    return () => clearInterval(interval);
+  }, [pathname]);
+
+  const handleLogout = async () => {
+    const { signOut } = await import("firebase/auth");
+    const { auth } = await import("../services/firebase");
+    await signOut(auth);
+    Cookies.remove("auth_token");
+    setIsLoggedIn(false);
+    router.push("/login");
+    closeMenu();
+  };
 
   const closeMenu = () => setIsMenuOpen(false);
   const toggleMenu = () => setIsMenuOpen(prev => !prev);
