@@ -28,6 +28,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="h-full">
+      <head>
+        {/* Preconnect hints - économise ~300ms LCP sur Firebase/Google */}
+        <link rel="preconnect" href="https://apis.google.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://juridiom-bf4f8.firebaseapp.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googleapis.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://apis.google.com" />
+        <link rel="dns-prefetch" href="https://juridiom-bf4f8.firebaseapp.com" />
+      </head>
       <body className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col`}>
         <Providers>
           <Header />
