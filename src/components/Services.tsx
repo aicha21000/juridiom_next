@@ -299,6 +299,7 @@ const Services = () => {
       totalPrice,
       comment,
       files: uploadedFiles,
+      sessionId: sessionIdRef.current,
     };
 
     const updatedCart = [...cart];

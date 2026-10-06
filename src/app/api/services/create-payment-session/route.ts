@@ -22,7 +22,8 @@ export async function POST(req: Request) {
                 totalPrice: cartData.totalPrice,
                 comment: cartData.comment || ''
             }),
-            timestamp: Date.now().toString()
+            timestamp: Date.now().toString(),
+            clientSessionId: cartData.sessionId || ''
         };
 
         const session = await stripe.checkout.sessions.create({

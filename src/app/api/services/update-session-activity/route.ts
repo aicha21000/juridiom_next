@@ -3,13 +3,19 @@ import { firebaseAdmin } from '@/lib/firebaseAdmin';
 
 export async function POST(req: Request) {
   try {
-    const { sessionId } = await req.json();
+    const { sessionId, files } = await req.json();
     if (!sessionId) {
       return NextResponse.json({ error: 'sessionId required' }, { status: 400 });
     }
     const db = firebaseAdmin.database();
-    // Update a `lastActivity` timestamp for the session/order
-    await db.ref(`orders/${sessionId}/lastActivity`).set(new Date().toISOString());
+    
+    // Save to temp_sessions instead of orders to avoid polluting the dashboard
+    const sessionRef = db.ref(`temp_sessions/${sessionId}`);
+    await sessionRef.update({
+        lastActivity: new Date().toISOString(),
+        ...(files ? { files } : {})
+    });
+    
     return NextResponse.json({ message: 'activity updated' }, { status: 200 });
   } catch (error: any) {
     console.error('Update session activity error:', error);

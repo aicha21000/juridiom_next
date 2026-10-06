@@ -116,7 +116,8 @@ const Panier = () => {
         },
         body: JSON.stringify({
           items: lineItems,
-          cart: cart
+          cart: cart,
+          sessionId: cart[0]?.sessionId || ''
         }),
         credentials: "include"
       });

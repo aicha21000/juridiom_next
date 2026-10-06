@@ -176,7 +176,11 @@ export async function GET(req: Request) {
             // Sauvegarder la commande dans Firebase Realtime Database
             try {
                 const db = firebaseAdmin.database();
-                await db.ref(`orders/${session.id}`).set({
+                const orderRef = db.ref(`orders/${session.id}`);
+                const snapshot = await orderRef.once('value');
+                
+                if (!snapshot.exists() || snapshot.val().status !== 'paid') {
+                    await orderRef.set({
                     id: session.id,
                     orderNumber: shortOrderId,
                     mailClient: clientEmail || 'Non renseigné',
@@ -193,7 +197,8 @@ export async function GET(req: Request) {
                         url: f.url || `https://storage.googleapis.com/${firebaseAdmin.storage().bucket().name}/order-files/${session.id}/${f.name}`
                     })),
                     stripeSessionId: session.id
-                });
+                    });
+                }
             } catch (dbError) {
                 console.error("Erreur lors de la sauvegarde de la commande en DB:", dbError);
                 // On continue quand même car l'email a été envoyé

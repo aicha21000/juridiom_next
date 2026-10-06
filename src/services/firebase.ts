@@ -104,14 +104,18 @@ export const listenToAllOrders = (
     const orders: Order[] = [];
     if (snapshot.exists()) {
       snapshot.forEach((childSnapshot) => {
-        orders.push({
-          id: childSnapshot.key || '',
-          ...childSnapshot.val()
-        });
+        const data = childSnapshot.val();
+        // Ignore nodes that only contain `lastActivity` (abandoned carts/sessions)
+        if (data.status) {
+          orders.push({
+            id: childSnapshot.key || '',
+            ...data
+          });
+        }
       });
     }
     // Trier par date décroissante
-    orders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    orders.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
     callback(orders);
   });
 
