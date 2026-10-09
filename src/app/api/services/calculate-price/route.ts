@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 
-
+const getBasePricePerPage = (numberOfPages: number): number => {
+    if (numberOfPages >= 10) return 20;
+    if (numberOfPages >= 3) return 25;
+    return 30;
+};
 
 const DELIVERY_METHODS = [
     { id: "email", name: "Email", price: 0 },
@@ -18,18 +22,11 @@ const LEGALIZATION_TYPES = [
     { id: "consulate", name: "Consulat et ambassade", price: 80 }
 ];
 
-// Tarifs dégressifs par page
-const getPricePerPage = (numberOfPages: number): number => {
-    if (numberOfPages >= 10) return 20;  // 10 pages et plus : 20€/page
-    if (numberOfPages >= 3)  return 25;  // 3 à 9 pages : 25€/page
-    return 30;                           // 1 à 2 pages : 30€/page
-};
-
 const calculatePrice = (numberOfPages: number, deliveryMethod: string, legalization: string, numberOfDocuments = 1) => {
-    const pricePerPage = getPricePerPage(numberOfPages);
+    const basePricePerPage = getBasePricePerPage(numberOfPages);
     const deliveryPrice = DELIVERY_METHODS.find(method => method.id === deliveryMethod)?.price || 0;
     const legalizationPrice = LEGALIZATION_TYPES.find(type => type.id === legalization)?.price || 0;
-    return (pricePerPage * numberOfPages + deliveryPrice + (legalizationPrice * numberOfDocuments));
+    return (basePricePerPage * numberOfPages + deliveryPrice + (legalizationPrice * numberOfDocuments));
 };
 
 export async function POST(req: Request) {

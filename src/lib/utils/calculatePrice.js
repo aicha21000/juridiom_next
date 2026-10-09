@@ -1,6 +1,10 @@
-// backend/utils/calculatePrice.js
 const calculatePrice = (numberOfPages, deliveryMethod, legalization, numberOfDocuments = 1) => {
-    const basePricePerPage = 30.00;
+    let basePricePerPage = 30.00;
+    if (numberOfPages >= 10) {
+        basePricePerPage = 20.00;
+    } else if (numberOfPages >= 3) {
+        basePricePerPage = 25.00;
+    }
 
     const deliveryCosts = {
         email: 0,
