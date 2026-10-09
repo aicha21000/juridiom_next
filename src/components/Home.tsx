@@ -13,7 +13,8 @@ import {
   FaBriefcase,
   FaArrowRight,
   FaCheckCircle,
-  FaQuoteRight
+  FaQuoteRight,
+  FaTag
 } from "react-icons/fa";
 
 // Images imports remain the same
@@ -164,6 +165,58 @@ const Home = () => {
             >
               Me contacter
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Promotional Pricing Banner / Coin Pub */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8 relative z-20">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-red-600 via-red-700 to-amber-700 text-white shadow-2xl p-8 md:p-12">
+          {/* Decorative background glow */}
+          <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -left-10 -top-10 w-64 h-64 bg-red-400/20 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="text-center lg:text-left max-w-2xl">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-400 text-red-950 font-extrabold text-xs uppercase tracking-wider rounded-full mb-4 shadow-sm">
+                <FaTag /> Offre Tarif Dégressif
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-3">
+                Plus vous traduisez, moins vous payez !
+              </h2>
+              <p className="text-red-100 text-base sm:text-lg mb-6 leading-relaxed">
+                Traductions certifiées conformes par une <strong>traductrice assermentée</strong> près la Cour d'Appel. Profitez de nos tarifs avantageux :
+              </p>
+
+              {/* Price Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex flex-col justify-between">
+                  <span className="text-xs uppercase font-semibold text-red-200">1 à 2 pages</span>
+                  <div className="text-2xl font-extrabold mt-1">30 € <span className="text-xs font-normal text-red-200">/ page</span></div>
+                </div>
+                <div className="bg-white/20 backdrop-blur-md border border-amber-300/40 rounded-2xl p-4 flex flex-col justify-between relative shadow-lg">
+                  <span className="absolute -top-3 right-3 bg-amber-400 text-red-950 font-bold text-[10px] px-2 py-0.5 rounded-full uppercase">Populaire</span>
+                  <span className="text-xs uppercase font-semibold text-amber-200">À partir de 3 pages</span>
+                  <div className="text-2xl font-extrabold mt-1 text-amber-300">25 € <span className="text-xs font-normal text-amber-100">/ page</span></div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex flex-col justify-between">
+                  <span className="text-xs uppercase font-semibold text-red-200">À partir de 10 pages</span>
+                  <div className="text-2xl font-extrabold mt-1 text-emerald-300">20 € <span className="text-xs font-normal text-red-200">/ page</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center justify-center shrink-0 w-full lg:w-auto">
+              <Link
+                href="/services"
+                onClick={handleOrderClick}
+                className="w-full sm:w-auto text-center px-8 py-4 bg-amber-400 hover:bg-amber-300 text-red-950 font-extrabold text-lg rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3"
+              >
+                <span>Calculer mon devis</span>
+                <FaArrowRight />
+              </Link>
+              <span className="text-xs text-red-200 mt-3 text-center">✨ Estimation et commande immédiate</span>
+            </div>
           </div>
         </div>
       </section>

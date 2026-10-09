@@ -384,8 +384,11 @@ const Services = () => {
                       +
                     </button>
                   </div>
+                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 font-semibold flex items-center gap-1">
+                    🏷️ Tarifs dégressifs : 30€/p (1-2 p.) • 25€/p (à partir de 3 p.) • 20€/p (à partir de 10 p.)
+                  </p>
                   {numberOfPages < numberOfDocuments && (
-                    <p className="text-red-500 text-xs mt-2">Min. égal au nb. de documents</p>
+                    <p className="text-red-500 text-xs mt-1">Min. égal au nb. de documents</p>
                   )}
                 </div>
 
