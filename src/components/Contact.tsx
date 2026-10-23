@@ -75,12 +75,24 @@ const Contact: FC = () => {
                   <FaMapMarkerAlt />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold mb-1">Notre Adresse</h3>
-                  <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                    Centre d'Affaires Regus Longvic,<br />
-                    8 Chemin De La Noue,<br />
-                    21600 Longvic
-                  </p>
+                  <h3 className="text-lg font-bold mb-2">Nos Adresses</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-red-600 dark:text-red-400 block mb-0.5">Adresse principale</span>
+                      <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
+                        Centre d'Affaires Regus Longvic,<br />
+                        8 Chemin De La Noue,<br />
+                        21600 Longvic
+                      </p>
+                    </div>
+                    <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-red-600 dark:text-red-400 block mb-0.5">Adresse secondaire</span>
+                      <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
+                        10 Avenue Jean Baptiste Greuze,<br />
+                        21000 Dijon
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 

@@ -94,8 +94,10 @@ const APropos: React.FC = () => {
                   <FaMapMarkerAlt />
                 </div>
                 <div>
-                  <span className="block text-sm font-semibold opacity-70 mb-1">Adresse</span>
+                  <span className="block text-sm font-semibold opacity-70 mb-1">Adresse principale</span>
                   <span className="text-lg">Centre d'Affaires Regus Longvic<br />8 Chemin De La Noue<br />21600 Longvic</span>
+                  <span className="block text-sm font-semibold opacity-70 mt-3 mb-1">Adresse secondaire</span>
+                  <span className="text-lg">10 Avenue Jean Baptiste Greuze<br />21000 Dijon</span>
                 </div>
               </li>
               <li className="flex items-center">
