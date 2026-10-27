@@ -35,12 +35,24 @@ const Dijon: React.FC = () => {
 
       <section className="max-w-5xl mx-auto px-6 pb-20">
         <h2 className="text-2xl font-bold mb-4">Coordonnées</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="space-y-2 text-gray-700 dark:text-gray-300">
-            <p><strong>• Bureau d'accueil (Sur RDV) :</strong> Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic</p>
-            <p><strong>• Siège social :</strong> 10 Avenue Jean Baptiste Greuze, 21000 Dijon</p>
-            <p><strong>Téléphone :</strong> <a href="tel:+33669151216" className="text-red-600">+33 6 69 15 12 16</a></p>
-            <p><strong>Email:</strong> <a href="mailto:contact@traductionenarabe.fr" className="text-red-600">contact@traductionenarabe.fr</a></p>
+        <div className="grid md:grid-cols-2 gap-6 mb-6">
+          <div className="p-5 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+            <h3 className="font-semibold text-red-600 mb-1">Bureau d'accueil (Sur RDV)</h3>
+            <p className="text-sm font-medium mb-1">Centre d'Affaires Regus Longvic</p>
+            <p className="text-sm text-gray-600 dark:text-gray-300">8 Chemin De La Noue, 21600 Longvic</p>
+            <p className="text-xs text-gray-400 mt-2 italic">Réception et dépôt de vos documents officiels (sur rendez-vous)</p>
+          </div>
+          <div className="p-5 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+            <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-1">Siège social</h3>
+            <p className="text-sm font-medium mb-1">Siège administratif</p>
+            <p className="text-sm text-gray-600 dark:text-gray-300">10 Avenue Jean Baptiste Greuze, 21000 Dijon</p>
+            <p className="text-xs text-gray-400 mt-2 italic">Siège social – Dépôt de documents possible</p>
+          </div>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6 items-center">
+          <div className="space-y-3 text-gray-700 dark:text-gray-300">
+            <p><strong>Téléphone :</strong> <a href="tel:+33669151216" className="text-red-600 hover:underline">+33 6 69 15 12 16</a></p>
+            <p><strong>Email :</strong> <a href="mailto:contact@traductionenarabe.fr" className="text-red-600 hover:underline">contact@traductionenarabe.fr</a></p>
           </div>
           <div>
             <iframe title="Localisation Dijon" className="w-full h-64 rounded-xl border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" src={process.env.NEXT_PUBLIC_MAPS_URL_DIJON || "https://maps.google.com/maps?q=10+Avenue+Jean+Baptiste+Greuze,+21000+Dijon&t=&z=15&ie=UTF8&iwloc=&output=embed"}></iframe>

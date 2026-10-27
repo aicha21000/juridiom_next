@@ -5,12 +5,12 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-100 text-sm">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
-        <div className="lg:col-span-3">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div>
           <h3 className="text-white font-semibold mb-3">Traduction en Arabe</h3>
           <p className="text-gray-200">Traductrice assermentée arabe-français à Dijon – Traduction certifiée près la Cour d'Appel de Dijon.</p>
         </div>
-        <div className="lg:col-span-2">
+        <div>
           <h4 className="text-white font-semibold mb-3">Liens</h4>
           <ul className="space-y-2">
             <li><Link className="text-gray-200 hover:text-white transition-colors" href="/services">Services</Link></li>
@@ -19,24 +19,30 @@ const Footer = () => {
             <li><Link className="text-gray-200 hover:text-white transition-colors" href="/contact">Contact</Link></li>
           </ul>
         </div>
-        {/* Bloc coordonnées unifié tel que recommandé pour le SEO local */}
-        <div className="lg:col-span-5">
-          <h4 className="text-white font-semibold mb-3">Aicha Salhi – Traductrice Assermentée Arabe</h4>
-          <ul className="space-y-2 text-gray-200 text-sm leading-relaxed">
-            <li>
-              <span className="text-gray-300 font-semibold">• Bureau d'accueil (Sur RDV) :</span> Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic
-            </li>
-            <li>
-              <span className="text-gray-300 font-semibold">• Siège social :</span> 10 Avenue Jean Baptiste Greuze, 21000 Dijon
-            </li>
-            <li className="pt-1">
-              <span className="text-gray-300 font-semibold">• Téléphone :</span> <a className="text-gray-200 hover:text-white transition-colors" href="tel:+33669151216">+33 6 69 15 12 16</a>
-              {" "}| <span className="text-gray-300 font-semibold">Email :</span>{" "}
-              <a className="text-gray-200 hover:text-white transition-colors" href="mailto:contact@traductionenarabe.fr">contact@traductionenarabe.fr</a>
-            </li>
-          </ul>
+        {/* Bloc 1 séparé : Bureau d'accueil */}
+        <div>
+          <h4 className="text-white font-semibold mb-3">Bureau d'accueil (Sur RDV)</h4>
+          <p className="text-gray-200 leading-relaxed text-sm">
+            Centre d'Affaires Regus Longvic<br />
+            8 Chemin De La Noue<br />
+            21600 Longvic<br />
+            <span className="text-gray-400 text-xs italic">Réception &amp; dépôt de vos documents officiels</span>
+          </p>
+          <div className="mt-3 text-sm">
+            <a className="text-gray-200 hover:text-white transition-colors block" href="tel:+33669151216">+33 6 69 15 12 16</a>
+            <a className="text-gray-200 hover:text-white transition-colors block" href="mailto:contact@traductionenarabe.fr">contact@traductionenarabe.fr</a>
+          </div>
         </div>
-        <div className="lg:col-span-2">
+        {/* Bloc 2 séparé : Siège social */}
+        <div>
+          <h4 className="text-white font-semibold mb-3">Siège social</h4>
+          <p className="text-gray-200 leading-relaxed text-sm">
+            10 Avenue Jean Baptiste Greuze<br />
+            21000 Dijon<br />
+            <span className="text-gray-400 text-xs italic">Siège administratif – Dépôt de documents possible</span>
+          </p>
+        </div>
+        <div>
           <h4 className="text-white font-semibold mb-3">Suivez-nous</h4>
           <div className="flex gap-4">
             <a href="https://www.linkedin.com/in/aicha-salhi-1a7bb21a?trk" className="text-gray-200 hover:text-white transition-colors">LinkedIn</a>

@@ -96,8 +96,17 @@ const APropos: React.FC = () => {
                 <div>
                   <span className="block text-xs font-semibold uppercase tracking-wider text-red-600 dark:text-red-400 mb-1">Bureau d'accueil (Sur RDV)</span>
                   <span className="text-base font-medium">Centre d'Affaires Regus Longvic<br />8 Chemin De La Noue, 21600 Longvic</span>
-                  <span className="block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mt-3 mb-1">Siège social</span>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">Réception et dépôt de vos documents officiels (sur rendez-vous)</p>
+                </div>
+              </li>
+              <li className="flex items-start">
+                <div className={`p-3 rounded-full mr-4 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400`}>
+                  <FaMapMarkerAlt />
+                </div>
+                <div>
+                  <span className="block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">Siège social</span>
                   <span className="text-base font-medium">10 Avenue Jean Baptiste Greuze<br />21000 Dijon</span>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 italic">Siège administratif – Dépôt de documents possible</p>
                 </div>
               </li>
               <li className="flex items-center">
