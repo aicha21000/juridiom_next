@@ -142,12 +142,15 @@ const Home = () => {
             Traductrice Assermentée Arabe <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600">à Dijon – Aicha Salhi</span>
           </h1>
-          <h2 className={`text-2xl md:text-3xl font-medium mb-8 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
-            Traduction certifiée français-arabe depuis plus de 10 ans à Dijon et en ligne
+          <h2 className={`text-2xl md:text-3xl font-medium mb-4 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+            Vos traductions certifiées à Dijon et Longvic – Traductrice officielle sur la métropole dijonnaise
           </h2>
-          <p className={`text-lg md:text-xl max-w-3xl mx-auto mb-12 leading-relaxed ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
+          <p className={`text-lg md:text-xl max-w-3xl mx-auto mb-4 leading-relaxed ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
             Des traductions précises et reconnues pour vos documents officiels, juridiques et commerciaux.
             Rapidité, confidentialité et excellence linguistique garanties.
+          </p>
+          <p className={`text-base max-w-3xl mx-auto mb-12 leading-relaxed ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>
+            Mon bureau d'accueil principal est situé au Centre d'Affaires Regus à Longvic, idéalement positionné pour recevoir les clients de Dijon et de toute la métropole dijonnaise.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -227,7 +230,7 @@ const Home = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                Pourquoi nous choisir ?
+                Pourquoi choisir votre traductrice assermentée à Dijon et Longvic ?
               </h2>
               <div className="w-24 h-1 bg-red-500 mx-auto rounded-full"></div>
             </div>
@@ -277,10 +280,10 @@ const Home = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <div>
                 <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                  Des Services Adaptés à Vos Besoins
+                  Des Services de Traduction sur la Métropole de Dijon
                 </h2>
                 <p className={`text-lg mb-8 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                  Que vous soyez un particulier ou une entreprise, nous proposons une gamme complète de services de traduction pour répondre à toutes vos exigences.
+                  Que vous soyez un particulier ou une entreprise à Dijon, Longvic ou partout en France, nous proposons une gamme complète de services de traduction certifiée pour répondre à toutes vos exigences.
                 </p>
 
                 <div className="space-y-6">
