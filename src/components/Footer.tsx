@@ -14,8 +14,9 @@ const Footer = () => {
           <h4 className="text-white font-semibold mb-3">Liens</h4>
           <ul className="space-y-2">
             <li><Link className="text-gray-200 hover:text-white transition-colors" href="/services">Services</Link></li>
+            <li><Link className="text-gray-200 hover:text-white transition-colors" href="/traducteur-assermente-dijon">Traduction à Dijon</Link></li>
+            <li><Link className="text-gray-200 hover:text-white transition-colors" href="/traducteur-assermente-longvic">Bureau de Longvic</Link></li>
             <li><Link className="text-gray-200 hover:text-white transition-colors" href="/blog">Blog</Link></li>
-            <li><Link className="text-gray-200 hover:text-white transition-colors" href="/traduction-arabe-dijon">Traduction à Dijon</Link></li>
             <li><Link className="text-gray-200 hover:text-white transition-colors" href="/contact">Contact</Link></li>
           </ul>
         </div>
@@ -28,7 +29,10 @@ const Footer = () => {
             21600 Longvic<br />
             <span className="text-gray-400 text-xs italic">Réception &amp; dépôt de vos documents officiels</span>
           </p>
-          <div className="mt-3 text-sm">
+          <div className="mt-2 text-sm">
+            <Link href="/traducteur-assermente-longvic" className="text-red-400 hover:text-red-300 text-xs font-semibold block mb-2">
+              Page dédiée Longvic →
+            </Link>
             <a className="text-gray-200 hover:text-white transition-colors block" href="tel:+33669151216">+33 6 69 15 12 16</a>
             <a className="text-gray-200 hover:text-white transition-colors block" href="mailto:contact@traductionenarabe.fr">contact@traductionenarabe.fr</a>
           </div>
@@ -41,6 +45,9 @@ const Footer = () => {
             21000 Dijon<br />
             <span className="text-gray-400 text-xs italic">Siège administratif – Dépôt de documents possible</span>
           </p>
+          <Link href="/traducteur-assermente-dijon" className="text-red-400 hover:text-red-300 text-xs font-semibold block mt-2">
+            Page dédiée Dijon →
+          </Link>
         </div>
         <div>
           <h4 className="text-white font-semibold mb-3">Suivez-nous</h4>
