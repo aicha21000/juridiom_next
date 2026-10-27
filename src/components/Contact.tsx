@@ -75,28 +75,29 @@ const Contact: FC = () => {
                   <FaMapMarkerAlt />
                 </div>
                 <div className="w-full">
-                  <h3 className="text-lg font-bold mb-3">Nos bureaux</h3>
+                  <h3 className="text-lg font-bold mb-1">Aicha Salhi – Traductrice Assermentée Arabe</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">Expertise judiciaire près la Cour d'Appel de Dijon</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Bureau principal Longvic */}
-                    <div className={`p-3 rounded-xl border ${isDarkMode ? "border-gray-700 bg-gray-800/50" : "border-red-100 bg-red-50/50"}`}>
-                      <span className="text-xs font-semibold uppercase tracking-wider text-red-600 dark:text-red-400 block mb-1">Bureau principal</span>
-                      <p className={`text-sm font-medium mb-1 ${isDarkMode ? "text-white" : "text-gray-900"}`}>Longvic – Réception sur RDV</p>
+                    {/* Bureau d'accueil Longvic */}
+                    <div className={`p-3.5 rounded-xl border ${isDarkMode ? "border-gray-700 bg-gray-800/50" : "border-red-100 bg-red-50/50"}`}>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-red-600 dark:text-red-400 block mb-1">Bureau d'accueil (Sur RDV)</span>
+                      <p className={`text-sm font-medium mb-1 ${isDarkMode ? "text-white" : "text-gray-900"}`}>Longvic – Réception &amp; dépôt</p>
                       <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
                         Centre d'Affaires Regus Longvic<br />
                         8 Chemin De La Noue<br />
                         21600 Longvic
                       </p>
-                      <p className={`text-xs mt-1 italic ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>Réception &amp; dépôt de vos documents officiels – Uniquement sur rendez-vous</p>
+                      <p className={`text-xs mt-1.5 italic ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>Réception &amp; dépôt de vos documents officiels (Uniquement sur rendez-vous)</p>
                     </div>
-                    {/* Siège administratif Dijon */}
-                    <div className={`p-3 rounded-xl border ${isDarkMode ? "border-gray-700 bg-gray-800/50" : "border-gray-100 bg-gray-50/50"}`}>
-                      <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1">Siège administratif</span>
-                      <p className={`text-sm font-medium mb-1 ${isDarkMode ? "text-white" : "text-gray-900"}`}>Dijon – Siège social</p>
+                    {/* Siège social Dijon */}
+                    <div className={`p-3.5 rounded-xl border ${isDarkMode ? "border-gray-700 bg-gray-800/50" : "border-gray-100 bg-gray-50/50"}`}>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1">Siège social</span>
+                      <p className={`text-sm font-medium mb-1 ${isDarkMode ? "text-white" : "text-gray-900"}`}>Dijon – Siège administratif</p>
                       <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
                         10 Avenue Jean Baptiste Greuze<br />
                         21000 Dijon
                       </p>
-                      <p className={`text-xs mt-1 italic ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>Siège social – Dépôt de documents possible</p>
+                      <p className={`text-xs mt-1.5 italic ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>Siège social – Dépôt de documents possible</p>
                     </div>
                   </div>
                 </div>

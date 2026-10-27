@@ -5,12 +5,12 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-100 text-sm">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div>
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+        <div className="lg:col-span-3">
           <h3 className="text-white font-semibold mb-3">Traduction en Arabe</h3>
           <p className="text-gray-200">Traductrice assermentée arabe-français à Dijon – Traduction certifiée près la Cour d'Appel de Dijon.</p>
         </div>
-        <div>
+        <div className="lg:col-span-2">
           <h4 className="text-white font-semibold mb-3">Liens</h4>
           <ul className="space-y-2">
             <li><Link className="text-gray-200 hover:text-white transition-colors" href="/services">Services</Link></li>
@@ -20,25 +20,23 @@ const Footer = () => {
           </ul>
         </div>
         {/* Bloc coordonnées unifié tel que recommandé pour le SEO local */}
-        <div className="sm:col-span-2 lg:col-span-2">
+        <div className="lg:col-span-5">
           <h4 className="text-white font-semibold mb-3">Aicha Salhi – Traductrice Assermentée Arabe</h4>
-          <ul className="space-y-1.5 text-gray-200 text-sm leading-relaxed">
+          <ul className="space-y-2 text-gray-200 text-sm leading-relaxed">
             <li>
-              <span className="text-gray-400 text-xs uppercase tracking-wide font-semibold">Bureau d'accueil (Sur RDV)</span><br />
-              Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic
+              <span className="text-gray-300 font-semibold">• Bureau d'accueil (Sur RDV) :</span> Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic
             </li>
             <li>
-              <span className="text-gray-400 text-xs uppercase tracking-wide font-semibold">Siège social</span><br />
-              10 Avenue Jean Baptiste Greuze, 21000 Dijon
+              <span className="text-gray-300 font-semibold">• Siège social :</span> 10 Avenue Jean Baptiste Greuze, 21000 Dijon
             </li>
             <li className="pt-1">
-              <a className="text-gray-200 hover:text-white transition-colors" href="tel:+33669151216">+33 6 69 15 12 16</a>
-              {" "}<span className="text-gray-600">|</span>{" "}
+              <span className="text-gray-300 font-semibold">• Téléphone :</span> <a className="text-gray-200 hover:text-white transition-colors" href="tel:+33669151216">+33 6 69 15 12 16</a>
+              {" "}| <span className="text-gray-300 font-semibold">Email :</span>{" "}
               <a className="text-gray-200 hover:text-white transition-colors" href="mailto:contact@traductionenarabe.fr">contact@traductionenarabe.fr</a>
             </li>
           </ul>
         </div>
-        <div>
+        <div className="lg:col-span-2">
           <h4 className="text-white font-semibold mb-3">Suivez-nous</h4>
           <div className="flex gap-4">
             <a href="https://www.linkedin.com/in/aicha-salhi-1a7bb21a?trk" className="text-gray-200 hover:text-white transition-colors">LinkedIn</a>
