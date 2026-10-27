@@ -22,8 +22,8 @@ const Footer = () => {
         <div>
           <h4 className="text-white font-semibold mb-3">Coordonnées</h4>
           <ul className="space-y-2 text-gray-200">
-            <li><strong>Adresse principale :</strong> Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic</li>
-            <li><strong>Adresse secondaire :</strong> 10 Avenue Jean Baptiste Greuze, 21000 Dijon</li>
+            <li><strong>Adresse principale :</strong> 10 Avenue Jean Baptiste Greuze, 21000 Dijon</li>
+            <li><strong>Adresse secondaire :</strong> Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic</li>
             <li><a className="text-gray-200 hover:text-white transition-colors" href="tel:+33669151216">+33 6 69 15 12 16</a></li>
             <li><a className="text-gray-200 hover:text-white transition-colors" href="mailto:contact@traductionenarabe.fr">contact@traductionenarabe.fr</a></li>
           </ul>

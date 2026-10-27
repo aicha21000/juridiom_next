@@ -37,13 +37,13 @@ const Dijon: React.FC = () => {
         <h2 className="text-2xl font-bold mb-4">Coordonnées</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2 text-gray-700 dark:text-gray-300">
-            <p><strong>Adresse principale :</strong> Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic</p>
-            <p><strong>Adresse secondaire :</strong> 10 Avenue Jean Baptiste Greuze, 21000 Dijon</p>
+            <p><strong>Adresse principale :</strong> 10 Avenue Jean Baptiste Greuze, 21000 Dijon</p>
+            <p><strong>Adresse secondaire :</strong> Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic</p>
             <p><strong>Téléphone :</strong> <a href="tel:+33669151216" className="text-red-600">+33 6 69 15 12 16</a></p>
             <p><strong>Email:</strong> <a href="mailto:contact@traductionenarabe.fr" className="text-red-600">contact@traductionenarabe.fr</a></p>
           </div>
           <div>
-            <iframe title="Localisation Dijon" className="w-full h-64 rounded-xl border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" src={process.env.NEXT_PUBLIC_MAPS_URL_DIJON || "https://maps.google.com/maps?q=8+Chemin+De+La+Noue,+21600+Longvic&t=&z=15&ie=UTF8&iwloc=&output=embed"}></iframe>
+            <iframe title="Localisation Dijon" className="w-full h-64 rounded-xl border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" src={process.env.NEXT_PUBLIC_MAPS_URL_DIJON || "https://maps.google.com/maps?q=10+Avenue+Jean+Baptiste+Greuze,+21000+Dijon&t=&z=15&ie=UTF8&iwloc=&output=embed"}></iframe>
           </div>
         </div>
       </section>

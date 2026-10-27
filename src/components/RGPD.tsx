@@ -11,7 +11,7 @@ const RGPD: React.FC = () => {
         <div className="space-y-6">
           <section>
             <h2 className="text-xl font-semibold mb-2">Responsable du traitement</h2>
-            <p className="text-gray-700 dark:text-gray-300">Traduction en Arabe – Aicha Salhi, Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic.</p>
+            <p className="text-gray-700 dark:text-gray-300">Traduction en Arabe – Aicha Salhi, 10 Avenue Jean Baptiste Greuze, 21000 Dijon (adresse secondaire : Centre d'Affaires Regus Longvic, 8 Chemin De La Noue, 21600 Longvic).</p>
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2">Finalités et base légale</h2>

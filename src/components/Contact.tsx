@@ -80,16 +80,16 @@ const Contact: FC = () => {
                     <div>
                       <span className="text-xs font-semibold uppercase tracking-wider text-red-600 dark:text-red-400 block mb-0.5">Adresse principale</span>
                       <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                        Centre d'Affaires Regus Longvic,<br />
-                        8 Chemin De La Noue,<br />
-                        21600 Longvic
+                        10 Avenue Jean Baptiste Greuze,<br />
+                        21000 Dijon
                       </p>
                     </div>
                     <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
                       <span className="text-xs font-semibold uppercase tracking-wider text-red-600 dark:text-red-400 block mb-0.5">Adresse secondaire</span>
                       <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                        10 Avenue Jean Baptiste Greuze,<br />
-                        21000 Dijon
+                        Centre d'Affaires Regus Longvic,<br />
+                        8 Chemin De La Noue,<br />
+                        21600 Longvic
                       </p>
                     </div>
                   </div>
@@ -138,7 +138,7 @@ const Contact: FC = () => {
             {/* Map Preview */}
             <div className={`rounded-3xl overflow-hidden shadow-lg border ${isDarkMode ? "border-gray-800" : "border-gray-200"}`}>
               <iframe
-                src={process.env.NEXT_PUBLIC_MAPS_URL_CONTACT || "https://maps.google.com/maps?q=8+Chemin+De+La+Noue,+21600+Longvic&t=&z=15&ie=UTF8&iwloc=&output=embed"}
+                src={process.env.NEXT_PUBLIC_MAPS_URL_CONTACT || "https://maps.google.com/maps?q=10+Avenue+Jean+Baptiste+Greuze,+21000+Dijon&t=&z=15&ie=UTF8&iwloc=&output=embed"}
                 width="100%"
                 height="300"
                 style={{ border: 0 }}
