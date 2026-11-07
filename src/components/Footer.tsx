@@ -34,6 +34,7 @@ const Footer = () => {
               Page dédiée Longvic →
             </Link>
             <a className="text-gray-200 hover:text-white transition-colors block" href="tel:+33669151216">+33 6 69 15 12 16</a>
+            <a className="text-emerald-400 hover:text-emerald-300 transition-colors block text-xs my-0.5" href="https://wa.me/33669151216" target="_blank" rel="noopener noreferrer">💬 WhatsApp direct</a>
             <a className="text-gray-200 hover:text-white transition-colors block" href="mailto:contact@traductionenarabe.fr">contact@traductionenarabe.fr</a>
           </div>
         </div>

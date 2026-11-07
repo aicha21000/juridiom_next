@@ -10,7 +10,8 @@ import {
   FaMapMarkerAlt,
   FaPhoneAlt,
   FaGlobe,
-  FaCheckCircle
+  FaCheckCircle,
+  FaWhatsapp
 } from "react-icons/fa";
 
 const Contact: FC = () => {
@@ -113,6 +114,26 @@ const Contact: FC = () => {
                     <a href="tel:+33669151216" className="hover:text-red-500 transition-colors">+33 6 69 15 12 16</a>
                   </p>
                   <span className="text-xs text-green-500 font-medium">Disponible 9h-18h</span>
+                </div>
+              </div>
+
+              <div className={`flex items-start p-6 rounded-2xl shadow-sm border transition-all duration-300 hover:shadow-md ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-100"}`}>
+                <div className={`p-4 rounded-full mr-5 text-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400`}>
+                  <FaWhatsapp />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold mb-1">WhatsApp (Réponse rapide)</h3>
+                  <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
+                    <a
+                      href="https://wa.me/33669151216?text=Bonjour,%20je%20souhaite%20obtenir%20des%20informations%20sur%20une%20traduction%20asserment%C3%A9e."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
+                    >
+                      💬 Discuter sur WhatsApp (+33 6 69 15 12 16)
+                    </a>
+                  </p>
+                  <span className="text-xs text-emerald-500 font-medium">Idéal pour envoyer une photo de vos documents</span>
                 </div>
               </div>
 
