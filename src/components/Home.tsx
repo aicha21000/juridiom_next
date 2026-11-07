@@ -32,7 +32,7 @@ import permis from "../assets/permis_conduire.webp";
 import acteNaissanceLiban from "../assets/acte_naissance_liban.webp";
 
 const GoogleReviews = lazy(() => import('./GoogleReviews'));
-import OfficialSeal3D from "./OfficialSeal3D";
+import CertifiedDocumentMockup from "./CertifiedDocumentMockup";
 
 // Section paresseuse avec skeleton pour améliorer la FCP
 function LazySection({ children, minHeight = 400 }: { children: React.ReactNode; minHeight?: number }) {
@@ -358,11 +358,9 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Colonne Gauche : Sceau Officiel 3D Interactif */}
+            {/* Colonne Gauche : Aperçu Réel du Document Certifié Officiel */}
             <div className="lg:col-span-5 flex flex-col items-center justify-center">
-              <div className={`w-full p-6 sm:p-8 rounded-3xl border ${isDarkMode ? "bg-gray-900/90 border-gray-800 shadow-2xl shadow-red-950/20" : "bg-white border-gray-200 shadow-xl shadow-red-500/5"} flex flex-col items-center`}>
-                <OfficialSeal3D />
-              </div>
+              <CertifiedDocumentMockup />
             </div>
 
             {/* Colonne Droite : Les 4 piliers de conformité légale */}
