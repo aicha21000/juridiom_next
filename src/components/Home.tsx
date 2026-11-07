@@ -159,7 +159,7 @@ const Home = () => {
               onClick={handleOrderClick}
               className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-red-600 to-red-700 rounded-full shadow-lg hover:from-red-700 hover:to-red-800 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 group"
             >
-              Commander maintenant
+              Calculer mon devis gratuit
               <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
@@ -336,8 +336,8 @@ const Home = () => {
         </section>
       </LazySection>
 
-      {/* Document Gallery (Desktop Only) */}
-      {isDesktop && (
+      {/* Document Gallery */}
+      {(
         <LazySection>
           <section ref={(el) => { sectionsRef.current[4] = el }} className={`reveal py-24 ${isDarkMode ? "bg-gray-900" : "bg-gray-100"}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

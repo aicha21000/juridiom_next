@@ -13,6 +13,47 @@ interface GoogleReview {
     publishAt: string;
 }
 
+// Fix #9 — Avatar fallback avec initiales si la photo Google ne charge pas
+const ReviewerAvatar = ({ name, photoUrl }: { name: string; photoUrl: string }) => {
+  const [error, setError] = useState(false);
+  const initials = name
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+  // Couleurs déterministes basées sur le nom
+  const colors = [
+    "bg-red-500", "bg-blue-500", "bg-green-500", "bg-purple-500",
+    "bg-orange-500", "bg-teal-500", "bg-pink-500", "bg-indigo-500",
+  ];
+  const colorClass = colors[name.charCodeAt(0) % colors.length];
+
+  if (error || !photoUrl) {
+    return (
+      <div
+        className={`w-12 h-12 rounded-full mr-4 flex items-center justify-center text-white font-bold text-sm flex-shrink-0 ${colorClass}`}
+        aria-label={`Avatar de ${name}`}
+      >
+        {initials}
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={photoUrl}
+      alt={`Photo de ${name}`}
+      className="w-12 h-12 rounded-full mr-4 object-cover"
+      width={48}
+      height={48}
+      onError={() => setError(true)}
+      unoptimized
+    />
+  );
+};
+
 const GoogleReviews: React.FC = () => {
     const { isDarkMode } = useTheme();
     const [currentGroup, setCurrentGroup] = useState(0);
@@ -97,13 +138,7 @@ const GoogleReviews: React.FC = () => {
                                 {review.text || "Avis sans commentaire"}
                             </p>
                             <div className="flex items-center mt-auto">
-                                <Image
-                                    src={review.reviewerPhotoUrl}
-                                    alt={`Photo de ${review.name}`}
-                                    className="w-12 h-12 rounded-full mr-4"
-                                    width={48}
-                                    height={48}
-                                />
+                            <ReviewerAvatar name={review.name} photoUrl={review.reviewerPhotoUrl} />
                                 <div>
                                     <p className={`font-semibold text-base sm:text-lg ${isDarkMode ? "text-gray-100" : "text-gray-900"}`}>
                                         {review.name}

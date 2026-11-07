@@ -74,7 +74,7 @@ const Header = () => {
     };
   }, [isMenuOpen]);
 
-  const navLinks = ["Accueil", "Services", "À Propos", "Blog", "Contact", "Panier", "FAQ"];
+  const navLinks = ["Accueil", "Services", "À Propos", "Blog", "Contact", "Ma commande", "FAQ"];
 
   // Auth navigation removed
 
@@ -84,6 +84,8 @@ const Header = () => {
         return "/";
       case "À Propos":
         return "/about";
+      case "Ma commande":
+        return "/panier";
       default:
         return `/${link.toLowerCase().replace(/ /g, "-")}`;
     }
@@ -100,7 +102,15 @@ const Header = () => {
         className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center ${isDarkMode ? "text-white" : "text-gray-800"
           }`}
       >
-        <div className="flex items-center">
+        <div className="flex items-center gap-3">
+          {/* Téléphone cliquable — Fix #4 */}
+          <a
+            href="tel:+33669151216"
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold text-white bg-red-600 hover:bg-red-700 transition-colors shadow-sm"
+            aria-label="Appeler Aicha Salhi"
+          >
+            📞 06 69 15 12 16
+          </a>
           <Link
             href="/"
             className="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
@@ -154,6 +164,16 @@ const Header = () => {
           aria-label="Navigation principale"
         >
           <ul className="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-6 px-6 py-4 lg:p-0">
+            {/* Téléphone cliquable mobile — Fix #4 */}
+            <li className="lg:hidden">
+              <a
+                href="tel:+33669151216"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-white bg-red-600 hover:bg-red-700 transition-colors"
+                onClick={closeMenu}
+              >
+                📞 06 69 15 12 16
+              </a>
+            </li>
             {navLinks.map((link, i) => {
               const href = getPath(link);
               const isActive = pathname === href;
@@ -209,19 +229,21 @@ const Header = () => {
               </>
             ) : null}
 
-            <li>
+            {/* Fix #7 - Dark Mode déplacé en fin de nav, discret */}
+            <li className="hidden lg:block">
               <button
                 onClick={toggleDarkMode}
                 className={`${isDarkMode
-                  ? "text-gray-100 hover:text-red-400 hover:bg-white/10"
-                  : "text-gray-800 hover:text-red-700 hover:bg-black/5"
-                  } transition-colors rounded-md px-2 py-1`}
+                  ? "text-gray-500 hover:text-gray-300"
+                  : "text-gray-400 hover:text-gray-600"
+                  } transition-colors rounded-md px-2 py-1 text-sm`}
                 aria-label={isDarkMode ? "Passer en mode clair" : "Passer en mode sombre"}
+                title={isDarkMode ? "Mode clair" : "Mode sombre"}
               >
                 {isDarkMode ? (
-                  <FaSun className="inline-block mr-2 text-yellow-400" />
+                  <FaSun className="text-yellow-400" />
                 ) : (
-                  <FaMoon className="inline-block mr-2 text-blue-700" />
+                  <FaMoon className="text-gray-400" />
                 )}
               </button>
             </li>

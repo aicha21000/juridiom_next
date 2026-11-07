@@ -16,8 +16,39 @@ import {
   FaTrash,
   FaShoppingCart,
   FaEnvelope,
-  FaComment
+  FaComment,
+  FaInfoCircle,
+  FaStar,
+  FaShieldAlt,
+  FaGavel,
+  FaPhone,
 } from "react-icons/fa";
+
+// Tooltip simple réutilisable — Fix #2
+const Tooltip = ({ text }: { text: string }) => {
+  const [visible, setVisible] = useState(false);
+  return (
+    <span className="relative inline-block ml-1 align-middle">
+      <button
+        type="button"
+        onMouseEnter={() => setVisible(true)}
+        onMouseLeave={() => setVisible(false)}
+        onFocus={() => setVisible(true)}
+        onBlur={() => setVisible(false)}
+        className="text-gray-400 hover:text-red-500 transition-colors focus:outline-none"
+        aria-label="En savoir plus"
+      >
+        <FaInfoCircle className="text-sm" />
+      </button>
+      {visible && (
+        <span className="absolute z-50 bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 text-xs text-white bg-gray-900 rounded-xl shadow-xl leading-relaxed pointer-events-none">
+          {text}
+          <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900" />
+        </span>
+      )}
+    </span>
+  );
+};
 
 interface Service {
   mailClient: string;
@@ -350,6 +381,7 @@ const Services = () => {
                 <div>
                   <label htmlFor="numberOfPages" className="block text-sm font-semibold mb-2 opacity-80">
                     Nombre de pages
+                    <Tooltip text="Comptez le nombre de faces (recto/verso) de vos documents. Ex : une carte d'identité recto/verso = 2 pages. Un acte de naissance d'une face = 1 page." />
                   </label>
                   <div className="flex items-center">
                     <button
@@ -396,6 +428,7 @@ const Services = () => {
                 <div>
                   <label htmlFor="numberOfDocuments" className="block text-sm font-semibold mb-2 opacity-80">
                     Nombre de documents
+                    <Tooltip text="Indiquez le nombre de documents distincts à traduire. Ex : 1 passeport + 1 acte de naissance = 2 documents. Chaque document reçoit un cachet de traductrice assermentée séparé." />
                   </label>
                   <div className="flex items-center">
                     <button
@@ -463,7 +496,9 @@ const Services = () => {
                 <div>
                   <div className="flex items-center mb-4">
                     <FaStamp className={`mr-3 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />
-                    <h2 className="text-xl font-bold">Légalisation</h2>
+                    <h2 className="text-xl font-bold">Légalisation
+                      <Tooltip text="La légalisation (ou apostille) est une authentification officielle du cachet du traducteur, exigée par certaines ambassades et administrations étrangères. Si vous ne savez pas si vous en avez besoin, contactez-nous avant de commander." />
+                    </h2>
                   </div>
                   <select
                     value={selectedLegalization}
@@ -633,6 +668,48 @@ const Services = () => {
                 </p>
               </div>
             </div>
+              {/* Sidebar réassurance — Fix #3 */}
+              <div className={`border-t px-8 py-6 space-y-4 ${isDarkMode ? "border-gray-800" : "border-gray-100"}`}>
+                <p className={`text-xs font-semibold uppercase tracking-wider mb-3 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
+                  Pourquoi nous faire confiance ?
+                </p>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-yellow-50 dark:bg-yellow-900/20 flex items-center justify-center flex-shrink-0">
+                    <FaStar className="text-yellow-500 text-sm" />
+                  </div>
+                  <div>
+                    <p className={`text-sm font-semibold ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}>4.9 / 5 sur Google</p>
+                    <p className={`text-xs ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>+50 avis clients vérifiés</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-green-50 dark:bg-green-900/20 flex items-center justify-center flex-shrink-0">
+                    <FaShieldAlt className="text-green-600 text-sm" />
+                  </div>
+                  <div>
+                    <p className={`text-sm font-semibold ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}>Paiement sécurisé par Stripe</p>
+                    <p className={`text-xs ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>Données bancaires chiffrées, jamais stockées</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center flex-shrink-0">
+                    <FaGavel className="text-red-600 text-sm" />
+                  </div>
+                  <div>
+                    <p className={`text-sm font-semibold ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}>Traductrice assermentée officielle</p>
+                    <p className={`text-xs ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>Experte judiciaire près la Cour d&apos;Appel de Dijon</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center flex-shrink-0">
+                    <FaPhone className="text-blue-600 text-sm" />
+                  </div>
+                  <div>
+                    <p className={`text-sm font-semibold ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}>Une question ?</p>
+                    <a href="tel:+33669151216" className="text-xs text-red-600 hover:text-red-700 font-semibold">📞 06 69 15 12 16</a>
+                  </div>
+                </div>
+              </div>
           </div>
 
         </div>

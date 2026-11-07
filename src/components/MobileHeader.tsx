@@ -62,7 +62,7 @@ const MobileHeader = () => {
     { name: "Blog", path: "/blog", icon: FaFileAlt },
     { name: "Contact", path: "/contact", icon: FaPhone },
     { name: "FAQ", path: "/faq", icon: FaQuestion },
-    { name: "Panier", path: "/panier", icon: FaShoppingCart },
+    { name: "Ma commande", path: "/panier", icon: FaShoppingCart },
   ];
 
   return (
@@ -189,7 +189,7 @@ const MobileHeader = () => {
 
           {/* Auth Section */}
           <div className={`mt-4 pt-4 px-4 border-t ${isDarkMode ? "border-gray-800" : "border-gray-200"}`}>
-            {user ? (
+            {isLoggedIn ? (
               <div className="space-y-1">
                 <Link
                   href="/dashboard"
@@ -203,11 +203,7 @@ const MobileHeader = () => {
                   <span className="font-medium">Mon Espace</span>
                 </Link>
                 <button
-                  onClick={async () => {
-                    await logout();
-                    closeMenu();
-                    router.push("/login");
-                  }}
+                  onClick={handleLogout}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${isDarkMode ? "text-gray-300 hover:text-white hover:bg-white/10" : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
                     }`}
                 >
@@ -215,7 +211,7 @@ const MobileHeader = () => {
                   <span className="font-medium">Déconnexion</span>
                 </button>
               </div>
-            )}
+            ) : null}
           </div>
         </nav>
 
