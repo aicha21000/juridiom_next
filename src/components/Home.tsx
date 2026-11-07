@@ -421,32 +421,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 👤 En direct avec votre traductrice assermentée (Zéro intermédiaire) */}
-      <section className="py-16 relative">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`rounded-3xl border p-8 sm:p-12 ${isDarkMode ? "bg-gradient-to-br from-gray-900 to-gray-800 border-gray-700" : "bg-gradient-to-br from-red-50/60 to-white border-red-100"} shadow-lg flex flex-col md:flex-row items-center gap-8`}>
-            <div className="w-20 h-20 rounded-2xl bg-red-600 text-white flex items-center justify-center text-4xl shadow-md flex-shrink-0">
-              ⚖️
-            </div>
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400 block mb-1">
-                En direct avec votre traductrice assermentée
-              </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">
-                Zéro intermédiaire • Zéro sous-traitance • Confidentialité totale
-              </h3>
-              <p className="text-sm opacity-80 leading-relaxed mb-4">
-                Contrairement aux grandes plateformes qui sous-traitent vos documents à des traducteurs inconnus avec d&apos;importantes marges d&apos;agence, vous échangez <strong>directement avec Aicha Salhi</strong>, experte judiciaire assermentée près la Cour d&apos;Appel de Dijon. Vos documents sensibles ne passent entre aucune autre main.
-              </p>
-              <div className="flex flex-wrap items-center gap-4 text-xs font-bold">
-                <span className="text-emerald-600 dark:text-emerald-400">✓ Tarif direct sans commission d&apos;agence</span>
-                <span className="text-emerald-600 dark:text-emerald-400">✓ Contact direct par téléphone &amp; WhatsApp</span>
-                <span className="text-emerald-600 dark:text-emerald-400">✓ Secret professionnel garanti</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
 
 
