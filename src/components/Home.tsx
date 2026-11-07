@@ -154,11 +154,23 @@ const Home = () => {
             Des traductions précises et reconnues pour vos documents officiels, juridiques et commerciaux.
             Traduction réalisée en 24 heures, confidentialité et excellence linguistique garanties.
           </p>
-          <p className={`text-base max-w-3xl mx-auto mb-12 leading-relaxed ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>
+          <p className={`text-base max-w-3xl mx-auto mb-6 leading-relaxed ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>
             Mon bureau d'accueil principal est situé au Centre d'Affaires Regus à Longvic, idéalement positionné pour recevoir les clients de Dijon et de toute la métropole dijonnaise.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          
+          {/* Mention discrète des tarifs et dégressivité dans le Hero */}
+          <div className="inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 mb-8 rounded-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/80 dark:border-gray-800 shadow-xs text-xs sm:text-sm">
+            <span className="text-gray-500 dark:text-gray-400">Tarif dès</span>
+            <span className="font-extrabold text-red-600 dark:text-red-400 text-sm sm:text-base">30 € / page</span>
+            <span className="text-gray-300 dark:text-gray-700">•</span>
+            <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full text-xs">
+              📉 Tarif dégressif jusqu'à 20 €/page
+            </span>
+            <span className="text-gray-300 dark:text-gray-700 hidden sm:inline">•</span>
+            <span className="text-gray-500 dark:text-gray-400 hidden sm:inline">Devis immédiat</span>
+          </div>
+<div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
               href="/services"
               onClick={handleOrderClick}
