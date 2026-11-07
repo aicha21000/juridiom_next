@@ -32,6 +32,7 @@ import permis from "../assets/permis_conduire.webp";
 import acteNaissanceLiban from "../assets/acte_naissance_liban.webp";
 
 const GoogleReviews = lazy(() => import('./GoogleReviews'));
+import OfficialSeal3D from "./OfficialSeal3D";
 
 // Section paresseuse avec skeleton pour améliorer la FCP
 function LazySection({ children, minHeight = 400 }: { children: React.ReactNode; minHeight?: number }) {
@@ -356,45 +357,67 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className={`p-6 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} shadow-sm`}>
-              <div className="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-950/60 text-red-600 flex items-center justify-center text-2xl mb-4">
-                🔴
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Colonne Gauche : Sceau Officiel 3D Interactif */}
+            <div className="lg:col-span-5 flex flex-col items-center justify-center">
+              <div className={`w-full p-6 sm:p-8 rounded-3xl border ${isDarkMode ? "bg-gray-900/90 border-gray-800 shadow-2xl shadow-red-950/20" : "bg-white border-gray-200 shadow-xl shadow-red-500/5"} flex flex-col items-center`}>
+                <OfficialSeal3D />
               </div>
-              <h3 className="font-bold text-base mb-2">Sceau Officiel</h3>
-              <p className="text-xs opacity-75 leading-relaxed">
-                Le cachet encreur officiel portant la mention d&apos;experte judiciaire près la Cour d&apos;Appel de Dijon est apposé sur chaque page du document.
-              </p>
             </div>
 
-            <div className={`p-6 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} shadow-sm`}>
-              <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center text-2xl mb-4">
-                🖋️
+            {/* Colonne Droite : Les 4 piliers de conformité légale */}
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-red-900/50" : "bg-white border-gray-200 hover:border-red-200"} shadow-sm transition-all duration-300`}>
+                <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/60 text-red-600 flex items-center justify-center text-xl mb-3">
+                  🔴
+                </div>
+                <h3 className="font-bold text-base mb-1.5 flex items-center gap-2">
+                  <span>Sceau Officiel</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300 font-bold">Cour d&apos;Appel</span>
+                </h3>
+                <p className="text-xs opacity-75 leading-relaxed">
+                  Le cachet encreur officiel portant la mention d&apos;experte judiciaire près la Cour d&apos;Appel de Dijon est apposé sur chaque page du document.
+                </p>
               </div>
-              <h3 className="font-bold text-base mb-2">Signature Manuscrite</h3>
-              <p className="text-xs opacity-75 leading-relaxed">
-                Chaque exemplaire est signé personnellement par Maître Aicha Salhi, engageant sa responsabilité juridique d&apos;experte assermentée.
-              </p>
-            </div>
 
-            <div className={`p-6 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} shadow-sm`}>
-              <div className="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 flex items-center justify-center text-2xl mb-4">
-                🔢
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-blue-900/50" : "bg-white border-gray-200 hover:border-blue-200"} shadow-sm transition-all duration-300`}>
+                <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center text-xl mb-3">
+                  🖋️
+                </div>
+                <h3 className="font-bold text-base mb-1.5 flex items-center gap-2">
+                  <span>Signature Manuscrite</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300 font-bold">Légale</span>
+                </h3>
+                <p className="text-xs opacity-75 leading-relaxed">
+                  Chaque exemplaire est signé personnellement par Maître Aicha Salhi, engageant sa responsabilité juridique d&apos;experte assermentée.
+                </p>
               </div>
-              <h3 className="font-bold text-base mb-2">Mention &ldquo;Ne Varietur&rdquo;</h3>
-              <p className="text-xs opacity-75 leading-relaxed">
-                Numéro d&apos;enregistrement unique au répertoire des traductions officielles avec la formule légale de conformité avec l&apos;original.
-              </p>
-            </div>
 
-            <div className={`p-6 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} shadow-sm`}>
-              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center text-2xl mb-4">
-                📦
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-amber-900/50" : "bg-white border-gray-200 hover:border-amber-200"} shadow-sm transition-all duration-300`}>
+                <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 flex items-center justify-center text-xl mb-3">
+                  🔢
+                </div>
+                <h3 className="font-bold text-base mb-1.5 flex items-center gap-2">
+                  <span>Mention &ldquo;Ne Varietur&rdquo;</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 font-bold">Unique</span>
+                </h3>
+                <p className="text-xs opacity-75 leading-relaxed">
+                  Numéro d&apos;enregistrement unique au répertoire des traductions officielles avec la formule légale de conformité avec l&apos;original.
+                </p>
               </div>
-              <h3 className="font-bold text-base mb-2">Double Format Délivré</h3>
-              <p className="text-xs opacity-75 leading-relaxed">
-                Réception immédiate en <strong>PDF certifié haute définition</strong> par email + original papier envoyé par voie postale à domicile.
-              </p>
+
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-emerald-900/50" : "bg-white border-gray-200 hover:border-emerald-200"} shadow-sm transition-all duration-300`}>
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center text-xl mb-3">
+                  📦
+                </div>
+                <h3 className="font-bold text-base mb-1.5 flex items-center gap-2">
+                  <span>Double Format Délivré</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 font-bold">PDF + Papier</span>
+                </h3>
+                <p className="text-xs opacity-75 leading-relaxed">
+                  Réception immédiate en <strong>PDF certifié haute définition</strong> par email + original papier envoyé par voie postale à domicile.
+                </p>
+              </div>
             </div>
           </div>
         </div>
