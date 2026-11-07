@@ -678,8 +678,8 @@ const Services = () => {
                     <FaStar className="text-yellow-500 text-sm" />
                   </div>
                   <div>
-                    <p className={`text-sm font-semibold ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}>4.9 / 5 sur Google</p>
-                    <p className={`text-xs ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>+50 avis clients vérifiés</p>
+                    <p className={`text-sm font-semibold ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}>5.0 / 5 sur Google</p>
+                    <p className={`text-xs ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>18 avis clients vérifiés</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">

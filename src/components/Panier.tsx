@@ -358,8 +358,8 @@ const Panier = () => {
                   <div className="flex text-yellow-400">
                     <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
                   </div>
-                  <span className="font-bold">4.9 / 5</span>
-                  <span className="opacity-60">• +50 avis vérifiés sur Google</span>
+                  <span className="font-bold">5.0 / 5</span>
+                  <span className="opacity-60">• 18 avis vérifiés sur Google</span>
                 </div>
 
                 {/* Assistance téléphonique */}
