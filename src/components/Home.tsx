@@ -135,8 +135,13 @@ const Home = () => {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-block px-4 py-1.5 mb-6 rounded-full text-sm font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800">
-            ✨ Traductrice Assermentée près la Cour d'Appel de Dijon
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800">
+              ✨ Traductrice Assermentée près la Cour d'Appel de Dijon
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-300 dark:border-amber-700 shadow-sm">
+              ⚡ Traduction réalisée en 24h
+            </span>
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
             Traductrice Assermentée Arabe <br className="hidden md:block" />
@@ -147,7 +152,7 @@ const Home = () => {
           </h2>
           <p className={`text-lg md:text-xl max-w-3xl mx-auto mb-4 leading-relaxed ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
             Des traductions précises et reconnues pour vos documents officiels, juridiques et commerciaux.
-            Rapidité, confidentialité et excellence linguistique garanties.
+            Traduction réalisée en 24 heures, confidentialité et excellence linguistique garanties.
           </p>
           <p className={`text-base max-w-3xl mx-auto mb-12 leading-relaxed ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>
             Mon bureau d'accueil principal est situé au Centre d'Affaires Regus à Longvic, idéalement positionné pour recevoir les clients de Dijon et de toute la métropole dijonnaise.
@@ -398,7 +403,7 @@ const Home = () => {
                 Plus vous traduisez, moins vous payez !
               </h2>
               <p className="text-red-100 text-base sm:text-lg mb-6 leading-relaxed">
-                Traductions certifiées conformes par une <strong>traductrice assermentée</strong> près la Cour d'Appel. Profitez de nos tarifs avantageux :
+                Traductions certifiées conformes par une <strong>traductrice assermentée</strong> près la Cour d'Appel. <strong>Traduction réalisée en 24 heures</strong>. Profitez de nos tarifs avantageux :
               </p>
 
               {/* Price Cards */}

@@ -20,6 +20,7 @@ import {
   FaStamp,
   FaEnvelope,
   FaTrashAlt,
+  FaBolt,
 } from "react-icons/fa";
 
 interface CartItem {
@@ -293,6 +294,19 @@ const Panier = () => {
                   <h3 className="font-bold text-sm mb-1">Traduction Certifiée Conforme &amp; Officielle</h3>
                   <p className="text-xs opacity-75 leading-relaxed">
                     Réalisée et signée avec sceau officiel par <strong>Aicha Salhi</strong>, traductrice assermentée experte judiciaire près la <strong>Cour d&apos;Appel de Dijon</strong>. Valable auprès de toutes les préfectures, mairies, universités, tribunaux et consulats de France.
+                  </p>
+                </div>
+              </div>
+
+              {/* Reassurance Bloc 2 : Traduction en 24h */}
+              <div className={`rounded-2xl border p-6 flex items-start gap-4 ${isDarkMode ? 'bg-gray-900/60 border-gray-800' : 'bg-white border-gray-200'}`}>
+                <div className="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 flex items-center justify-center flex-shrink-0 text-xl">
+                  <FaBolt />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm mb-1">Traduction Réalisée en 24 Heures</h3>
+                  <p className="text-xs opacity-75 leading-relaxed">
+                    Vos documents sont traités en priorité et livrés sous <strong>24 heures</strong> pour garantir le respect de vos démarches administratives urgentes.
                   </p>
                 </div>
               </div>

@@ -22,6 +22,7 @@ import {
   FaShieldAlt,
   FaGavel,
   FaPhone,
+  FaBolt,
 } from "react-icons/fa";
 
 // Tooltip simple réutilisable — Fix #2
@@ -354,11 +355,14 @@ const Services = () => {
 
         {/* Header Section */}
         <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 mb-4 rounded-full text-xs font-bold bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-300 dark:border-amber-700 shadow-sm">
+            ⚡ Traduction réalisée en 24 heures chrono
+          </div>
           <h1 className={`text-4xl md:text-5xl font-extrabold tracking-tight mb-4 ${isDarkMode ? "text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500" : "text-gray-900"}`}>
             Services de <span className="text-red-700">Traduction Assermentée</span>
           </h1>
           <p className={`text-lg max-w-2xl mx-auto ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-            Configurez votre commande en quelques étapes simples. Devis immédiat et transparent.
+            Configurez votre commande en quelques étapes simples. Devis immédiat et traduction réalisée en 24h.
           </p>
         </div>
 
@@ -673,6 +677,15 @@ const Services = () => {
                 <p className={`text-xs font-semibold uppercase tracking-wider mb-3 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
                   Pourquoi nous faire confiance ?
                 </p>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center flex-shrink-0">
+                    <FaBolt className="text-amber-600 text-sm" />
+                  </div>
+                  <div>
+                    <p className={`text-sm font-semibold ${isDarkMode ? "text-gray-200" : "text-gray-800"}`}>Traduction réalisée en 24h</p>
+                    <p className={`text-xs ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>Livraison express pour toutes vos démarches urgentes</p>
+                  </div>
+                </div>
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-yellow-50 dark:bg-yellow-900/20 flex items-center justify-center flex-shrink-0">
                     <FaStar className="text-yellow-500 text-sm" />
