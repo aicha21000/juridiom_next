@@ -161,14 +161,15 @@ const Home = () => {
           
           {/* Mention discrète des tarifs et dégressivité dans le Hero */}
           <div className="inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 mb-8 rounded-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/80 dark:border-gray-800 shadow-xs text-xs sm:text-sm">
-            <span className="text-gray-500 dark:text-gray-400">Tarif dès</span>
-            <span className="font-extrabold text-red-600 dark:text-red-400 text-sm sm:text-base">30 € / page</span>
-            <span className="text-gray-300 dark:text-gray-700">•</span>
-            <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full text-xs">
-              📉 Tarif dégressif jusqu'à 20 €/page
+            <span className="inline-flex items-center gap-1 font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full text-xs border border-emerald-200 dark:border-emerald-800">
+              🚗 Permis &amp; ⚖️ Casier : 25 €
             </span>
-            <span className="text-gray-300 dark:text-gray-700 hidden sm:inline">•</span>
-            <span className="text-gray-500 dark:text-gray-400 hidden sm:inline">Devis immédiat</span>
+            <span className="text-gray-300 dark:text-gray-700">•</span>
+            <span className="text-gray-600 dark:text-gray-300 font-medium">Autres dès 30 €/p</span>
+            <span className="text-gray-300 dark:text-gray-700">•</span>
+            <span className="text-gray-500 dark:text-gray-400 text-xs">
+              📉 Dégressif jusqu'à 20 €
+            </span>
           </div>
 <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
@@ -415,7 +416,7 @@ const Home = () => {
                 Plus vous traduisez, moins vous payez !
               </h2>
               <p className="text-red-100 text-base sm:text-lg mb-6 leading-relaxed">
-                Traductions certifiées conformes par une <strong>traductrice assermentée</strong> près la Cour d'Appel. <strong>Traduction réalisée en 24 heures</strong>. Profitez de nos tarifs avantageux :
+                Traductions certifiées conformes par une <strong>traductrice assermentée</strong> près la Cour d'Appel. <strong>Traduction réalisée en 24 heures</strong>. Profitez de nos tarifs avantageux (dont <strong>forfait spécial à 25 € pour le permis de conduire et le casier judiciaire</strong>) :
               </p>
 
               {/* Price Cards */}

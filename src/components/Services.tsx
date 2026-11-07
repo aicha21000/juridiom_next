@@ -60,6 +60,7 @@ interface Service {
   totalPrice: number;
   comment?: string;
   files?: Array<{ name: string; url: string; path: string }>;
+  documentType?: "standard" | "permis" | "casier";
 }
 
 interface DeliveryMethod {
@@ -85,6 +86,7 @@ const Services = () => {
   const [legalizationTypes, setLegalizationTypes] = useState<LegalizationType[]>([]);
   const [selectedDelivery, setSelectedDelivery] = useState("email");
   const [selectedLegalization, setSelectedLegalization] = useState("none");
+  const [documentType, setDocumentType] = useState<"standard" | "permis" | "casier">("standard");
   const [numberOfPages, setNumberOfPages] = useState(1);
   const [numberOfDocuments, setNumberOfDocuments] = useState(1);
   const [totalPrice, setTotalPrice] = useState(30);
@@ -198,6 +200,7 @@ const Services = () => {
             deliveryMethod: selectedDelivery,
             legalization: selectedLegalization,
             numberOfDocuments,
+            documentType,
           }),
         });
         const data = await response.json();
@@ -208,7 +211,7 @@ const Services = () => {
     };
 
     calculateTotalPrice();
-  }, [numberOfPages, selectedDelivery, selectedLegalization, numberOfDocuments]);
+  }, [numberOfPages, selectedDelivery, selectedLegalization, numberOfDocuments, documentType]);
 
   const handleNumberOfPagesChange = (value: number) => {
     if (value < numberOfDocuments) {
@@ -332,6 +335,7 @@ const Services = () => {
       comment,
       files: uploadedFiles,
       sessionId: sessionIdRef.current,
+      documentType,
     };
 
     const updatedCart = [...cart];
@@ -380,6 +384,76 @@ const Services = () => {
                 <h2 className="text-2xl font-bold">Documents</h2>
               </div>
 
+              {/* Sélection Type de document — Forfait spécial Permis & Casier à 25€ */}
+              <div className="mb-8">
+                <label className="block text-sm font-semibold mb-3 opacity-80">
+                  Sélectionnez le type de document
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setDocumentType("standard")}
+                    className={`p-4 rounded-xl border text-left transition-all ${
+                      documentType === "standard"
+                        ? "border-red-600 bg-red-50/70 dark:bg-red-950/40 text-red-700 dark:text-red-300 ring-2 ring-red-600 shadow-sm"
+                        : isDarkMode
+                          ? "border-gray-700 bg-gray-800/80 hover:border-gray-600"
+                          : "border-gray-200 bg-gray-50/50 hover:border-gray-300"
+                    }`}
+                  >
+                    <span className="block font-bold text-sm">📄 Autre document</span>
+                    <span className="text-xs opacity-75">Acte, diplôme, contrat...</span>
+                    <span className="block text-xs font-semibold text-red-600 dark:text-red-400 mt-1">Dès 30 € / page</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setDocumentType("permis");
+                      setNumberOfPages(1);
+                      setNumberOfDocuments(1);
+                    }}
+                    className={`p-4 rounded-xl border text-left transition-all relative ${
+                      documentType === "permis"
+                        ? "border-emerald-600 bg-emerald-50/70 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-200 ring-2 ring-emerald-600 shadow-sm"
+                        : isDarkMode
+                          ? "border-gray-700 bg-gray-800/80 hover:border-gray-600"
+                          : "border-gray-200 bg-gray-50/50 hover:border-gray-300"
+                    }`}
+                  >
+                    <span className="absolute -top-2.5 right-2 px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-600 text-white shadow-xs">
+                      Forfait 25 €
+                    </span>
+                    <span className="block font-bold text-sm">🚗 Permis de conduire</span>
+                    <span className="text-xs opacity-75">Traduction certifiée</span>
+                    <span className="block text-xs font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">25 € seulement</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setDocumentType("casier");
+                      setNumberOfPages(1);
+                      setNumberOfDocuments(1);
+                    }}
+                    className={`p-4 rounded-xl border text-left transition-all relative ${
+                      documentType === "casier"
+                        ? "border-emerald-600 bg-emerald-50/70 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-200 ring-2 ring-emerald-600 shadow-sm"
+                        : isDarkMode
+                          ? "border-gray-700 bg-gray-800/80 hover:border-gray-600"
+                          : "border-gray-200 bg-gray-50/50 hover:border-gray-300"
+                    }`}
+                  >
+                    <span className="absolute -top-2.5 right-2 px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-600 text-white shadow-xs">
+                      Forfait 25 €
+                    </span>
+                    <span className="block font-bold text-sm">⚖️ Casier judiciaire</span>
+                    <span className="text-xs opacity-75">Bulletin n°3 officiel</span>
+                    <span className="block text-xs font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">25 € seulement</span>
+                  </button>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Number of Pages */}
                 <div>
@@ -420,9 +494,15 @@ const Services = () => {
                       +
                     </button>
                   </div>
-                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 font-semibold flex items-center gap-1">
-                    🏷️ Tarifs dégressifs : 30€/p (1-2 p.) • 25€/p (à partir de 3 p.) • 20€/p (à partir de 10 p.)
-                  </p>
+                  {documentType !== "standard" ? (
+                    <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-2 font-bold flex items-center gap-1">
+                      🎉 Forfait spécial appliqué : 25 € pour votre {documentType === "permis" ? "permis de conduire" : "casier judiciaire"}
+                    </p>
+                  ) : (
+                    <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 font-semibold flex items-center gap-1">
+                      🏷️ Tarifs dégressifs : 30€/p (1-2 p.) • 25€/p (à partir de 3 p.) • 20€/p (à partir de 10 p.)
+                    </p>
+                  )}
                   {numberOfPages < numberOfDocuments && (
                     <p className="text-red-500 text-xs mt-1">Min. égal au nb. de documents</p>
                   )}
@@ -614,6 +694,16 @@ const Services = () => {
               </div>
 
               <div className="p-8 space-y-6">
+                <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-gray-800">
+                  <span className="opacity-80">Prestation</span>
+                  <span className="font-bold text-sm text-right">
+                    {documentType === "permis"
+                      ? "🚗 Permis de conduire (25€)"
+                      : documentType === "casier"
+                        ? "⚖️ Casier judiciaire (25€)"
+                        : "📄 Document standard"}
+                  </span>
+                </div>
                 <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-gray-800">
                   <span className="opacity-80">Pages</span>
                   <span className="font-bold text-lg">{numberOfPages}</span>

@@ -37,6 +37,7 @@ interface CartItem {
     path: string;
   }>;
   sessionId?: string;
+  documentType?: string;
 }
 
 const DELIVERY_LABELS: Record<string, string> = {
@@ -128,7 +129,12 @@ const Panier = () => {
         price_data: {
           currency: "eur",
           product_data: {
-            name: `Traduction assermentée (${item.numberOfPages} pages, ${item.numberOfDocuments} documents)`,
+            name:
+              item.documentType === "permis"
+                ? "Traduction assermentée - Permis de conduire"
+                : item.documentType === "casier"
+                  ? "Traduction assermentée - Casier judiciaire"
+                  : `Traduction assermentée (${item.numberOfPages} pages, ${item.numberOfDocuments} documents)`,
           },
           unit_amount: item.totalPrice * 100,
         },
@@ -223,6 +229,14 @@ const Panier = () => {
                 </div>
 
                 <div className="mt-6 space-y-4 text-sm">
+                  {item.documentType && item.documentType !== "standard" && (
+                    <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800/50">
+                      <span className="opacity-70">Document :</span>
+                      <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                        {item.documentType === "permis" ? "🚗 Permis de conduire (Forfait 25 €)" : "⚖️ Casier judiciaire (Forfait 25 €)"}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800/50">
                     <span className="opacity-70">Volume :</span>
                     <span className="font-semibold">{item.numberOfPages} page(s) • {item.numberOfDocuments} document(s)</span>

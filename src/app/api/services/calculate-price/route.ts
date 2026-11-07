@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 
-const getBasePricePerPage = (numberOfPages: number): number => {
+const getBasePricePerPage = (numberOfPages: number, documentType?: string): number => {
+    // Tarif spécial fixé à 25 € pour le permis de conduire et le casier judiciaire
+    if (documentType === 'permis' || documentType === 'casier') {
+        return 25;
+    }
     if (numberOfPages >= 10) return 20;
     if (numberOfPages >= 3) return 25;
     return 30;
@@ -22,8 +26,8 @@ const LEGALIZATION_TYPES = [
     { id: "consulate", name: "Consulat et ambassade", price: 80 }
 ];
 
-const calculatePrice = (numberOfPages: number, deliveryMethod: string, legalization: string, numberOfDocuments = 1) => {
-    const basePricePerPage = getBasePricePerPage(numberOfPages);
+const calculatePrice = (numberOfPages: number, deliveryMethod: string, legalization: string, numberOfDocuments = 1, documentType?: string) => {
+    const basePricePerPage = getBasePricePerPage(numberOfPages, documentType);
     const deliveryPrice = DELIVERY_METHODS.find(method => method.id === deliveryMethod)?.price || 0;
     const legalizationPrice = LEGALIZATION_TYPES.find(type => type.id === legalization)?.price || 0;
     return (basePricePerPage * numberOfPages + deliveryPrice + (legalizationPrice * numberOfDocuments));
@@ -31,7 +35,7 @@ const calculatePrice = (numberOfPages: number, deliveryMethod: string, legalizat
 
 export async function POST(req: Request) {
     try {
-        const { numberOfPages, deliveryMethod, legalization, numberOfDocuments } = await req.json();
+        const { numberOfPages, deliveryMethod, legalization, numberOfDocuments, documentType } = await req.json();
 
         if (!numberOfPages || isNaN(numberOfPages) || numberOfPages <= 0) {
             return NextResponse.json({ message: "Le nombre de pages doit être valide." }, { status: 400 });
@@ -41,7 +45,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "Veuillez choisir une méthode de livraison et une légalisation." }, { status: 400 });
         }
 
-        const totalPrice = calculatePrice(numberOfPages, deliveryMethod, legalization, numberOfDocuments || 1);
+        const totalPrice = calculatePrice(numberOfPages, deliveryMethod, legalization, numberOfDocuments || 1, documentType);
         return NextResponse.json({ totalPrice });
     } catch (err) {
         console.error("❌ Erreur dans /calculate-price :", err);
