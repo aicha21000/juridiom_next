@@ -190,6 +190,244 @@ const Home = () => {
         </div>
       </section>
 
+      {/* 🏛️ Bandeau d'administrations — Garantie conformité 100% */}
+      <div className={`py-6 border-y ${isDarkMode ? "bg-gray-900/70 border-gray-800" : "bg-white border-gray-200"}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-4 text-center lg:text-left">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-lg font-extrabold flex-shrink-0">
+                ✓
+              </div>
+              <div>
+                <p className="font-extrabold text-sm sm:text-base">Garantie 100% Accepté par les administrations</p>
+                <p className="text-xs opacity-70">Traductions officielles certifiées conformes valables en France et à l&apos;international</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-semibold">
+              <span className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700">🏛️ Préfectures &amp; ANTS</span>
+              <span className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700">💍 Mairies (Mariage &amp; État civil)</span>
+              <span className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700">🎓 Universités &amp; Campus France</span>
+              <span className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700">🌍 Ambassades &amp; Consulats</span>
+              <span className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700">⚖️ Tribunaux, Notaires, OFII</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 🎯 Grille des Documents Types (Identification immédiate) */}
+      <section className="py-20 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-400 mb-3">
+              Tarifs Forfaitaires Clairs
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+              Quel document souhaitez-vous faire traduire ?
+            </h2>
+            <p className="text-base opacity-75">
+              Sélectionnez votre document pour une traduction certifiée conforme par une traductrice assermentée officielle, reconnue par toutes les préfectures et administrations.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Permis de conduire */}
+            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl relative flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-emerald-600" : "bg-white border-gray-200 hover:border-emerald-500"}`}>
+              <span className="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full text-xs font-extrabold uppercase bg-emerald-600 text-white shadow-sm">
+                Forfait 25 €
+              </span>
+              <div>
+                <div className="text-4xl mb-3">🚗</div>
+                <h3 className="text-lg font-bold mb-1">Permis de Conduire</h3>
+                <p className="text-xs opacity-70 mb-4">Pour l&apos;échange de permis étranger auprès de l&apos;ANTS et des préfectures.</p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
+                <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">25 €</span>
+                <Link href="/services" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
+                  Commander en 1 clic →
+                </Link>
+              </div>
+            </div>
+
+            {/* Casier judiciaire */}
+            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl relative flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-emerald-600" : "bg-white border-gray-200 hover:border-emerald-500"}`}>
+              <span className="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full text-xs font-extrabold uppercase bg-emerald-600 text-white shadow-sm">
+                Forfait 25 €
+              </span>
+              <div>
+                <div className="text-4xl mb-3">⚖️</div>
+                <h3 className="text-lg font-bold mb-1">Casier Judiciaire</h3>
+                <p className="text-xs opacity-70 mb-4">Bulletin n°3 officiel pour naturalisation, emploi ou démarches consulaires.</p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
+                <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">25 €</span>
+                <Link href="/services" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
+                  Commander en 1 clic →
+                </Link>
+              </div>
+            </div>
+
+            {/* Acte de naissance / État civil */}
+            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-red-600" : "bg-white border-gray-200 hover:border-red-500"}`}>
+              <div>
+                <div className="text-4xl mb-3">📜</div>
+                <h3 className="text-lg font-bold mb-1">Acte d&apos;État Civil</h3>
+                <p className="text-xs opacity-70 mb-4">Acte de naissance, acte de mariage, certificat de célibat, livret de famille.</p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
+                <div>
+                  <span className="text-xs opacity-60 block">Dès</span>
+                  <span className="text-2xl font-black text-red-600 dark:text-red-400">30 € <span className="text-xs font-normal">/ page</span></span>
+                </div>
+                <Link href="/services" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
+                  Calculer le devis →
+                </Link>
+              </div>
+            </div>
+
+            {/* Diplôme & Relevé de notes */}
+            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-red-600" : "bg-white border-gray-200 hover:border-red-500"}`}>
+              <div>
+                <div className="text-4xl mb-3">🎓</div>
+                <h3 className="text-lg font-bold mb-1">Diplôme &amp; Relevé de Notes</h3>
+                <p className="text-xs opacity-70 mb-4">Pour Campus France, universités françaises, équivalences et ordres professionnels.</p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
+                <div>
+                  <span className="text-xs opacity-60 block">Dès</span>
+                  <span className="text-2xl font-black text-red-600 dark:text-red-400">30 € <span className="text-xs font-normal">/ page</span></span>
+                </div>
+                <Link href="/services" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
+                  Calculer le devis →
+                </Link>
+              </div>
+            </div>
+
+            {/* Jugement de divorce */}
+            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-red-600" : "bg-white border-gray-200 hover:border-red-500"}`}>
+              <div>
+                <div className="text-4xl mb-3">📑</div>
+                <h3 className="text-lg font-bold mb-1">Jugement de Divorce &amp; Notarié</h3>
+                <p className="text-xs opacity-70 mb-4">Décisions de justice, successions, actes de kafala, procurations notariées.</p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
+                <div>
+                  <span className="text-xs opacity-60 block">Tarif dégressif</span>
+                  <span className="text-2xl font-black text-red-600 dark:text-red-400">dès 20 € <span className="text-xs font-normal">/ page</span></span>
+                </div>
+                <Link href="/services" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
+                  Calculer le devis →
+                </Link>
+              </div>
+            </div>
+
+            {/* Statuts & Entreprises */}
+            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-red-600" : "bg-white border-gray-200 hover:border-red-500"}`}>
+              <div>
+                <div className="text-4xl mb-3">💼</div>
+                <h3 className="text-lg font-bold mb-1">Contrats &amp; Documents Pro</h3>
+                <p className="text-xs opacity-70 mb-4">Statuts de société, extraits Kbis, bilans, procurations et contrats commerciaux.</p>
+              </div>
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
+                <div>
+                  <span className="text-xs opacity-60 block">Volume</span>
+                  <span className="text-lg font-black text-red-600 dark:text-red-400">Devis immédiat</span>
+                </div>
+                <Link href="/contact" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
+                  Demander un devis →
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 🔍 Résultat Final : À quoi ressemble votre traduction certifiée ? */}
+      <section className={`py-20 border-y ${isDarkMode ? "bg-gray-900/40 border-gray-800" : "bg-gray-100/60 border-gray-200"}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-400 mb-3">
+              Valeur Juridique &amp; Authenticité
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+              À quoi ressemble votre traduction certifiée conforme ?
+            </h2>
+            <p className="text-base opacity-75">
+              Chaque traduction délivrée est un document officiel portant toutes les mentions obligatoires requises par les autorités françaises.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className={`p-6 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} shadow-sm`}>
+              <div className="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-950/60 text-red-600 flex items-center justify-center text-2xl mb-4">
+                🔴
+              </div>
+              <h3 className="font-bold text-base mb-2">Sceau Officiel</h3>
+              <p className="text-xs opacity-75 leading-relaxed">
+                Le cachet encreur officiel portant la mention d&apos;experte judiciaire près la Cour d&apos;Appel de Dijon est apposé sur chaque page du document.
+              </p>
+            </div>
+
+            <div className={`p-6 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} shadow-sm`}>
+              <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center text-2xl mb-4">
+                🖋️
+              </div>
+              <h3 className="font-bold text-base mb-2">Signature Manuscrite</h3>
+              <p className="text-xs opacity-75 leading-relaxed">
+                Chaque exemplaire est signé personnellement par Maître Aicha Salhi, engageant sa responsabilité juridique d&apos;experte assermentée.
+              </p>
+            </div>
+
+            <div className={`p-6 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} shadow-sm`}>
+              <div className="w-12 h-12 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 flex items-center justify-center text-2xl mb-4">
+                🔢
+              </div>
+              <h3 className="font-bold text-base mb-2">Mention &ldquo;Ne Varietur&rdquo;</h3>
+              <p className="text-xs opacity-75 leading-relaxed">
+                Numéro d&apos;enregistrement unique au répertoire des traductions officielles avec la formule légale de conformité avec l&apos;original.
+              </p>
+            </div>
+
+            <div className={`p-6 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"} shadow-sm`}>
+              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center text-2xl mb-4">
+                📦
+              </div>
+              <h3 className="font-bold text-base mb-2">Double Format Délivré</h3>
+              <p className="text-xs opacity-75 leading-relaxed">
+                Réception immédiate en <strong>PDF certifié haute définition</strong> par email + original papier envoyé par voie postale à domicile.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 👤 En direct avec votre traductrice assermentée (Zéro intermédiaire) */}
+      <section className="py-16 relative">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className={`rounded-3xl border p-8 sm:p-12 ${isDarkMode ? "bg-gradient-to-br from-gray-900 to-gray-800 border-gray-700" : "bg-gradient-to-br from-red-50/60 to-white border-red-100"} shadow-lg flex flex-col md:flex-row items-center gap-8`}>
+            <div className="w-20 h-20 rounded-2xl bg-red-600 text-white flex items-center justify-center text-4xl shadow-md flex-shrink-0">
+              ⚖️
+            </div>
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-red-600 dark:text-red-400 block mb-1">
+                En direct avec votre traductrice assermentée
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">
+                Zéro intermédiaire • Zéro sous-traitance • Confidentialité totale
+              </h3>
+              <p className="text-sm opacity-80 leading-relaxed mb-4">
+                Contrairement aux grandes plateformes qui sous-traitent vos documents à des traducteurs inconnus avec d&apos;importantes marges d&apos;agence, vous échangez <strong>directement avec Aicha Salhi</strong>, experte judiciaire assermentée près la Cour d&apos;Appel de Dijon. Vos documents sensibles ne passent entre aucune autre main.
+              </p>
+              <div className="flex flex-wrap items-center gap-4 text-xs font-bold">
+                <span className="text-emerald-600 dark:text-emerald-400">✓ Tarif direct sans commission d&apos;agence</span>
+                <span className="text-emerald-600 dark:text-emerald-400">✓ Contact direct par téléphone &amp; WhatsApp</span>
+                <span className="text-emerald-600 dark:text-emerald-400">✓ Secret professionnel garanti</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
 
       {/* Expertise Section */}
       <LazySection>
@@ -296,7 +534,7 @@ const Home = () => {
                   <div className="relative pl-20 transition-transform transform hover:translate-x-2 duration-300">
                     <div className="absolute left-0 w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center font-bold text-xl border-4 border-white dark:border-gray-800 z-10">1</div>
                     <h4 className="text-lg font-bold">Devis & Commande</h4>
-                    <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Envoyez vos documents et recevez une estimation immédiate.</p>
+                    <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}><strong>Pas de scanner ? Une photo smartphone nette suffit !</strong> Téléchargez vos fichiers ou envoyez-les directement par WhatsApp.</p>
                   </div>
 
                   <div className="relative pl-20 transition-transform transform hover:translate-x-2 duration-300">
@@ -308,7 +546,7 @@ const Home = () => {
                   <div className="relative pl-20 transition-transform transform hover:translate-x-2 duration-300">
                     <div className="absolute left-0 w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center font-bold text-xl border-4 border-white dark:border-gray-800 z-10">3</div>
                     <h4 className="text-lg font-bold">Livraison Rapide</h4>
-                    <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Recevez vos documents traduits par email ou courrier.</p>
+                    <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Réception en <strong>PDF certifié haute définition</strong> par email + exemplaire original papier officiel envoyé par courrier postal.</p>
                   </div>
                 </div>
               </div>

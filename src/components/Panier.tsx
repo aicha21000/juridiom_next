@@ -38,6 +38,7 @@ interface CartItem {
   }>;
   sessionId?: string;
   documentType?: string;
+  urgency?: string;
 }
 
 const DELIVERY_LABELS: Record<string, string> = {
@@ -261,6 +262,15 @@ const Panier = () => {
                       </span>
                     </div>
                   )}
+
+                  <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800/50">
+                    <span className="opacity-70 flex items-center gap-1.5">
+                      <FaBolt className="text-xs text-amber-500" /> Délai de traitement :
+                    </span>
+                    <span className="font-semibold text-right">
+                      {item.urgency === "express" ? "⚡ Express (< 12h / Jour même)" : "🟢 Standard (24h - 48h)"}
+                    </span>
+                  </div>
 
                   <div className="flex justify-between py-2 border-b border-gray-100 dark:border-gray-800/50">
                     <span className="opacity-70 flex items-center gap-1.5">

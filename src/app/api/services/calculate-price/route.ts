@@ -26,16 +26,24 @@ const LEGALIZATION_TYPES = [
     { id: "consulate", name: "Consulat et ambassade", price: 80 }
 ];
 
-const calculatePrice = (numberOfPages: number, deliveryMethod: string, legalization: string, numberOfDocuments = 1, documentType?: string) => {
+const calculatePrice = (
+    numberOfPages: number,
+    deliveryMethod: string,
+    legalization: string,
+    numberOfDocuments = 1,
+    documentType?: string,
+    urgency?: string
+) => {
     const basePricePerPage = getBasePricePerPage(numberOfPages, documentType);
     const deliveryPrice = DELIVERY_METHODS.find(method => method.id === deliveryMethod)?.price || 0;
     const legalizationPrice = LEGALIZATION_TYPES.find(type => type.id === legalization)?.price || 0;
-    return (basePricePerPage * numberOfPages + deliveryPrice + (legalizationPrice * numberOfDocuments));
+    const urgencyPrice = urgency === 'express' ? 15 : 0;
+    return (basePricePerPage * numberOfPages + deliveryPrice + (legalizationPrice * numberOfDocuments) + urgencyPrice);
 };
 
 export async function POST(req: Request) {
     try {
-        const { numberOfPages, deliveryMethod, legalization, numberOfDocuments, documentType } = await req.json();
+        const { numberOfPages, deliveryMethod, legalization, numberOfDocuments, documentType, urgency } = await req.json();
 
         if (!numberOfPages || isNaN(numberOfPages) || numberOfPages <= 0) {
             return NextResponse.json({ message: "Le nombre de pages doit être valide." }, { status: 400 });
@@ -45,7 +53,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "Veuillez choisir une méthode de livraison et une légalisation." }, { status: 400 });
         }
 
-        const totalPrice = calculatePrice(numberOfPages, deliveryMethod, legalization, numberOfDocuments || 1, documentType);
+        const totalPrice = calculatePrice(numberOfPages, deliveryMethod, legalization, numberOfDocuments || 1, documentType, urgency);
         return NextResponse.json({ totalPrice });
     } catch (err) {
         console.error("❌ Erreur dans /calculate-price :", err);

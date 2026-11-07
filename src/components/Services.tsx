@@ -61,6 +61,7 @@ interface Service {
   comment?: string;
   files?: Array<{ name: string; url: string; path: string }>;
   documentType?: "standard" | "permis" | "casier";
+  urgency?: "standard" | "express";
 }
 
 interface DeliveryMethod {
@@ -87,6 +88,7 @@ const Services = () => {
   const [selectedDelivery, setSelectedDelivery] = useState("email");
   const [selectedLegalization, setSelectedLegalization] = useState("none");
   const [documentType, setDocumentType] = useState<"standard" | "permis" | "casier">("standard");
+  const [urgency, setUrgency] = useState<"standard" | "express">("standard");
   const [numberOfPages, setNumberOfPages] = useState(1);
   const [numberOfDocuments, setNumberOfDocuments] = useState(1);
   const [totalPrice, setTotalPrice] = useState(30);
@@ -201,6 +203,7 @@ const Services = () => {
             legalization: selectedLegalization,
             numberOfDocuments,
             documentType,
+            urgency,
           }),
         });
         const data = await response.json();
@@ -211,7 +214,7 @@ const Services = () => {
     };
 
     calculateTotalPrice();
-  }, [numberOfPages, selectedDelivery, selectedLegalization, numberOfDocuments, documentType]);
+  }, [numberOfPages, selectedDelivery, selectedLegalization, numberOfDocuments, documentType, urgency]);
 
   const handleNumberOfPagesChange = (value: number) => {
     if (value < numberOfDocuments) {
@@ -336,6 +339,7 @@ const Services = () => {
       files: uploadedFiles,
       sessionId: sessionIdRef.current,
       documentType,
+      urgency,
     };
 
     const updatedCart = [...cart];
@@ -602,6 +606,54 @@ const Services = () => {
               </div>
             </div>
 
+            {/* Vitesse / Délai de traitement — Suggestion #6 */}
+            <div className={`p-8 rounded-2xl shadow-sm border transition-all duration-300 hover:shadow-md ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-100"}`}>
+              <div className="flex items-center mb-4">
+                <FaBolt className={`mr-3 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />
+                <h2 className="text-xl font-bold">Délai de traitement souhaité</h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button
+                  type="button"
+                  onClick={() => setUrgency("standard")}
+                  className={`p-4 rounded-xl border text-left transition-all ${
+                    urgency === "standard"
+                      ? "border-green-600 bg-green-50/70 dark:bg-green-950/40 text-green-800 dark:text-green-200 ring-2 ring-green-600 shadow-xs"
+                      : isDarkMode
+                        ? "border-gray-700 bg-gray-800/80 hover:border-gray-600"
+                        : "border-gray-200 bg-gray-50/50 hover:border-gray-300"
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-bold text-sm">🟢 Standard (24h - 48h)</span>
+                    <span className="text-xs font-semibold text-green-600 dark:text-green-400">Inclus (0 €)</span>
+                  </div>
+                  <p className="text-xs opacity-75">Traitement soigné et livraison sous 24 à 48h ouvrées.</p>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setUrgency("express")}
+                  className={`p-4 rounded-xl border text-left transition-all relative ${
+                    urgency === "express"
+                      ? "border-amber-600 bg-amber-50/70 dark:bg-amber-950/40 text-amber-900 dark:text-amber-200 ring-2 ring-amber-600 shadow-xs"
+                      : isDarkMode
+                        ? "border-gray-700 bg-gray-800/80 hover:border-gray-600"
+                        : "border-gray-200 bg-gray-50/50 hover:border-gray-300"
+                  }`}
+                >
+                  <span className="absolute -top-2.5 right-2 px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-500 text-gray-950 shadow-xs">
+                    Priorité Absolue
+                  </span>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-bold text-sm">⚡ Express (&lt; 12h / Jour même)</span>
+                    <span className="text-xs font-bold text-amber-600 dark:text-amber-400">+15 €</span>
+                  </div>
+                  <p className="text-xs opacity-75">Traitement d&apos;urgence le jour même pour vos impératifs immédiats.</p>
+                </button>
+              </div>
+            </div>
+
             {/* Email Section (if needed) */}
             <div className={`p-8 rounded-2xl shadow-sm border transition-all duration-300 hover:shadow-md ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-100"}`}>
               <div className="flex items-center mb-6">
@@ -623,7 +675,7 @@ const Services = () => {
               />
             </div>
 
-            {/* Files Upload */}
+            {/* Files Upload — Suggestion #4 : Expérience pensée pour smartphone */}
             <div className={`p-8 rounded-2xl shadow-sm border transition-all duration-300 hover:shadow-md ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-100"}`}>
               <div className="flex items-center mb-6">
                 <FaCloudUploadAlt className={`mr-3 text-2xl ${isDarkMode ? "text-blue-400" : "text-blue-600"}`} />
@@ -642,9 +694,25 @@ const Services = () => {
                 />
                 <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center">
                   <FaCloudUploadAlt className="text-4xl mb-3 opacity-50" />
-                  <span className="font-semibold text-lg">Cliquez pour ajouter des fichiers</span>
-                  <span className="text-sm opacity-70 mt-1">PDF, PNG, JPG acceptés</span>
+                  <span className="font-semibold text-lg">Cliquez pour ajouter vos documents</span>
+                  <span className="inline-block mt-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                    📱 Pas de scanner ? Une simple photo nette avec votre smartphone suffit !
+                  </span>
+                  <span className="text-xs opacity-60 mt-1">PDF, PNG, JPG acceptés</span>
                 </label>
+              </div>
+
+              {/* WhatsApp direct shortcut */}
+              <div className="mt-4 pt-3 border-t border-dashed border-gray-200 dark:border-gray-800 text-center">
+                <span className="text-xs opacity-70">Vous préférez envoyer directement les photos ?</span>
+                <a
+                  href="https://wa.me/33669151216?text=Bonjour%20Ma%C3%AEtre%20Salhi,%20voici%20les%20photos%20de%20mes%20documents%20%C3%A0%20traduire."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-2 inline-flex items-center gap-1 text-xs font-bold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 hover:underline"
+                >
+                  💬 Envoyer par WhatsApp →
+                </a>
               </div>
 
               {/* File List */}
@@ -727,6 +795,15 @@ const Services = () => {
                     <div className="font-bold">{legalizationTypes.find(l => l.id === selectedLegalization)?.name}</div>
                     <div className="text-sm opacity-60">
                       +{legalizationTypes.find(l => l.id === selectedLegalization)?.price}€
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-gray-800">
+                  <span className="opacity-80">Délai</span>
+                  <div className="text-right">
+                    <div className="font-bold">{urgency === "express" ? "⚡ Express (< 12h)" : "🟢 Standard (24h-48h)"}</div>
+                    <div className="text-sm opacity-60">
+                      {urgency === "express" ? "+15€" : "Inclus"}
                     </div>
                   </div>
                 </div>
