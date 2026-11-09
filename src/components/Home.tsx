@@ -141,7 +141,7 @@ const Home = () => {
               ✨ Traductrice Assermentée près la Cour d'Appel de Dijon
             </span>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-300 dark:border-amber-700 shadow-sm">
-              ⚡ Traduction réalisée en 24h
+              ⚡ Délai habituel : 24h à 48h
             </span>
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
@@ -153,13 +153,13 @@ const Home = () => {
           </h2>
           <p className={`text-lg md:text-xl max-w-3xl mx-auto mb-4 leading-relaxed ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
             Des traductions précises et reconnues pour vos documents officiels, juridiques et commerciaux.
-            Traduction réalisée en 24 heures, confidentialité et excellence linguistique garanties.
+            Délai habituel de 24 à 48 heures, confidentialité et excellence linguistique garanties.
           </p>
           <p className={`text-base max-w-3xl mx-auto mb-6 leading-relaxed ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>
             Mon bureau d'accueil principal est situé au Centre d'Affaires Regus à Longvic, idéalement positionné pour recevoir les clients de Dijon et de toute la métropole dijonnaise.
           </p>
 
-          
+
           {/* Mention discrète des tarifs et dégressivité dans le Hero */}
           <div className="inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 mb-8 rounded-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/80 dark:border-gray-800 shadow-xs text-xs sm:text-sm">
             <span className="inline-flex items-center gap-1 font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full text-xs border border-emerald-200 dark:border-emerald-800">
@@ -172,7 +172,7 @@ const Home = () => {
               📉 Dégressif jusqu'à 20 €
             </span>
           </div>
-<div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
               href="/services"
               onClick={handleOrderClick}
@@ -191,7 +191,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 🏛️ Bandeau d'administrations — Garantie conformité 100% */}
+      {/* 🏛️ Bandeau d'administrations — Conformité institutionnelle */}
       <div className={`py-6 border-y ${isDarkMode ? "bg-gray-900/70 border-gray-800" : "bg-white border-gray-200"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-4 text-center lg:text-left">
@@ -200,8 +200,8 @@ const Home = () => {
                 ✓
               </div>
               <div>
-                <p className="font-extrabold text-sm sm:text-base">Garantie 100% Accepté par les administrations</p>
-                <p className="text-xs opacity-70">Traductions officielles certifiées conformes valables en France et à l&apos;international</p>
+                <p className="font-extrabold text-sm sm:text-base">Traductions reconnues par les institutions françaises</p>
+                <p className="text-xs opacity-70">Experte judiciaire inscrite près la Cour d&apos;Appel de Dijon – traductions certifiées conformes</p>
               </div>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-semibold">
@@ -226,7 +226,7 @@ const Home = () => {
               Quel document souhaitez-vous faire traduire ?
             </h2>
             <p className="text-base opacity-75">
-              Sélectionnez votre document pour une traduction certifiée conforme par une traductrice assermentée officielle, reconnue par toutes les préfectures et administrations.
+              Sélectionnez votre document pour une traduction certifiée conforme par une traductrice assermentée officielle.
             </p>
           </div>
 
@@ -387,7 +387,7 @@ const Home = () => {
                   <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300 font-bold">Légale</span>
                 </h3>
                 <p className="text-xs opacity-75 leading-relaxed">
-                  Chaque exemplaire est signé personnellement par Maître Aicha Salhi, engageant sa responsabilité juridique d&apos;experte assermentée.
+                  Chaque exemplaire est signé personnellement par le traducteur, engageant sa responsabilité juridique d&apos;expert assermenté.
                 </p>
               </div>
 
