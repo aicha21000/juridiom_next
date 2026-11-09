@@ -1,60 +1,24 @@
 import { NextResponse } from 'next/server';
-
-const getBasePricePerPage = (numberOfPages: number, documentType?: string): number => {
-    // Tarif spécial fixé à 25 € pour le permis de conduire et le casier judiciaire
-    if (documentType === 'permis' || documentType === 'casier') {
-        return 25;
-    }
-    if (numberOfPages >= 10) return 20;
-    if (numberOfPages >= 3) return 25;
-    return 30;
-};
-
-const DELIVERY_METHODS = [
-    { id: "email", name: "Email", price: 0 },
-    { id: "standard", name: "Livraison standard", price: 10 },
-    { id: "priority", name: "Livraison prioritaire", price: 15 },
-    { id: "international", name: "Livraison à l'étranger", price: 20 },
-    { id: "dhl", name: "Livraison DHL", price: 100 }
-];
-
-const LEGALIZATION_TYPES = [
-    { id: "none", name: "Aucune légalisation", price: 0 },
-    { id: "mairie", name: "Mairie", price: 20 },
-    { id: "chamberOfCommerce", name: "Chambre de commerce", price: 50 },
-    { id: "foreignAffairs", name: "Ministère des Affaires étrangères", price: 40 },
-    { id: "consulate", name: "Consulat et ambassade", price: 80 }
-];
-
-const calculatePrice = (
-    numberOfPages: number,
-    deliveryMethod: string,
-    legalization: string,
-    numberOfDocuments = 1,
-    documentType?: string,
-    urgency?: string
-) => {
-    const basePricePerPage = getBasePricePerPage(numberOfPages, documentType);
-    const deliveryPrice = DELIVERY_METHODS.find(method => method.id === deliveryMethod)?.price || 0;
-    const legalizationPrice = LEGALIZATION_TYPES.find(type => type.id === legalization)?.price || 0;
-    const urgencyPrice = urgency === 'express' ? 15 : 0;
-    return (basePricePerPage * numberOfPages + deliveryPrice + (legalizationPrice * numberOfDocuments) + urgencyPrice);
-};
+import { calculateOrderPrice } from '../../../../utils/pricing';
 
 export async function POST(req: Request) {
     try {
-        const { numberOfPages, deliveryMethod, legalization, numberOfDocuments, documentType, urgency } = await req.json();
+        const body = await req.json();
+        const { numberOfPages, deliveryMethod, legalization, numberOfDocuments, documentType, urgency } = body;
 
-        if (!numberOfPages || isNaN(numberOfPages) || numberOfPages <= 0) {
-            return NextResponse.json({ message: "Le nombre de pages doit être valide." }, { status: 400 });
-        }
+        const breakdown = calculateOrderPrice({
+            documentType,
+            numberOfPages: Number(numberOfPages) || 1,
+            numberOfDocuments: Number(numberOfDocuments) || 1,
+            deliveryMethod: deliveryMethod || 'email',
+            legalization: legalization || 'none',
+            urgency: urgency || 'standard'
+        });
 
-        if (!deliveryMethod || !legalization) {
-            return NextResponse.json({ message: "Veuillez choisir une méthode de livraison et une légalisation." }, { status: 400 });
-        }
-
-        const totalPrice = calculatePrice(numberOfPages, deliveryMethod, legalization, numberOfDocuments || 1, documentType, urgency);
-        return NextResponse.json({ totalPrice });
+        return NextResponse.json({
+            totalPrice: breakdown.totalPrice,
+            breakdown
+        });
     } catch (err) {
         console.error("❌ Erreur dans /calculate-price :", err);
         return NextResponse.json({ message: "Erreur lors du calcul du prix." }, { status: 500 });

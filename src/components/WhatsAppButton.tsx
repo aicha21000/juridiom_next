@@ -4,7 +4,7 @@ import React from "react";
 const WhatsAppButton = () => {
   const phone = "33669151216";
   const message = encodeURIComponent(
-    "Bonjour Maître Salhi, je souhaite obtenir un devis / des informations pour une traduction assermentée arabe-français."
+    "Bonjour Mme Salhi, je souhaite obtenir des informations pour une traduction assermentée arabe-français."
   );
 
   return (

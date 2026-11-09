@@ -243,8 +243,8 @@ const Home = () => {
               </div>
               <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
                 <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">25 €</span>
-                <Link href="/services" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
-                  Commander en 1 clic →
+                <Link href="/services?doc=permis" className="text-xs font-bold text-[#ba1728] hover:underline flex items-center gap-1">
+                  Faire traduire →
                 </Link>
               </div>
             </div>
@@ -261,8 +261,8 @@ const Home = () => {
               </div>
               <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
                 <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">25 €</span>
-                <Link href="/services" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
-                  Commander en 1 clic →
+                <Link href="/services?doc=casier" className="text-xs font-bold text-[#ba1728] hover:underline flex items-center gap-1">
+                  Faire traduire →
                 </Link>
               </div>
             </div>
@@ -279,8 +279,8 @@ const Home = () => {
                   <span className="text-xs opacity-60 block">Dès</span>
                   <span className="text-2xl font-black text-red-600 dark:text-red-400">30 € <span className="text-xs font-normal">/ page</span></span>
                 </div>
-                <Link href="/services" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
-                  Calculer le devis →
+                <Link href="/services?doc=acte_naissance" className="text-xs font-bold text-[#ba1728] hover:underline flex items-center gap-1">
+                  Faire traduire →
                 </Link>
               </div>
             </div>
@@ -297,8 +297,8 @@ const Home = () => {
                   <span className="text-xs opacity-60 block">Dès</span>
                   <span className="text-2xl font-black text-red-600 dark:text-red-400">30 € <span className="text-xs font-normal">/ page</span></span>
                 </div>
-                <Link href="/services" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
-                  Calculer le devis →
+                <Link href="/services?doc=diplome" className="text-xs font-bold text-[#ba1728] hover:underline flex items-center gap-1">
+                  Faire traduire →
                 </Link>
               </div>
             </div>
@@ -315,8 +315,8 @@ const Home = () => {
                   <span className="text-xs opacity-60 block">Tarif dégressif</span>
                   <span className="text-2xl font-black text-red-600 dark:text-red-400">dès 20 € <span className="text-xs font-normal">/ page</span></span>
                 </div>
-                <Link href="/services" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
-                  Calculer le devis →
+                <Link href="/services?doc=jugement_divorce" className="text-xs font-bold text-[#ba1728] hover:underline flex items-center gap-1">
+                  Faire traduire →
                 </Link>
               </div>
             </div>
@@ -413,7 +413,7 @@ const Home = () => {
                   <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 font-bold">PDF + Papier</span>
                 </h3>
                 <p className="text-xs opacity-75 leading-relaxed">
-                  Réception immédiate en <strong>PDF certifié haute définition</strong> par email + original papier envoyé par voie postale à domicile.
+                  Délivrance au format <strong>PDF certifié haute définition</strong> par email et expédition de l'original papier officiel à domicile.
                 </p>
               </div>
             </div>
@@ -551,24 +551,24 @@ const Home = () => {
         </section>
       </LazySection>
 
-      {/* Stats Section */}
+      {/* Repères Institutionnels */}
       <div className={`py-12 border-y ${isDarkMode ? "bg-gray-950 border-gray-800" : "bg-white border-gray-100"}`}>
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
-            <div className="text-4xl font-extrabold text-red-600 mb-2">100%</div>
-            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Clients Satisfaits</div>
+            <div className="text-3xl font-extrabold text-[#ba1728] mb-1">Cour d'Appel</div>
+            <div className={`text-xs sm:text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Experte Judiciaire Assermentée</div>
           </div>
           <div>
-            <div className="text-4xl font-extrabold text-blue-600 mb-2">500+</div>
-            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Projets Réalisés</div>
+            <div className="text-3xl font-extrabold text-amber-500 mb-1">5.0 / 5 ★</div>
+            <div className={`text-xs sm:text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>18 Avis Vérifiés Google</div>
           </div>
           <div>
-            <div className="text-4xl font-extrabold text-emerald-600 mb-2">24h</div>
-            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Délais Moyens</div>
+            <div className="text-3xl font-extrabold text-emerald-600 mb-1">Double Format</div>
+            <div className={`text-xs sm:text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>PDF Certifié &amp; Original Papier</div>
           </div>
           <div>
-            <div className="text-4xl font-extrabold text-purple-600 mb-2">10+</div>
-            <div className={`text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Années d'Expérience</div>
+            <div className="text-3xl font-extrabold text-slate-700 dark:text-slate-300 mb-1">Arabe ⇄ Français</div>
+            <div className={`text-xs sm:text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Combinaison Linguistique Officielle</div>
           </div>
         </div>
       </div>
@@ -643,14 +643,14 @@ const Home = () => {
 
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="text-center lg:text-left max-w-2xl">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-400 text-red-950 font-extrabold text-xs uppercase tracking-wider rounded-full mb-4 shadow-sm">
-                <FaTag /> Offre Tarif Dégressif
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 text-white font-bold text-xs uppercase tracking-wider rounded-full mb-4">
+                <FaTag /> Barème Tarifaire Officiel
               </span>
-              <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-3">
-                Plus vous traduisez, moins vous payez !
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
+                Tarification claire &amp; dégressive
               </h2>
-              <p className="text-red-100 text-base sm:text-lg mb-6 leading-relaxed">
-                Traductions certifiées conformes par une <strong>traductrice assermentée</strong> près la Cour d'Appel. <strong>Traduction réalisée en 24 heures</strong>. Profitez de nos tarifs avantageux (dont <strong>forfait spécial à 25 € pour le permis de conduire et le casier judiciaire</strong>) :
+              <p className="text-red-100 text-base mb-6 leading-relaxed">
+                Traductions certifiées conformes par une traductrice assermentée près la Cour d&apos;Appel. Forfait fixe à 25 € pour le permis de conduire et le casier judiciaire, et barème dégressif selon le nombre de pages :
               </p>
 
               {/* Price Cards */}
@@ -659,14 +659,13 @@ const Home = () => {
                   <span className="text-xs uppercase font-semibold text-red-200">1 à 2 pages</span>
                   <div className="text-2xl font-extrabold mt-1">30 € <span className="text-xs font-normal text-red-200">/ page</span></div>
                 </div>
-                <div className="bg-white/20 backdrop-blur-md border border-amber-300/40 rounded-2xl p-4 flex flex-col justify-between relative shadow-lg">
-                  <span className="absolute -top-3 right-3 bg-amber-400 text-red-950 font-bold text-[10px] px-2 py-0.5 rounded-full uppercase">Populaire</span>
-                  <span className="text-xs uppercase font-semibold text-amber-200">À partir de 3 pages</span>
-                  <div className="text-2xl font-extrabold mt-1 text-amber-300">25 € <span className="text-xs font-normal text-amber-100">/ page</span></div>
+                <div className="bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-4 flex flex-col justify-between relative shadow-lg">
+                  <span className="text-xs uppercase font-semibold text-red-100">À partir de 3 pages</span>
+                  <div className="text-2xl font-extrabold mt-1 text-white">25 € <span className="text-xs font-normal text-red-100">/ page</span></div>
                 </div>
                 <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex flex-col justify-between">
                   <span className="text-xs uppercase font-semibold text-red-200">À partir de 10 pages</span>
-                  <div className="text-2xl font-extrabold mt-1 text-emerald-300">20 € <span className="text-xs font-normal text-red-200">/ page</span></div>
+                  <div className="text-2xl font-extrabold mt-1 text-emerald-200">20 € <span className="text-xs font-normal text-red-200">/ page</span></div>
                 </div>
               </div>
             </div>
@@ -675,12 +674,11 @@ const Home = () => {
               <Link
                 href="/services"
                 onClick={handleOrderClick}
-                className="w-full sm:w-auto text-center px-8 py-4 bg-amber-400 hover:bg-amber-300 text-red-950 font-extrabold text-lg rounded-2xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3"
+                className="w-full sm:w-auto text-center px-8 py-4 bg-white text-red-800 hover:bg-gray-100 font-extrabold text-base rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3"
               >
-                <span>Calculer mon devis</span>
+                <span>Accéder au formulaire de commande</span>
                 <FaArrowRight />
               </Link>
-              <span className="text-xs text-red-200 mt-3 text-center">✨ Estimation et commande immédiate</span>
             </div>
           </div>
         </div>
