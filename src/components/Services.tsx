@@ -29,7 +29,6 @@ import {
   FaLock,
   FaShieldAlt,
   FaGavel,
-  FaCamera,
   FaLightbulb,
   FaEdit,
   FaCheckCircle,
@@ -184,11 +183,10 @@ function ServicesContent() {
     };
   }, [uploadedFiles]);
 
-  // Si le type sélectionné est forfaitaire (permis ou casier), forcer les pages à 1
   const selectedDocConfig = DOCUMENT_TYPES.find((d) => d.id === documentType) || DOCUMENT_TYPES[0];
   const isFlatRate = !!selectedDocConfig.isFlatRate;
 
-  // Calcul du prix en temps réel via la source unique de vérité
+  // Calcul transparent certifié
   const breakdown: DetailedPriceBreakdown = calculateOrderPrice({
     documentType,
     numberOfPages: isFlatRate ? 1 : numberOfPages,
@@ -269,7 +267,7 @@ function ServicesContent() {
     }
     if (step === 2) {
       if (!isFlatRate && (numberOfPages < 1 || isNaN(numberOfPages))) {
-        setErrorMessage("Veuillez indiquer un nombre de pages valide (minimum 1).");
+        setErrorMessage("Veuillez indiquer un nombre de pages valide.");
         return false;
       }
       if (!mailClient.trim()) {
@@ -289,7 +287,7 @@ function ServicesContent() {
     if (validateStep(currentStep)) {
       if (currentStep < 4) {
         setCurrentStep((prev) => (prev + 1) as any);
-        window.scrollTo({ top: 120, behavior: "smooth" });
+        window.scrollTo({ top: 100, behavior: "smooth" });
       }
     }
   };
@@ -298,7 +296,7 @@ function ServicesContent() {
     setErrorMessage("");
     if (currentStep > 1) {
       setCurrentStep((prev) => (prev - 1) as any);
-      window.scrollTo({ top: 120, behavior: "smooth" });
+      window.scrollTo({ top: 100, behavior: "smooth" });
     }
   };
 
@@ -334,38 +332,36 @@ function ServicesContent() {
     router.push("/panier");
   };
 
-  // Navigation des étapes
   const steps = [
-    { number: 1, title: "Type de document" },
-    { number: 2, title: "Document & Données" },
-    { number: 3, title: "Options & Tarifs" },
+    { number: 1, title: "Nature du document" },
+    { number: 2, title: "Fichiers & Coordonnées" },
+    { number: 3, title: "Options de délivrance" },
     { number: 4, title: "Récapitulatif" },
   ];
 
   return (
-    <div className={`min-h-screen py-12 transition-colors duration-300 ${isDarkMode ? "bg-gray-950 text-gray-100" : "bg-gray-50 text-gray-800"}`}>
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className={`min-h-screen py-12 transition-colors duration-300 ${isDarkMode ? "bg-gray-950 text-gray-100" : "bg-white text-gray-900"}`}>
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* En-tête sobre et institutionnel */}
+        {/* En-tête sobre et digne */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-[#ba1728] bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 mb-3">
-            <span>Cabinet d&apos;expertise judiciaire • Cour d&apos;Appel de Dijon</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-[#ba1728] bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/40 mb-3">
+            <span>Experte Judiciaire • Cour d&apos;Appel de Dijon</span>
           </div>
-          <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight mb-3 ${isDarkMode ? "text-white" : "text-[#1d1d1b]"}`}>
-            Commande de Traduction Assermentée
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
+            Demande de Traduction Certifiée Conforme
           </h1>
-          <p className="text-sm sm:text-base opacity-75 max-w-2xl mx-auto">
-            Parcours officiel et transparent en 4 étapes pour la traduction certifiée de vos documents (Arabe ⇄ Français).
+          <p className="text-xs sm:text-sm opacity-70 max-w-xl mx-auto leading-relaxed">
+            Configurez votre dossier en 4 étapes simples. Chaque traduction officielle est délivrée sous la responsabilité personnelle d&apos;Aicha Salhi.
           </p>
         </div>
 
-        {/* Indicateur de progression (Stepper) */}
-        <nav aria-label="Progression de la commande" className="mb-12">
-          <div className="flex items-center justify-between max-w-3xl mx-auto relative">
-            {/* Ligne d'arrière-plan */}
-            <div className="absolute top-5 left-8 right-8 h-0.5 bg-gray-200 dark:bg-gray-800 -z-0" />
+        {/* Indicateur de progression (Stepper sobre et fin) */}
+        <nav aria-label="Progression de la commande" className="mb-10">
+          <div className="flex items-center justify-between max-w-2xl mx-auto relative">
+            <div className="absolute top-4 left-6 right-6 h-0.5 bg-gray-200 dark:bg-gray-800 -z-0" />
             <div
-              className="absolute top-5 left-8 h-0.5 bg-[#ba1728] transition-all duration-500 -z-0"
+              className="absolute top-4 left-6 h-0.5 bg-[#ba1728] transition-all duration-300 -z-0"
               style={{ width: `${((currentStep - 1) / (steps.length - 1)) * 92}%` }}
             />
 
@@ -381,24 +377,24 @@ function ServicesContent() {
                         setCurrentStep(s.number as any);
                       }
                     }}
-                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all ${
                       isPassed
-                        ? "bg-[#ba1728] text-white shadow-md shadow-red-900/20"
+                        ? "bg-[#ba1728] text-white"
                         : isCurrent
-                        ? "bg-[#ba1728] text-white ring-4 ring-red-100 dark:ring-red-950/60 shadow-lg"
+                        ? "bg-[#ba1728] text-white ring-4 ring-red-50 dark:ring-red-950/50"
                         : isDarkMode
                         ? "bg-gray-900 text-gray-500 border border-gray-800"
-                        : "bg-white text-gray-400 border border-gray-200 shadow-sm"
+                        : "bg-white text-gray-400 border border-gray-200"
                     }`}
                   >
-                    {isPassed ? <FaCheck className="text-xs" /> : s.number}
+                    {isPassed ? <FaCheck className="text-[10px]" /> : s.number}
                   </button>
                   <span
-                    className={`mt-2 text-xs font-semibold text-center hidden sm:block ${
+                    className={`mt-1.5 text-[11px] font-medium text-center hidden sm:block ${
                       isCurrent
                         ? "text-[#ba1728] font-bold"
                         : isPassed
-                        ? isDarkMode ? "text-gray-200" : "text-gray-700"
+                        ? isDarkMode ? "text-gray-300" : "text-gray-700"
                         : "text-gray-400"
                     }`}
                   >
@@ -410,36 +406,34 @@ function ServicesContent() {
           </div>
         </nav>
 
-        {/* Message d'erreur s'il y a lieu */}
+        {/* Message d'erreur éventuel */}
         {errorMessage && (
-          <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm flex items-center gap-3 animate-fade-in">
+          <div className="mb-6 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-xs flex items-center gap-2.5">
             <FaInfoCircle className="flex-shrink-0" />
             <span>{errorMessage}</span>
           </div>
         )}
 
-        {/* Corps des étapes */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-          {/* Colonne Principale (8 colonnes sur grand écran) */}
+          {/* Colonne Principale (8/12) */}
           <div className="lg:col-span-8">
 
             {/* ============================================================ */}
-            {/* ÉTAPE 1 : TYPE DE DOCUMENT                                  */}
+            {/* ÉTAPE 1 : NATURE DU DOCUMENT                                 */}
             {/* ============================================================ */}
             {currentStep === 1 && (
-              <section className={`p-6 sm:p-8 rounded-3xl border ${isDarkMode ? "bg-gray-900/80 border-gray-800" : "bg-white border-gray-200"} shadow-sm`}>
+              <section className={`p-6 sm:p-7 rounded-2xl border ${isDarkMode ? "bg-gray-900/60 border-gray-800" : "bg-white border-gray-200"} shadow-xs`}>
                 <div className="mb-6">
-                  <h2 className="text-xl font-bold mb-1 flex items-center gap-2">
-                    <span className="w-7 h-7 rounded-lg bg-[#ba1728] text-white text-xs flex items-center justify-center font-bold">1</span>
-                    <span>Sélectionnez votre type de document</span>
+                  <h2 className="text-lg font-bold mb-1">
+                    1. Sélectionnez la nature de votre document
                   </h2>
-                  <p className="text-xs sm:text-sm opacity-70">
-                    Les tarifs sont clairs et forfaitaires : 25 € pour le permis de conduire et le casier judiciaire, dès 30 € pour les autres actes avec barème dégressif.
+                  <p className="text-xs opacity-70">
+                    Choisissez le document à traduire pour adapter la présentation et la conformité administrative.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   {DOCUMENT_TYPES.map((doc) => {
                     const isSelected = documentType === doc.id;
                     return (
@@ -453,33 +447,22 @@ function ServicesContent() {
                           }
                           setErrorMessage("");
                         }}
-                        className={`cursor-pointer p-4 rounded-2xl border-2 transition-all duration-200 relative flex flex-col justify-between ${
+                        className={`cursor-pointer p-4 rounded-xl border transition-all duration-150 flex flex-col justify-between ${
                           isSelected
-                            ? "border-[#ba1728] bg-red-50/40 dark:bg-red-950/20 shadow-md ring-1 ring-[#ba1728]"
+                            ? "border-[#ba1728] bg-red-50/20 dark:bg-red-950/20 shadow-xs"
                             : isDarkMode
-                            ? "border-gray-800 bg-gray-900/60 hover:border-gray-700 hover:bg-gray-800/40"
-                            : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50/60"
+                            ? "border-gray-800 bg-gray-900/40 hover:border-gray-700"
+                            : "border-gray-200 bg-white hover:border-gray-300"
                         }`}
                       >
-                        {doc.isFlatRate && (
-                          <span className="absolute top-3 right-3 text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                            Forfait 25 €
-                          </span>
-                        )}
                         <div>
-                          <div className="text-2xl mb-2">{doc.icon}</div>
-                          <h3 className="font-bold text-sm mb-1">{doc.name}</h3>
-                          <p className="text-xs opacity-70 leading-relaxed mb-3">
+                          <div className="flex items-center gap-2.5 mb-2">
+                            <span className="text-lg">{doc.icon}</span>
+                            <h3 className="font-bold text-sm text-gray-900 dark:text-gray-100">{doc.name}</h3>
+                          </div>
+                          <p className="text-xs opacity-70 leading-relaxed">
                             {doc.description}
                           </p>
-                        </div>
-                        <div className="pt-2 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between text-xs">
-                          <span className="font-semibold text-gray-500">
-                            {doc.isFlatRate ? "Tarif fixe :" : "Tarif standard :"}
-                          </span>
-                          <span className="font-extrabold text-[#ba1728]">
-                            {doc.isFlatRate ? "25 €" : "30 € / page"}
-                          </span>
                         </div>
                       </div>
                     );
@@ -490,67 +473,51 @@ function ServicesContent() {
                   <button
                     type="button"
                     onClick={goToNextStep}
-                    className="px-6 py-3 rounded-xl bg-[#ba1728] hover:bg-[#a01322] text-white font-bold text-sm flex items-center gap-2 shadow-md transition-all duration-200"
+                    className="px-6 py-2.5 rounded-xl bg-[#ba1728] hover:bg-[#a01322] text-white font-semibold text-xs flex items-center gap-2 shadow-xs transition-colors"
                   >
-                    <span>Continuer vers le document</span>
-                    <FaArrowRight className="text-xs" />
+                    <span>Continuer vers les fichiers</span>
+                    <FaArrowRight className="text-[10px]" />
                   </button>
                 </div>
               </section>
             )}
 
             {/* ============================================================ */}
-            {/* ÉTAPE 2 : DOCUMENT ET INFORMATIONS                          */}
+            {/* ÉTAPE 2 : FICHIERS ET COORDONNÉES                           */}
             {/* ============================================================ */}
             {currentStep === 2 && (
-              <section className={`p-6 sm:p-8 rounded-3xl border ${isDarkMode ? "bg-gray-900/80 border-gray-800" : "bg-white border-gray-200"} shadow-sm space-y-6`}>
+              <section className={`p-6 sm:p-7 rounded-2xl border ${isDarkMode ? "bg-gray-900/60 border-gray-800" : "bg-white border-gray-200"} shadow-xs space-y-6`}>
                 <div>
-                  <h2 className="text-xl font-bold mb-1 flex items-center gap-2">
-                    <span className="w-7 h-7 rounded-lg bg-[#ba1728] text-white text-xs flex items-center justify-center font-bold">2</span>
-                    <span>Transmettez votre document et vos coordonnées</span>
+                  <h2 className="text-lg font-bold mb-1">
+                    2. Déposez votre document &amp; vos coordonnées
                   </h2>
-                  <p className="text-xs sm:text-sm opacity-70">
-                    Déposez les scans ou photographies nets de votre document. Une simple photo claire prise au smartphone convient parfaitement.
+                  <p className="text-xs opacity-70">
+                    Document sélectionné : <strong>{selectedDocConfig.name}</strong>. Une photographie nette prise avec votre smartphone convient.
                   </p>
                 </div>
 
-                {/* Consignes pour photographier ou scanner */}
-                <div className={`p-4 rounded-2xl border ${isDarkMode ? "bg-gray-800/50 border-gray-700" : "bg-amber-50/50 border-amber-200"} text-xs leading-relaxed`}>
-                  <div className="font-bold flex items-center gap-2 text-amber-900 dark:text-amber-300 mb-2">
-                    <FaLightbulb />
-                    <span>Conseils pour une prise de vue conforme :</span>
+                {/* Consignes de numérisation discrètes */}
+                <div className={`p-4 rounded-xl border text-xs leading-relaxed ${isDarkMode ? "bg-gray-800/40 border-gray-700 text-gray-300" : "bg-gray-50 border-gray-200 text-gray-700"}`}>
+                  <div className="font-semibold flex items-center gap-1.5 mb-1.5 text-gray-900 dark:text-white">
+                    <FaLightbulb className="text-amber-500" />
+                    <span>Recommandations de prise de vue :</span>
                   </div>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-gray-700 dark:text-gray-300">
-                    <li className="flex items-start gap-1.5">
-                      <span className="text-emerald-500 font-bold">✓</span>
-                      <span>Posez le document bien à plat sur une table bien éclairée.</span>
-                    </li>
-                    <li className="flex items-start gap-1.5">
-                      <span className="text-emerald-500 font-bold">✓</span>
-                      <span>Assurez-vous que les 4 coins et les tampons sont bien visibles.</span>
-                    </li>
-                    <li className="flex items-start gap-1.5">
-                      <span className="text-emerald-500 font-bold">✓</span>
-                      <span>Évitez les reflets de flash et les ombres portées de vos doigts.</span>
-                    </li>
-                    <li className="flex items-start gap-1.5">
-                      <span className="text-emerald-500 font-bold">✓</span>
-                      <span>Formats acceptés : PDF haute définition, JPG, JPEG, PNG.</span>
-                    </li>
-                  </ul>
+                  <p className="opacity-80">
+                    Posez le document bien à plat, veillez à ce que les 4 coins, le texte et les tampons d&apos;origine soient parfaitement lisibles et sans reflets.
+                  </p>
                 </div>
 
-                {/* Zone de téléversement */}
-                <div className="border-2 border-dashed rounded-2xl p-6 text-center transition-colors border-gray-300 dark:border-gray-700 hover:border-[#ba1728]">
-                  <FaCloudUploadAlt className="mx-auto text-4xl text-gray-400 mb-2" />
-                  <p className="text-sm font-semibold mb-1">
-                    Glissez-déposez vos fichiers ici, ou cliquez pour parcourir
+                {/* Zone de téléversement sobre */}
+                <div className="border border-dashed rounded-xl p-6 text-center transition-colors border-gray-300 dark:border-gray-700 hover:border-gray-400">
+                  <FaCloudUploadAlt className="mx-auto text-3xl text-gray-400 mb-2" />
+                  <p className="text-xs font-semibold mb-1">
+                    Glissez vos documents ici, ou parcourez vos fichiers
                   </p>
-                  <p className="text-xs opacity-60 mb-4">
-                    PDF, JPG, JPEG ou PNG (plusieurs fichiers acceptés)
+                  <p className="text-[11px] opacity-60 mb-3">
+                    Formats acceptés : PDF, JPG, JPEG, PNG
                   </p>
-                  <label className="inline-block px-5 py-2.5 rounded-xl bg-[#ba1728] hover:bg-[#a01322] text-white text-xs font-bold cursor-pointer transition-colors shadow-sm">
-                    {uploading ? "Téléversement en cours..." : "Sélectionner mes fichiers"}
+                  <label className="inline-block px-4 py-2 rounded-lg bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs font-semibold cursor-pointer hover:opacity-90 transition-opacity">
+                    {uploading ? "Téléversement en cours..." : "Sélectionner un fichier"}
                     <input
                       type="file"
                       multiple
@@ -562,29 +529,29 @@ function ServicesContent() {
                   </label>
                 </div>
 
-                {/* Liste des fichiers téléversés */}
+                {/* Fichiers ajoutés */}
                 {uploadedFiles.length > 0 && (
-                  <div className="space-y-2">
-                    <span className="text-xs font-bold uppercase tracking-wider opacity-70 block">
-                      Fichiers ajoutés ({uploadedFiles.length}) :
+                  <div className="space-y-1.5">
+                    <span className="text-xs font-semibold text-gray-500 block">
+                      Documents téléversés ({uploadedFiles.length}) :
                     </span>
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       {uploadedFiles.map((file, idx) => (
                         <div
                           key={idx}
-                          className={`flex items-center justify-between p-3 rounded-xl border text-xs ${isDarkMode ? "bg-gray-800/40 border-gray-700" : "bg-gray-50 border-gray-200"}`}
+                          className={`flex items-center justify-between p-2.5 rounded-lg border text-xs ${isDarkMode ? "bg-gray-800/30 border-gray-800" : "bg-gray-50 border-gray-200"}`}
                         >
-                          <div className="flex items-center gap-2.5 truncate pr-2">
-                            <FaFileAlt className="text-[#ba1728] flex-shrink-0" />
+                          <div className="flex items-center gap-2 truncate pr-2">
+                            <FaFileAlt className="text-gray-400 flex-shrink-0" />
                             <span className="font-medium truncate">{file.name}</span>
                           </div>
                           <button
                             type="button"
                             onClick={() => handleDeleteFile(file.path)}
-                            className="text-red-500 hover:text-red-700 p-1 flex-shrink-0 transition-colors"
-                            title="Supprimer ce fichier"
+                            className="text-gray-400 hover:text-red-500 p-1 flex-shrink-0 transition-colors"
+                            title="Supprimer"
                           >
-                            <FaTrash />
+                            <FaTrash className="text-xs" />
                           </button>
                         </div>
                       ))}
@@ -596,39 +563,39 @@ function ServicesContent() {
                 <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <label htmlFor="numberOfPagesInput" className="font-bold text-sm block">
-                        Nombre total de pages à traduire
+                      <label htmlFor="pagesInput" className="font-semibold text-xs block">
+                        Nombre total de pages du document
                       </label>
-                      <p className="text-xs opacity-70">
+                      <p className="text-[11px] opacity-60">
                         {isFlatRate
-                          ? "Forfait officiel fixé à 25 € pour ce document (recto-verso inclus)."
-                          : "1 à 2 pages : 30 €/p • À partir de 3 pages : 25 €/p • Dès 10 pages : 20 €/p."}
+                          ? "Forfait officiel de 25 € applicable pour ce type de document."
+                          : "Tarif dégressif calculé automatiquement selon le volume."}
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       <button
                         type="button"
                         disabled={isFlatRate || numberOfPages <= 1}
                         onClick={() => setNumberOfPages((prev) => Math.max(1, prev - 1))}
-                        className="w-9 h-9 rounded-lg border font-bold flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-800"
+                        className="w-8 h-8 rounded-lg border text-xs font-bold flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-800"
                       >
                         -
                       </button>
                       <input
-                        id="numberOfPagesInput"
+                        id="pagesInput"
                         type="number"
                         min="1"
                         disabled={isFlatRate}
                         value={isFlatRate ? 1 : numberOfPages}
                         onChange={(e) => setNumberOfPages(Math.max(1, parseInt(e.target.value) || 1))}
-                        className="w-16 h-9 text-center font-bold text-sm rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent"
+                        className="w-14 h-8 text-center font-semibold text-xs rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent"
                       />
                       <button
                         type="button"
                         disabled={isFlatRate}
                         onClick={() => setNumberOfPages((prev) => prev + 1)}
-                        className="w-9 h-9 rounded-lg border font-bold flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-800"
+                        className="w-8 h-8 rounded-lg border text-xs font-bold flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-800"
                       >
                         +
                       </button>
@@ -636,40 +603,37 @@ function ServicesContent() {
                   </div>
                 </div>
 
-                {/* Coordonnées : Email */}
+                {/* Email de réception */}
                 <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <label htmlFor="clientEmailInput" className="font-bold text-sm block mb-1">
+                  <label htmlFor="emailInput" className="font-semibold text-xs block mb-1">
                     Adresse email de réception <span className="text-[#ba1728]">*</span>
                   </label>
-                  <p className="text-xs opacity-70 mb-2">
-                    Votre traduction officielle certifiée en PDF haute définition ainsi que votre reçu vous seront envoyés à cette adresse.
+                  <p className="text-[11px] opacity-60 mb-2">
+                    Votre exemplaire numérique certifié et votre reçu d&apos;honoraires vous seront adressés à cette adresse.
                   </p>
                   <input
-                    id="clientEmailInput"
+                    id="emailInput"
                     type="email"
                     value={mailClient}
                     onChange={(e) => setMailClient(e.target.value)}
-                    placeholder="exemple@email.com"
-                    className="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm focus:ring-2 focus:ring-[#ba1728] focus:outline-none"
+                    placeholder="adresse.email@exemple.com"
+                    className="w-full p-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-xs focus:ring-1 focus:ring-gray-400 focus:outline-none"
                     required
                   />
                 </div>
 
-                {/* Instructions / Commentaires */}
+                {/* Instructions particulières */}
                 <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <label htmlFor="clientCommentInput" className="font-bold text-sm block mb-1">
-                    Instructions particulières (facultatif)
+                  <label htmlFor="commentsInput" className="font-semibold text-xs block mb-1">
+                    Observations ou transcription particulière (facultatif)
                   </label>
-                  <p className="text-xs opacity-70 mb-2">
-                    Indiquez par exemple l&apos;orthographe officielle des noms et prénoms selon le passeport si elle diffère du document.
-                  </p>
                   <textarea
-                    id="clientCommentInput"
+                    id="commentsInput"
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    rows={3}
-                    placeholder="Précisions de transcription, urgence spécifique..."
-                    className="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm focus:ring-2 focus:ring-[#ba1728] focus:outline-none"
+                    rows={2}
+                    placeholder="Orthographe exacte des noms d'après le passeport, remarques..."
+                    className="w-full p-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-xs focus:ring-1 focus:ring-gray-400 focus:outline-none"
                   />
                 </div>
 
@@ -678,71 +642,70 @@ function ServicesContent() {
                   <button
                     type="button"
                     onClick={goToPreviousStep}
-                    className="px-5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-bold flex items-center gap-2"
+                    className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-xs font-medium flex items-center gap-1.5"
                   >
-                    <FaArrowLeft className="text-xs" />
+                    <FaArrowLeft className="text-[10px]" />
                     <span>Retour</span>
                   </button>
                   <button
                     type="button"
                     onClick={goToNextStep}
-                    className="px-6 py-3 rounded-xl bg-[#ba1728] hover:bg-[#a01322] text-white font-bold text-sm flex items-center gap-2 shadow-md transition-all duration-200"
+                    className="px-6 py-2.5 rounded-xl bg-[#ba1728] hover:bg-[#a01322] text-white font-semibold text-xs flex items-center gap-2 shadow-xs transition-colors"
                   >
-                    <span>Passer aux options &amp; tarifs</span>
-                    <FaArrowRight className="text-xs" />
+                    <span>Continuer vers les options</span>
+                    <FaArrowRight className="text-[10px]" />
                   </button>
                 </div>
               </section>
             )}
 
             {/* ============================================================ */}
-            {/* ÉTAPE 3 : OPTIONS ET TARIFICATION                            */}
+            {/* ÉTAPE 3 : OPTIONS & MODES DE DÉLIVRANCE                      */}
             {/* ============================================================ */}
             {currentStep === 3 && (
-              <section className={`p-6 sm:p-8 rounded-3xl border ${isDarkMode ? "bg-gray-900/80 border-gray-800" : "bg-white border-gray-200"} shadow-sm space-y-8`}>
+              <section className={`p-6 sm:p-7 rounded-2xl border ${isDarkMode ? "bg-gray-900/60 border-gray-800" : "bg-white border-gray-200"} shadow-xs space-y-6`}>
                 <div>
-                  <h2 className="text-xl font-bold mb-1 flex items-center gap-2">
-                    <span className="w-7 h-7 rounded-lg bg-[#ba1728] text-white text-xs flex items-center justify-center font-bold">3</span>
-                    <span>Modes de délivrance, délais et formalités</span>
+                  <h2 className="text-lg font-bold mb-1">
+                    3. Modes de délivrance et formalités
                   </h2>
-                  <p className="text-xs sm:text-sm opacity-70">
-                    Choisissez votre mode de livraison et le niveau d&apos;urgence adapté à vos démarches administratives.
+                  <p className="text-xs opacity-70">
+                    Sélectionnez le mode de remise de votre traduction ainsi que les éventuelles formalités requises.
                   </p>
                 </div>
 
-                {/* Mode de délivrance / livraison */}
+                {/* Mode de délivrance */}
                 <div>
-                  <label className="font-bold text-sm block mb-3">
-                    Mode de délivrance
+                  <label className="font-semibold text-xs block mb-2.5 text-gray-700 dark:text-gray-300">
+                    Mode d&apos;expédition / Remise du document
                   </label>
-                  <div className="space-y-2.5">
+                  <div className="space-y-2">
                     {DELIVERY_OPTIONS.map((opt) => {
                       const isSelected = selectedDelivery === opt.id;
                       return (
                         <div
                           key={opt.id}
                           onClick={() => setSelectedDelivery(opt.id)}
-                          className={`cursor-pointer p-4 rounded-xl border-2 transition-all flex items-center justify-between ${
+                          className={`cursor-pointer p-3.5 rounded-xl border transition-all flex items-center justify-between ${
                             isSelected
-                              ? "border-[#ba1728] bg-red-50/30 dark:bg-red-950/20 shadow-xs ring-1 ring-[#ba1728]"
+                              ? "border-[#ba1728] bg-red-50/20 dark:bg-red-950/20 shadow-xs"
                               : isDarkMode
-                              ? "border-gray-800 bg-gray-900/50 hover:border-gray-700"
+                              ? "border-gray-800 bg-gray-900/40 hover:border-gray-700"
                               : "border-gray-200 bg-white hover:border-gray-300"
                           }`}
                         >
                           <div>
-                            <div className="font-bold text-sm flex items-center gap-2">
+                            <div className="font-semibold text-xs text-gray-900 dark:text-gray-100 flex items-center gap-2">
                               <span>{opt.name}</span>
                               {opt.price === 0 && (
-                                <span className="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                                  Inclus
+                                <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-medium">
+                                  (Format standard inclus)
                                 </span>
                               )}
                             </div>
-                            <p className="text-xs opacity-70 mt-0.5">{opt.description}</p>
+                            <p className="text-[11px] opacity-60 mt-0.5">{opt.description}</p>
                           </div>
-                          <span className="font-extrabold text-sm ml-4 whitespace-nowrap text-[#ba1728]">
-                            {opt.price === 0 ? "Gratuit" : `+ ${formatEuros(opt.price)}`}
+                          <span className="text-xs font-medium text-gray-600 dark:text-gray-400 ml-4 whitespace-nowrap">
+                            {opt.price === 0 ? "Inclus" : `+ ${formatEuros(opt.price)}`}
                           </span>
                         </div>
                       );
@@ -752,8 +715,8 @@ function ServicesContent() {
 
                 {/* Délai de traitement */}
                 <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <label className="font-bold text-sm block mb-3">
-                    Délai de traitement
+                  <label className="font-semibold text-xs block mb-2.5 text-gray-700 dark:text-gray-300">
+                    Délai de réalisation
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {URGENCY_OPTIONS.map((opt) => {
@@ -762,25 +725,25 @@ function ServicesContent() {
                         <div
                           key={opt.id}
                           onClick={() => setUrgency(opt.id)}
-                          className={`cursor-pointer p-4 rounded-xl border-2 transition-all flex flex-col justify-between ${
+                          className={`cursor-pointer p-3.5 rounded-xl border transition-all flex flex-col justify-between ${
                             isSelected
-                              ? "border-[#ba1728] bg-red-50/30 dark:bg-red-950/20 ring-1 ring-[#ba1728]"
+                              ? "border-[#ba1728] bg-red-50/20 dark:bg-red-950/20 shadow-xs"
                               : isDarkMode
-                              ? "border-gray-800 bg-gray-900/50 hover:border-gray-700"
+                              ? "border-gray-800 bg-gray-900/40 hover:border-gray-700"
                               : "border-gray-200 bg-white hover:border-gray-300"
                           }`}
                         >
                           <div>
                             <div className="flex items-center justify-between mb-1">
-                              <span className="font-bold text-sm">{opt.name}</span>
-                              <span className="text-xs font-bold text-[#ba1728]">
+                              <span className="font-semibold text-xs">{opt.name}</span>
+                              <span className="text-xs text-gray-600 dark:text-gray-400 font-medium">
                                 {opt.price === 0 ? "Inclus" : `+ ${formatEuros(opt.price)}`}
                               </span>
                             </div>
-                            <span className="inline-block text-[11px] font-semibold text-gray-500 mb-1">
+                            <span className="inline-block text-[11px] font-medium text-gray-500 mb-1">
                               {opt.delayText}
                             </span>
-                            <p className="text-xs opacity-70">{opt.description}</p>
+                            <p className="text-[11px] opacity-60">{opt.description}</p>
                           </div>
                         </div>
                       );
@@ -788,23 +751,23 @@ function ServicesContent() {
                   </div>
                 </div>
 
-                {/* Formalités de légalisation (si besoin) */}
+                {/* Légalisation */}
                 <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <div className="flex items-center gap-1.5 mb-2">
-                    <label htmlFor="legalizationSelect" className="font-bold text-sm">
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <label htmlFor="legalSelect" className="font-semibold text-xs text-gray-700 dark:text-gray-300">
                       Formalités de légalisation supplémentaires
                     </label>
-                    <Tooltip text="Exigée uniquement par certaines ambassades étrangères ou pour des démarches internationales spécifiques. Non requise pour la quasi-totalité des démarches administratives en France." />
+                    <Tooltip text="Exigée uniquement par certaines autorités consulaires étrangères pour des pays hors convention. Inutile pour les démarches en France métropolitaine." />
                   </div>
                   <select
-                    id="legalizationSelect"
+                    id="legalSelect"
                     value={selectedLegalization}
                     onChange={(e) => setSelectedLegalization(e.target.value)}
-                    className="w-full p-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent text-sm focus:ring-2 focus:ring-[#ba1728] focus:outline-none"
+                    className="w-full p-2.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-xs focus:ring-1 focus:ring-gray-400 focus:outline-none"
                   >
                     {LEGALIZATION_OPTIONS.map((leg) => (
                       <option key={leg.id} value={leg.id} className={isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}>
-                        {leg.name} {leg.price > 0 ? `(+ ${formatEuros(leg.price)} / doc)` : "(Aucune - démarche courante)"}
+                        {leg.name} {leg.price > 0 ? `(+ ${formatEuros(leg.price)})` : "(Aucune démarche requise)"}
                       </option>
                     ))}
                   </select>
@@ -815,18 +778,18 @@ function ServicesContent() {
                   <button
                     type="button"
                     onClick={goToPreviousStep}
-                    className="px-5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-bold flex items-center gap-2"
+                    className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-xs font-medium flex items-center gap-1.5"
                   >
-                    <FaArrowLeft className="text-xs" />
+                    <FaArrowLeft className="text-[10px]" />
                     <span>Retour</span>
                   </button>
                   <button
                     type="button"
                     onClick={goToNextStep}
-                    className="px-6 py-3 rounded-xl bg-[#ba1728] hover:bg-[#a01322] text-white font-bold text-sm flex items-center gap-2 shadow-md transition-all duration-200"
+                    className="px-6 py-2.5 rounded-xl bg-[#ba1728] hover:bg-[#a01322] text-white font-semibold text-xs flex items-center gap-2 shadow-xs transition-colors"
                   >
-                    <span>Vérifier mon récapitulatif</span>
-                    <FaArrowRight className="text-xs" />
+                    <span>Vérifier le récapitulatif</span>
+                    <FaArrowRight className="text-[10px]" />
                   </button>
                 </div>
               </section>
@@ -836,120 +799,68 @@ function ServicesContent() {
             {/* ÉTAPE 4 : RÉCAPITULATIF                                     */}
             {/* ============================================================ */}
             {currentStep === 4 && (
-              <section className={`p-6 sm:p-8 rounded-3xl border ${isDarkMode ? "bg-gray-900/80 border-gray-800" : "bg-white border-gray-200"} shadow-sm space-y-6`}>
+              <section className={`p-6 sm:p-7 rounded-2xl border ${isDarkMode ? "bg-gray-900/60 border-gray-800" : "bg-white border-gray-200"} shadow-xs space-y-5`}>
                 <div>
-                  <h2 className="text-xl font-bold mb-1 flex items-center gap-2">
-                    <span className="w-7 h-7 rounded-lg bg-[#ba1728] text-white text-xs flex items-center justify-center font-bold">4</span>
-                    <span>Vérification de votre commande avant validation</span>
+                  <h2 className="text-lg font-bold mb-1">
+                    4. Synthèse de votre demande
                   </h2>
-                  <p className="text-xs sm:text-sm opacity-70">
-                    Vérifiez l&apos;exactitude des informations. Vous pouvez modifier chaque section d&apos;un simple clic.
+                  <p className="text-xs opacity-70">
+                    Vérifiez les données saisies avant de valider votre commande.
                   </p>
                 </div>
 
-                {/* Bloc 1 : Document et Volume */}
-                <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-800/40 border-gray-700" : "bg-gray-50 border-gray-200"}`}>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Document à traduire</span>
-                    <button
-                      type="button"
-                      onClick={() => setCurrentStep(1)}
-                      className="text-xs text-[#ba1728] hover:underline flex items-center gap-1 font-semibold"
-                    >
-                      <FaEdit /> Modifier
-                    </button>
+                <div className={`p-4 rounded-xl border text-xs space-y-2 ${isDarkMode ? "bg-gray-800/20 border-gray-800" : "bg-gray-50/70 border-gray-200"}`}>
+                  <div className="flex justify-between items-center pb-2 border-b border-gray-200 dark:border-gray-800">
+                    <span className="font-semibold text-gray-500">Document :</span>
+                    <span className="font-bold">{breakdown.documentName} ({breakdown.isFlatRate ? "Forfait" : `${breakdown.numberOfPages} page(s)`})</span>
                   </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="font-bold">{breakdown.documentName}</span>
-                    <span className="text-xs opacity-75">
-                      {breakdown.isFlatRate ? "Forfait officiel 25 €" : `${breakdown.numberOfPages} page(s) • ${breakdown.unitPricePerPage} €/page`}
-                    </span>
+                  <div className="flex justify-between items-center pb-2 border-b border-gray-200 dark:border-gray-800">
+                    <span className="font-semibold text-gray-500">Délivrance :</span>
+                    <span>{breakdown.deliveryName}</span>
                   </div>
-                  <div className="mt-2 text-xs opacity-70">
-                    Combinaison linguistique officielle : <strong>Arabe ⇄ Français</strong>
+                  <div className="flex justify-between items-center pb-2 border-b border-gray-200 dark:border-gray-800">
+                    <span className="font-semibold text-gray-500">Délai :</span>
+                    <span>{breakdown.urgencyName}</span>
+                  </div>
+                  {breakdown.legalizationPrice > 0 && (
+                    <div className="flex justify-between items-center pb-2 border-b border-gray-200 dark:border-gray-800">
+                      <span className="font-semibold text-gray-500">Légalisation :</span>
+                      <span>{breakdown.legalizationName}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold text-gray-500">Email client :</span>
+                    <span className="font-medium">{mailClient}</span>
                   </div>
                 </div>
 
-                {/* Bloc 2 : Fichiers et Email */}
-                <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-800/40 border-gray-700" : "bg-gray-50 border-gray-200"}`}>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Fichiers &amp; Coordonnées</span>
-                    <button
-                      type="button"
-                      onClick={() => setCurrentStep(2)}
-                      className="text-xs text-[#ba1728] hover:underline flex items-center gap-1 font-semibold"
-                    >
-                      <FaEdit /> Modifier
-                    </button>
+                {uploadedFiles.length > 0 && (
+                  <div className="text-xs">
+                    <span className="font-semibold text-gray-500 block mb-1">Pièces jointes ({uploadedFiles.length}) :</span>
+                    <ul className="list-disc list-inside opacity-75 space-y-0.5">
+                      {uploadedFiles.map((f, i) => (
+                        <li key={i} className="truncate">{f.name}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <div className="text-xs space-y-1.5">
-                    <div>
-                      <span className="text-gray-500">Email de réception :</span>{" "}
-                      <span className="font-bold">{mailClient}</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-500">Fichiers transmis :</span>{" "}
-                      <span className="font-medium">
-                        {uploadedFiles.length > 0
-                          ? uploadedFiles.map((f) => f.name).join(", ")
-                          : "Aucun fichier téléversé pour l'instant"}
-                      </span>
-                    </div>
-                    {comment && (
-                      <div className="italic text-gray-500 pt-1">
-                        &ldquo;{comment}&rdquo;
-                      </div>
-                    )}
-                  </div>
-                </div>
+                )}
 
-                {/* Bloc 3 : Options de livraison et délai */}
-                <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-800/40 border-gray-700" : "bg-gray-50 border-gray-200"}`}>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs font-bold uppercase tracking-wider text-gray-500">Options sélectionnées</span>
-                    <button
-                      type="button"
-                      onClick={() => setCurrentStep(3)}
-                      className="text-xs text-[#ba1728] hover:underline flex items-center gap-1 font-semibold"
-                    >
-                      <FaEdit /> Modifier
-                    </button>
-                  </div>
-                  <div className="text-xs space-y-1.5">
-                    <div className="flex justify-between">
-                      <span className="text-gray-500">Livraison :</span>
-                      <span className="font-medium">{breakdown.deliveryName} ({breakdown.deliveryPrice === 0 ? "Inclus" : `+ ${formatEuros(breakdown.deliveryPrice)}`})</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500">Délai :</span>
-                      <span className="font-medium">{breakdown.urgencyName} ({breakdown.urgencyPrice === 0 ? "Inclus" : `+ ${formatEuros(breakdown.urgencyPrice)}`})</span>
-                    </div>
-                    {breakdown.legalizationPrice > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-500">Légalisation :</span>
-                        <span className="font-medium">{breakdown.legalizationName} (+ {formatEuros(breakdown.legalizationPrice)})</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Bouton de validation vers la page Panier */}
                 <div className="mt-8 flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
                   <button
                     type="button"
                     onClick={goToPreviousStep}
-                    className="px-5 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-bold flex items-center gap-2"
+                    className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-xs font-medium flex items-center gap-1.5"
                   >
-                    <FaArrowLeft className="text-xs" />
-                    <span>Retour aux options</span>
+                    <FaArrowLeft className="text-[10px]" />
+                    <span>Modifier les options</span>
                   </button>
                   <button
                     type="button"
                     onClick={handleFinalizeOrder}
-                    className="px-7 py-3.5 rounded-xl bg-[#ba1728] hover:bg-[#a01322] text-white font-extrabold text-sm flex items-center gap-2 shadow-lg transition-all duration-200"
+                    className="px-6 py-2.5 rounded-xl bg-[#ba1728] hover:bg-[#a01322] text-white font-semibold text-xs flex items-center gap-2 shadow-xs transition-colors"
                   >
-                    <span>Valider et procéder au paiement ({formatEuros(breakdown.totalPrice)})</span>
-                    <FaArrowRight className="text-xs" />
+                    <span>Valider ma commande ({formatEuros(breakdown.totalPrice)})</span>
+                    <FaArrowRight className="text-[10px]" />
                   </button>
                 </div>
               </section>
@@ -957,90 +868,92 @@ function ServicesContent() {
 
           </div>
 
-          {/* Colonne Latérale Droite : Décompte Tarifaire Transparent en Temps Réel */}
-          <aside aria-label="Récapitulatif tarifaire" className="lg:col-span-4 sticky top-8">
-            <div className={`p-6 rounded-3xl border shadow-lg ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"}`}>
-              <h3 className="text-base font-extrabold mb-4 pb-3 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
-                <span>Détail du calcul</span>
-                <span className="text-xs font-semibold text-gray-500">TVA non applicable</span>
+          {/* Colonne Latérale Droite (4/12) : Reassurance & Décompte discret */}
+          <aside aria-label="Informations du cabinet" className="lg:col-span-4 sticky top-6 space-y-5">
+            <div className={`p-5 rounded-2xl border shadow-xs ${isDarkMode ? "bg-gray-900/60 border-gray-800" : "bg-white border-gray-200"}`}>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3 pb-2 border-b border-gray-100 dark:border-gray-800">
+                {currentStep >= 3 ? "Honoraires transparents" : "Prestation & Déontologie"}
               </h3>
 
-              <div className="space-y-3 text-xs">
-                {/* Ligne traduction */}
-                <div className="flex justify-between">
-                  <span className="text-gray-500">
-                    {breakdown.isFlatRate
-                      ? "Forfait traduction officielle"
-                      : `Traduction (${breakdown.numberOfPages} p. × ${breakdown.unitPricePerPage} €)`}
-                  </span>
-                  <span className="font-bold">{formatEuros(breakdown.translationPrice)}</span>
-                </div>
-
-                {/* Remise dégressive affichée si applicable */}
-                {breakdown.volumeDiscount > 0 && (
-                  <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
-                    <span>Remise volume dégressif</span>
-                    <span>- {formatEuros(breakdown.volumeDiscount)}</span>
-                  </div>
-                )}
-
-                {/* Ligne livraison */}
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Frais de délivrance / port</span>
-                  <span className="font-medium">
-                    {breakdown.deliveryPrice === 0 ? "Gratuit (Email)" : formatEuros(breakdown.deliveryPrice)}
-                  </span>
-                </div>
-
-                {/* Ligne légalisation */}
-                {breakdown.legalizationPrice > 0 && (
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Frais de légalisation</span>
-                    <span className="font-medium">{formatEuros(breakdown.legalizationPrice)}</span>
-                  </div>
-                )}
-
-                {/* Ligne urgence */}
-                {breakdown.urgencyPrice > 0 && (
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Option Express (&lt; 12h)</span>
-                    <span className="font-medium">{formatEuros(breakdown.urgencyPrice)}</span>
-                  </div>
-                )}
-
-                {/* Total certifié */}
-                <div className="pt-4 mt-2 border-t-2 border-gray-100 dark:border-gray-800 flex items-baseline justify-between">
+              {currentStep < 3 ? (
+                /* Présentation institutionnelle discrète pendant les étapes 1 et 2 */
+                <div className="space-y-3.5 text-xs">
                   <div>
-                    <span className="text-sm font-extrabold block text-gray-900 dark:text-white">
-                      Montant total net
+                    <span className="font-semibold block text-gray-900 dark:text-gray-100 mb-0.5">
+                      Aicha Salhi
                     </span>
-                    <span className="text-[11px] text-gray-400">
-                      Art. 293 B du CGI
-                    </span>
+                    <p className="opacity-70 text-[11px] leading-relaxed">
+                      Experte judiciaire assermentée près la Cour d&apos;Appel de Dijon.
+                    </p>
                   </div>
-                  <div className="text-right">
-                    <span className="text-2xl font-black text-[#ba1728]">
+                  <div className="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-2 text-[11px] text-gray-500">
+                    <div className="flex items-center gap-2">
+                      <FaGavel className="text-[#8e8271] flex-shrink-0" />
+                      <span>Sceau officiel et mention Ne Varietur</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FaShieldAlt className="text-emerald-600 flex-shrink-0" />
+                      <span>Secret professionnel et confidentialité absolue</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FaLock className="text-gray-500 flex-shrink-0" />
+                      <span>Paiement sécurisé Stripe à l&apos;étape finale</span>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                /* Décompte clair et sobre lors des étapes 3 et 4 */
+                <div className="space-y-2.5 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Traduction ({breakdown.documentName})</span>
+                    <span className="font-semibold">{formatEuros(breakdown.translationPrice)}</span>
+                  </div>
+
+                  {breakdown.volumeDiscount > 0 && (
+                    <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
+                      <span>Barème dégressif</span>
+                      <span>- {formatEuros(breakdown.volumeDiscount)}</span>
+                    </div>
+                  )}
+
+                  {breakdown.deliveryPrice > 0 && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Expédition postale</span>
+                      <span>{formatEuros(breakdown.deliveryPrice)}</span>
+                    </div>
+                  )}
+
+                  {breakdown.urgencyPrice > 0 && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Urgence Express</span>
+                      <span>{formatEuros(breakdown.urgencyPrice)}</span>
+                    </div>
+                  )}
+
+                  {breakdown.legalizationPrice > 0 && (
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">Légalisation</span>
+                      <span>{formatEuros(breakdown.legalizationPrice)}</span>
+                    </div>
+                  )}
+
+                  <div className="pt-3 mt-1 border-t border-gray-200 dark:border-gray-800 flex justify-between items-baseline">
+                    <span className="font-bold text-xs text-gray-700 dark:text-gray-300">
+                      Total net :
+                    </span>
+                    <span className="text-lg font-bold text-gray-900 dark:text-white">
                       {formatEuros(breakdown.totalPrice)}
                     </span>
                   </div>
+                  <span className="block text-[10px] text-gray-400 text-right">
+                    TVA non applicable (art. 293 B CGI)
+                  </span>
                 </div>
-              </div>
+              )}
+            </div>
 
-              {/* Réassurance institutionnelle */}
-              <div className="mt-6 pt-5 border-t border-gray-100 dark:border-gray-800 space-y-2.5 text-[11px] text-gray-500">
-                <div className="flex items-center gap-2">
-                  <FaGavel className="text-[#ba1728] flex-shrink-0" />
-                  <span>Aicha Salhi, traductrice assermentée près la Cour d&apos;Appel de Dijon</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaLock className="text-emerald-600 flex-shrink-0" />
-                  <span>Paiement sécurisé et chiffré par Stripe</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaShieldAlt className="text-blue-600 flex-shrink-0" />
-                  <span>Confidentialité et secret professionnel garantis</span>
-                </div>
-              </div>
+            <div className="text-[11px] text-gray-400 px-1 leading-relaxed text-center">
+              Besoin d&apos;assistance ? Contactez le cabinet au <a href="tel:+33669151216" className="font-semibold underline">06 69 15 12 16</a>
             </div>
           </aside>
 
@@ -1052,7 +965,7 @@ function ServicesContent() {
 
 export default function Services() {
   return (
-    <Suspense fallback={<div className="min-h-screen py-20 text-center text-sm opacity-50">Chargement du formulaire...</div>}>
+    <Suspense fallback={<div className="min-h-screen py-20 text-center text-xs opacity-50">Chargement...</div>}>
       <ServicesContent />
     </Suspense>
   );
