@@ -50,10 +50,8 @@ const APropos: React.FC = () => {
               </p>
               <p>
                 <FaUniversity className="inline mr-2 text-red-600" />
-                Titulaire d'un <strong>Master en traduction de l'Université de Strasbourg</strong>, je maîtrise plusieurs combinaisons linguistiques :
-                <span className="font-semibold text-red-600 mx-1">Français ↔ Arabe</span>,
-                <span className="font-semibold text-red-600 mx-1">Espagnol ↔ Arabe</span> et
-                <span className="font-semibold text-red-600 mx-1">Anglais → Arabe</span>.
+                Titulaire d'un <strong>Master en traduction professionnelle de l'Université de Strasbourg</strong>, je suis spécialisée dans les traductions de l'arabe vers le français et du français vers l'arabe :
+                <span className="font-semibold text-red-600 mx-1">Arabe ↔ Français</span>.
               </p>
               <p>
                 Cette polyvalence me permet de répondre à une large gamme de demandes, qu'il s'agisse de documents juridiques, techniques, médicaux ou commerciaux.

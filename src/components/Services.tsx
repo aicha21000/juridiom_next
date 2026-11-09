@@ -377,26 +377,24 @@ function ServicesContent() {
                         setCurrentStep(s.number as any);
                       }
                     }}
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all ${
-                      isPassed
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all ${isPassed
                         ? "bg-[#ba1728] text-white"
                         : isCurrent
-                        ? "bg-[#ba1728] text-white ring-4 ring-red-50 dark:ring-red-950/50"
-                        : isDarkMode
-                        ? "bg-gray-900 text-gray-500 border border-gray-800"
-                        : "bg-white text-gray-400 border border-gray-200"
-                    }`}
+                          ? "bg-[#ba1728] text-white ring-4 ring-red-50 dark:ring-red-950/50"
+                          : isDarkMode
+                            ? "bg-gray-900 text-gray-500 border border-gray-800"
+                            : "bg-white text-gray-400 border border-gray-200"
+                      }`}
                   >
                     {isPassed ? <FaCheck className="text-[10px]" /> : s.number}
                   </button>
                   <span
-                    className={`mt-1.5 text-[11px] font-medium text-center hidden sm:block ${
-                      isCurrent
+                    className={`mt-1.5 text-[11px] font-medium text-center hidden sm:block ${isCurrent
                         ? "text-[#ba1728] font-bold"
                         : isPassed
-                        ? isDarkMode ? "text-gray-300" : "text-gray-700"
-                        : "text-gray-400"
-                    }`}
+                          ? isDarkMode ? "text-gray-300" : "text-gray-700"
+                          : "text-gray-400"
+                      }`}
                   >
                     {s.title}
                   </span>
@@ -447,13 +445,12 @@ function ServicesContent() {
                           }
                           setErrorMessage("");
                         }}
-                        className={`cursor-pointer p-4 rounded-xl border transition-all duration-150 flex flex-col justify-between ${
-                          isSelected
+                        className={`cursor-pointer p-4 rounded-xl border transition-all duration-150 flex flex-col justify-between ${isSelected
                             ? "border-[#ba1728] bg-red-50/20 dark:bg-red-950/20 shadow-xs"
                             : isDarkMode
-                            ? "border-gray-800 bg-gray-900/40 hover:border-gray-700"
-                            : "border-gray-200 bg-white hover:border-gray-300"
-                        }`}
+                              ? "border-gray-800 bg-gray-900/40 hover:border-gray-700"
+                              : "border-gray-200 bg-white hover:border-gray-300"
+                          }`}
                       >
                         <div>
                           <div className="flex items-center gap-2.5 mb-2">
@@ -685,13 +682,12 @@ function ServicesContent() {
                         <div
                           key={opt.id}
                           onClick={() => setSelectedDelivery(opt.id)}
-                          className={`cursor-pointer p-3.5 rounded-xl border transition-all flex items-center justify-between ${
-                            isSelected
+                          className={`cursor-pointer p-3.5 rounded-xl border transition-all flex items-center justify-between ${isSelected
                               ? "border-[#ba1728] bg-red-50/20 dark:bg-red-950/20 shadow-xs"
                               : isDarkMode
-                              ? "border-gray-800 bg-gray-900/40 hover:border-gray-700"
-                              : "border-gray-200 bg-white hover:border-gray-300"
-                          }`}
+                                ? "border-gray-800 bg-gray-900/40 hover:border-gray-700"
+                                : "border-gray-200 bg-white hover:border-gray-300"
+                            }`}
                         >
                           <div>
                             <div className="font-semibold text-xs text-gray-900 dark:text-gray-100 flex items-center gap-2">
@@ -725,13 +721,12 @@ function ServicesContent() {
                         <div
                           key={opt.id}
                           onClick={() => setUrgency(opt.id)}
-                          className={`cursor-pointer p-3.5 rounded-xl border transition-all flex flex-col justify-between ${
-                            isSelected
+                          className={`cursor-pointer p-3.5 rounded-xl border transition-all flex flex-col justify-between ${isSelected
                               ? "border-[#ba1728] bg-red-50/20 dark:bg-red-950/20 shadow-xs"
                               : isDarkMode
-                              ? "border-gray-800 bg-gray-900/40 hover:border-gray-700"
-                              : "border-gray-200 bg-white hover:border-gray-300"
-                          }`}
+                                ? "border-gray-800 bg-gray-900/40 hover:border-gray-700"
+                                : "border-gray-200 bg-white hover:border-gray-300"
+                            }`}
                         >
                           <div>
                             <div className="flex items-center justify-between mb-1">
@@ -883,7 +878,7 @@ function ServicesContent() {
                       Aicha Salhi
                     </span>
                     <p className="opacity-70 text-[11px] leading-relaxed">
-                      Experte judiciaire assermentée près la Cour d&apos;Appel de Dijon.
+                      Traductrice assermentée près la Cour d&apos;Appel de Dijon.
                     </p>
                   </div>
                   <div className="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-2 text-[11px] text-gray-500">
