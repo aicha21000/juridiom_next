@@ -2,40 +2,28 @@
 import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { useTheme } from "../context/ThemeContext";
 import Link from "next/link";
-import Image from "next/image";
 import Cookies from "js-cookie";
 import { ensureEssentialConsent } from "../utils/cookieUtils";
 import {
-  FaUserTie,
-  FaClock,
-  FaUserSecret,
+  FaArrowRight,
   FaFileContract,
   FaBriefcase,
-  FaArrowRight,
-  FaCheckCircle,
-  FaQuoteRight,
-  FaTag
+  FaClock,
+  FaShieldAlt,
+  FaGavel,
+  FaGraduationCap,
+  FaCar,
+  FaBalanceScale,
+  FaScroll,
+  FaPhone,
+  FaEnvelope,
 } from "react-icons/fa";
 
-// Images imports remain the same
-import CNI from "../assets/CNI_France.webp";
-import jugement from "../assets/jugement_divorce.webp";
-import casier from "../assets/casier.webp";
-import certificat from "../assets/certificat_travail.webp";
-import diplome from "../assets/diplome_tunisie.webp";
-import passeport from "../assets/passeport_francais.webp";
-import decompte from "../assets/decompte.webp";
-import ordonnance from "../assets/ordonnance.webp";
-import acteNaissance from "../assets/acte_naissance_maroc.webp";
-import assurance from "../assets/attestation_assurance.webp";
-import permis from "../assets/permis_conduire.webp";
-import acteNaissanceLiban from "../assets/acte_naissance_liban.webp";
-
-const GoogleReviews = lazy(() => import('./GoogleReviews'));
+const GoogleReviews = lazy(() => import("./GoogleReviews"));
 import CertifiedDocumentMockup from "./CertifiedDocumentMockup";
 
-// Section paresseuse avec skeleton pour améliorer la FCP
-function LazySection({ children, minHeight = 400 }: { children: React.ReactNode; minHeight?: number }) {
+// Chargement différé propre pour la performance
+function LazySection({ children, minHeight = 350 }: { children: React.ReactNode; minHeight?: number }) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -51,7 +39,7 @@ function LazySection({ children, minHeight = 400 }: { children: React.ReactNode;
           }
         });
       },
-      { root: null, rootMargin: '200px 0px', threshold: 0.01 }
+      { rootMargin: "150px 0px", threshold: 0.01 }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -62,7 +50,7 @@ function LazySection({ children, minHeight = 400 }: { children: React.ReactNode;
       {isVisible ? (
         children
       ) : (
-        <div style={{ minHeight }} className="animate-pulse bg-gradient-to-b from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 rounded-xl" />
+        <div style={{ minHeight }} className="animate-pulse bg-gray-100/60 dark:bg-gray-900/60 rounded-2xl" />
       )}
     </div>
   );
@@ -70,8 +58,6 @@ function LazySection({ children, minHeight = 400 }: { children: React.ReactNode;
 
 const Home = () => {
   const { isDarkMode, setDarkMode } = useTheme();
-  const [isDesktop, setIsDesktop] = useState<boolean>(true);
-  const sectionsRef = useRef<(HTMLElement | null)[]>([]);
 
   const handleOrderClick = () => {
     ensureEssentialConsent();
@@ -84,336 +70,243 @@ const Home = () => {
     }
   }, [setDarkMode]);
 
-  useEffect(() => {
-    const mq = window.matchMedia && window.matchMedia('(min-width: 768px)');
-    const update = () => setIsDesktop(!!(mq && mq.matches));
-    update();
-    if (mq && (mq as any).addEventListener) {
-      (mq as any).addEventListener('change', update);
-      return () => (mq as any).removeEventListener('change', update);
-    } else if (mq && (mq as any).addListener) {
-      (mq as any).addListener(update);
-      return () => (mq as any).removeListener(update);
-    }
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const el = entry.target as HTMLElement;
-          if (entry.isIntersecting) {
-            el.classList.add("visible");
-            observer.unobserve(el);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    sectionsRef.current.forEach((el) => {
-      if (el) {
-        if (!el.classList.contains("reveal")) el.classList.add("reveal");
-        observer.observe(el);
-      }
-    });
-
-    return () => observer.disconnect();
-  }, []);
+  // Documents types pris en charge présentés avec sobriété
+  const handledDocuments = [
+    {
+      icon: <FaScroll className="text-[#ba1728] text-xl" />,
+      title: "Actes d'État Civil",
+      desc: "Actes de naissance, mariage, décès, livrets de famille pour préfectures, mairies et démarches de nationalité.",
+      link: "/services?doc=acte_naissance",
+    },
+    {
+      icon: <FaCar className="text-[#ba1728] text-xl" />,
+      title: "Permis de Conduire",
+      desc: "Traduction officielle pour l'échange de permis étranger auprès de l'ANTS et des préfectures (forfait fixe).",
+      link: "/services?doc=permis",
+    },
+    {
+      icon: <FaBalanceScale className="text-[#ba1728] text-xl" />,
+      title: "Casiers Judiciaires",
+      desc: "Bulletins d'antécédents judiciaires pour dossiers de naturalisation, emploi ou formalités consulaires.",
+      link: "/services?doc=casier",
+    },
+    {
+      icon: <FaGraduationCap className="text-[#ba1728] text-xl" />,
+      title: "Diplômes & Parcours Universitaire",
+      desc: "Baccalauréat, relevés de notes, diplômes universitaires pour Campus France, universités et ordres professionnels.",
+      link: "/services?doc=diplome",
+    },
+    {
+      icon: <FaGavel className="text-[#ba1728] text-xl" />,
+      title: "Décisions de Justice & Actes Notariés",
+      desc: "Jugements de divorce, ordonnances, kafalas, actes de succession et procurations notariées.",
+      link: "/services?doc=jugement_divorce",
+    },
+    {
+      icon: <FaBriefcase className="text-[#ba1728] text-xl" />,
+      title: "Documents Juridiques & d'Entreprise",
+      desc: "Statuts de sociétés, extraits de registre de commerce, bilans, attestations et contrats commerciaux.",
+      link: "/contact",
+    },
+  ];
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? "bg-gray-950 text-gray-100" : "bg-gray-50 text-gray-900"} transition-colors duration-300 font-sans`}>
+    <div className={`min-h-screen ${isDarkMode ? "bg-gray-950 text-gray-100" : "bg-white text-gray-900"} transition-colors duration-300 font-sans`}>
 
-      {/* Modern Hero Section */}
-      <section
-        ref={(el) => { sectionsRef.current[0] = el }}
-        className="reveal relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden"
-      >
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-          {/* Abstract Background Shapes */}
-          <div className={`absolute -top-[20%] -left-[10%] w-[70%] h-[70%] rounded-full blur-[120px] opacity-20 ${isDarkMode ? "bg-red-900" : "bg-red-200"} animate-pulse`} />
-          <div className={`absolute top-[20%] -right-[10%] w-[60%] h-[60%] rounded-full blur-[100px] opacity-20 ${isDarkMode ? "bg-blue-900" : "bg-blue-100"}`} />
-        </div>
+      {/* ============================================================ */}
+      {/* 1. HERO SECTION : Sobre, solennelle et digne                */}
+      {/* ============================================================ */}
+      <section className="relative pt-32 pb-20 lg:pt-44 lg:pb-28 border-b border-gray-100 dark:border-gray-900">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
-            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800">
-              ✨ Traductrice Assermentée près la Cour d'Appel de Dijon
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold bg-amber-100 text-amber-900 dark:bg-amber-900/40 dark:text-amber-300 border border-amber-300 dark:border-amber-700 shadow-sm">
-              ⚡ Délai habituel : 24h à 48h
-            </span>
+          {/* Badge institutionnel discret */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#ba1728] bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/40 mb-6">
+            <span>Experte Judiciaire • Cour d&apos;Appel de Dijon</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
-            Traductrice Assermentée Arabe <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600">à Dijon – Aicha Salhi</span>
+
+          {/* Titre sobre et statut professionnel */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+            Aicha Salhi <br />
+            <span className="text-[#ba1728] text-2xl sm:text-4xl lg:text-5xl font-semibold">
+              Traductrice Assermentée Arabe ⇄ Français
+            </span>
           </h1>
-          <h2 className={`text-2xl md:text-3xl font-medium mb-4 ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
-            Vos traductions certifiées à Dijon et Longvic – Traductrice officielle sur la métropole dijonnaise
-          </h2>
-          <p className={`text-lg md:text-xl max-w-3xl mx-auto mb-4 leading-relaxed ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-            Des traductions précises et reconnues pour vos documents officiels, juridiques et commerciaux.
-            Délai habituel de 24 à 48 heures, confidentialité et excellence linguistique garanties.
-          </p>
-          <p className={`text-base max-w-3xl mx-auto mb-6 leading-relaxed ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>
-            Mon bureau d'accueil principal est situé au Centre d'Affaires Regus à Longvic, idéalement positionné pour recevoir les clients de Dijon et de toute la métropole dijonnaise.
+
+          <p className="text-base sm:text-lg max-w-2xl mx-auto mb-8 opacity-80 leading-relaxed font-normal">
+            Traductions certifiées conformes aux exigences des autorités françaises et étrangères.
+            Prestation assurée en direct par une traductrice assermentée officielle, en toute confidentialité.
           </p>
 
-
-          {/* Mention discrète des tarifs et dégressivité dans le Hero */}
-          <div className="inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 mb-8 rounded-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/80 dark:border-gray-800 shadow-xs text-xs sm:text-sm">
-            <span className="inline-flex items-center gap-1 font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-2.5 py-0.5 rounded-full text-xs border border-emerald-200 dark:border-emerald-800">
-              🚗 Permis &amp; ⚖️ Casier : 25 €
-            </span>
-            <span className="text-gray-300 dark:text-gray-700">•</span>
-            <span className="text-gray-600 dark:text-gray-300 font-medium">Autres dès 30 €/p</span>
-            <span className="text-gray-300 dark:text-gray-700">•</span>
-            <span className="text-gray-500 dark:text-gray-400 text-xs">
-              📉 Dégressif jusqu'à 20 €
-            </span>
-          </div>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          {/* Actions sobres sans racolage */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/services"
               onClick={handleOrderClick}
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-red-600 to-red-700 rounded-full shadow-lg hover:from-red-700 hover:to-red-800 hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 group"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-sm font-bold text-white bg-[#ba1728] hover:bg-[#a01322] rounded-xl shadow-sm transition-all duration-200 group"
             >
-              Calculer mon devis gratuit
-              <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+              <span>Établir une demande de traduction</span>
+              <FaArrowRight className="ml-2 text-xs group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="/contact"
-              className={`inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-full border-2 transition-all duration-300 ${isDarkMode ? "border-gray-700 text-gray-300 hover:bg-gray-800 hover:border-gray-600" : "border-gray-200 text-gray-700 hover:bg-white hover:border-gray-300 hover:shadow-md"}`}
+              className={`w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 text-sm font-semibold rounded-xl border transition-all duration-200 ${
+                isDarkMode
+                  ? "border-gray-800 text-gray-300 hover:bg-gray-900"
+                  : "border-gray-300 text-gray-700 hover:bg-gray-50"
+              }`}
             >
-              Me contacter
+              Contacter le cabinet
+            </Link>
+          </div>
+
+          <p className="mt-4 text-xs text-gray-400">
+            Cabinet à Dijon &amp; Longvic • Traitement à distance partout en France
+          </p>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* 2. BANDEAU DE RECEVABILITÉ ADMINISTRATIVE                     */}
+      {/* ============================================================ */}
+      <section className={`py-6 border-b text-xs ${isDarkMode ? "bg-gray-900/40 border-gray-900" : "bg-gray-50/80 border-gray-100"}`}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+            <div className="flex items-center gap-2.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
+              <span className="font-semibold text-gray-700 dark:text-gray-300">
+                Documents certifiés recevables auprès des institutions :
+              </span>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 opacity-75 font-medium">
+              <span>Préfectures &amp; ANTS</span>
+              <span>•</span>
+              <span>Mairies &amp; État civil</span>
+              <span>•</span>
+              <span>Tribunaux &amp; Notaires</span>
+              <span>•</span>
+              <span>Universités &amp; Écoles</span>
+              <span>•</span>
+              <span>Consulats &amp; Ambassades</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* 3. DOMAINES D'INTERVENTION & DOCUMENTS PRIS EN CHARGE         */}
+      {/* ============================================================ */}
+      <section className="py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center mb-14">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">
+              Actes &amp; Documents pris en charge
+            </h2>
+            <p className="text-sm opacity-75 leading-relaxed">
+              Chaque traduction fait l&apos;objet d&apos;une étude rigoureuse et respecte strictement la terminologie juridique officielle.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {handledDocuments.map((doc, idx) => (
+              <div
+                key={idx}
+                className={`p-6 rounded-2xl border transition-all duration-200 flex flex-col justify-between ${
+                  isDarkMode
+                    ? "bg-gray-900/60 border-gray-800 hover:border-gray-700"
+                    : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-xs"
+                }`}
+              >
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-950/40 flex items-center justify-center mb-4">
+                    {doc.icon}
+                  </div>
+                  <h3 className="font-bold text-base mb-2">{doc.title}</h3>
+                  <p className="text-xs opacity-75 leading-relaxed mb-6">
+                    {doc.desc}
+                  </p>
+                </div>
+                <div className="pt-3 border-t border-gray-100 dark:border-gray-800">
+                  <Link
+                    href={doc.link}
+                    className="text-xs font-semibold text-[#ba1728] hover:underline inline-flex items-center gap-1.5"
+                  >
+                    <span>Consulter les modalités</span>
+                    <FaArrowRight className="text-[10px]" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link
+              href="/services"
+              className="text-xs font-semibold text-gray-500 hover:text-[#ba1728] transition-colors underline"
+            >
+              Consulter le barème officiel et configurer votre commande →
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 🏛️ Bandeau d'administrations — Conformité institutionnelle */}
-      <div className={`py-6 border-y ${isDarkMode ? "bg-gray-900/70 border-gray-800" : "bg-white border-gray-200"}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-4 text-center lg:text-left">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-lg font-extrabold flex-shrink-0">
-                ✓
-              </div>
-              <div>
-                <p className="font-extrabold text-sm sm:text-base">Traductions reconnues par les institutions françaises</p>
-                <p className="text-xs opacity-70">Experte judiciaire inscrite près la Cour d&apos;Appel de Dijon – traductions certifiées conformes</p>
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-semibold">
-              <span className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700">🏛️ Préfectures &amp; ANTS</span>
-              <span className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700">💍 Mairies (Mariage &amp; État civil)</span>
-              <span className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700">🎓 Universités &amp; Campus France</span>
-              <span className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700">🌍 Ambassades &amp; Consulats</span>
-              <span className="px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700">⚖️ Tribunaux, Notaires, OFII</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 🎯 Grille des Documents Types (Identification immédiate) */}
-      <section className="py-20 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-400 mb-3">
-              Tarifs Forfaitaires Clairs
+      {/* ============================================================ */}
+      {/* 4. VISUEL DU DOCUMENT OFFICIEL & MENTIONS LÉGALES             */}
+      {/* ============================================================ */}
+      <section className={`py-20 border-y ${isDarkMode ? "bg-gray-900/30 border-gray-900" : "bg-gray-50/70 border-gray-200"}`}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center mb-14">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#ba1728] block mb-2">
+              Authenticité Juridique
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
-              Quel document souhaitez-vous faire traduire ?
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-3">
+              Présentation de votre traduction certifiée
             </h2>
-            <p className="text-base opacity-75">
-              Sélectionnez votre document pour une traduction certifiée conforme par une traductrice assermentée officielle.
+            <p className="text-sm opacity-75">
+              Chaque acte traduit comporte toutes les mentions légales obligatoires requises par la justice et l&apos;administration française.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Permis de conduire */}
-            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl relative flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-emerald-600" : "bg-white border-gray-200 hover:border-emerald-500"}`}>
-              <span className="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full text-xs font-extrabold uppercase bg-emerald-600 text-white shadow-sm">
-                Forfait 25 €
-              </span>
-              <div>
-                <div className="text-4xl mb-3">🚗</div>
-                <h3 className="text-lg font-bold mb-1">Permis de Conduire</h3>
-                <p className="text-xs opacity-70 mb-4">Pour l&apos;échange de permis étranger auprès de l&apos;ANTS et des préfectures.</p>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
-                <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">25 €</span>
-                <Link href="/services?doc=permis" className="text-xs font-bold text-[#ba1728] hover:underline flex items-center gap-1">
-                  Faire traduire →
-                </Link>
-              </div>
-            </div>
-
-            {/* Casier judiciaire */}
-            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl relative flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-emerald-600" : "bg-white border-gray-200 hover:border-emerald-500"}`}>
-              <span className="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full text-xs font-extrabold uppercase bg-emerald-600 text-white shadow-sm">
-                Forfait 25 €
-              </span>
-              <div>
-                <div className="text-4xl mb-3">⚖️</div>
-                <h3 className="text-lg font-bold mb-1">Casier Judiciaire</h3>
-                <p className="text-xs opacity-70 mb-4">Bulletin n°3 officiel pour naturalisation, emploi ou démarches consulaires.</p>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
-                <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">25 €</span>
-                <Link href="/services?doc=casier" className="text-xs font-bold text-[#ba1728] hover:underline flex items-center gap-1">
-                  Faire traduire →
-                </Link>
-              </div>
-            </div>
-
-            {/* Acte de naissance / État civil */}
-            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-red-600" : "bg-white border-gray-200 hover:border-red-500"}`}>
-              <div>
-                <div className="text-4xl mb-3">📜</div>
-                <h3 className="text-lg font-bold mb-1">Acte d&apos;État Civil</h3>
-                <p className="text-xs opacity-70 mb-4">Acte de naissance, acte de mariage, certificat de célibat, livret de famille.</p>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
-                <div>
-                  <span className="text-xs opacity-60 block">Dès</span>
-                  <span className="text-2xl font-black text-red-600 dark:text-red-400">30 € <span className="text-xs font-normal">/ page</span></span>
-                </div>
-                <Link href="/services?doc=acte_naissance" className="text-xs font-bold text-[#ba1728] hover:underline flex items-center gap-1">
-                  Faire traduire →
-                </Link>
-              </div>
-            </div>
-
-            {/* Diplôme & Relevé de notes */}
-            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-red-600" : "bg-white border-gray-200 hover:border-red-500"}`}>
-              <div>
-                <div className="text-4xl mb-3">🎓</div>
-                <h3 className="text-lg font-bold mb-1">Diplôme &amp; Relevé de Notes</h3>
-                <p className="text-xs opacity-70 mb-4">Pour Campus France, universités françaises, équivalences et ordres professionnels.</p>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
-                <div>
-                  <span className="text-xs opacity-60 block">Dès</span>
-                  <span className="text-2xl font-black text-red-600 dark:text-red-400">30 € <span className="text-xs font-normal">/ page</span></span>
-                </div>
-                <Link href="/services?doc=diplome" className="text-xs font-bold text-[#ba1728] hover:underline flex items-center gap-1">
-                  Faire traduire →
-                </Link>
-              </div>
-            </div>
-
-            {/* Jugement de divorce */}
-            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-red-600" : "bg-white border-gray-200 hover:border-red-500"}`}>
-              <div>
-                <div className="text-4xl mb-3">📑</div>
-                <h3 className="text-lg font-bold mb-1">Jugement de Divorce &amp; Notarié</h3>
-                <p className="text-xs opacity-70 mb-4">Décisions de justice, successions, actes de kafala, procurations notariées.</p>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
-                <div>
-                  <span className="text-xs opacity-60 block">Tarif dégressif</span>
-                  <span className="text-2xl font-black text-red-600 dark:text-red-400">dès 20 € <span className="text-xs font-normal">/ page</span></span>
-                </div>
-                <Link href="/services?doc=jugement_divorce" className="text-xs font-bold text-[#ba1728] hover:underline flex items-center gap-1">
-                  Faire traduire →
-                </Link>
-              </div>
-            </div>
-
-            {/* Statuts & Entreprises */}
-            <div className={`p-6 rounded-2xl border transition-all duration-300 hover:shadow-xl flex flex-col justify-between ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-red-600" : "bg-white border-gray-200 hover:border-red-500"}`}>
-              <div>
-                <div className="text-4xl mb-3">💼</div>
-                <h3 className="text-lg font-bold mb-1">Contrats &amp; Documents Pro</h3>
-                <p className="text-xs opacity-70 mb-4">Statuts de société, extraits Kbis, bilans, procurations et contrats commerciaux.</p>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-800">
-                <div>
-                  <span className="text-xs opacity-60 block">Volume</span>
-                  <span className="text-lg font-black text-red-600 dark:text-red-400">Devis immédiat</span>
-                </div>
-                <Link href="/contact" className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1">
-                  Demander un devis →
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 🔍 Résultat Final : À quoi ressemble votre traduction certifiée ? */}
-      <section className={`py-20 border-y ${isDarkMode ? "bg-gray-900/40 border-gray-800" : "bg-gray-100/60 border-gray-200"}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-400 mb-3">
-              Valeur Juridique &amp; Authenticité
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
-              À quoi ressemble votre traduction certifiée conforme ?
-            </h2>
-            <p className="text-base opacity-75">
-              Chaque traduction délivrée est un document officiel portant toutes les mentions obligatoires requises par les autorités françaises.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Colonne Gauche : Aperçu Réel du Document Certifié Officiel */}
-            <div className="lg:col-span-5 flex flex-col items-center justify-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* Colonne Gauche : Photographie réelle du document */}
+            <div className="lg:col-span-5 flex justify-center">
               <CertifiedDocumentMockup />
             </div>
 
-            {/* Colonne Droite : Les 4 piliers de conformité légale */}
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-red-900/50" : "bg-white border-gray-200 hover:border-red-200"} shadow-sm transition-all duration-300`}>
-                <div className="w-10 h-10 rounded-xl bg-red-100 dark:bg-red-950/60 text-red-600 flex items-center justify-center text-xl mb-3">
-                  🔴
+            {/* Colonne Droite : Les 4 critères de conformité */}
+            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900/80 border-gray-800" : "bg-white border-gray-200"}`}>
+                <div className="font-bold text-sm mb-1 text-[#ba1728] flex items-center gap-2">
+                  <span>🔴 Sceau Officiel</span>
                 </div>
-                <h3 className="font-bold text-base mb-1.5 flex items-center gap-2">
-                  <span>Sceau Officiel</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300 font-bold">Cour d&apos;Appel</span>
-                </h3>
                 <p className="text-xs opacity-75 leading-relaxed">
-                  Le cachet encreur officiel portant la mention d&apos;experte judiciaire près la Cour d&apos;Appel de Dijon est apposé sur chaque page du document.
+                  Cachet d&apos;encre officiel d&apos;experte judiciaire près la Cour d&apos;Appel de Dijon apposé sur chaque feuillet.
                 </p>
               </div>
 
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-blue-900/50" : "bg-white border-gray-200 hover:border-blue-200"} shadow-sm transition-all duration-300`}>
-                <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center text-xl mb-3">
-                  🖋️
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900/80 border-gray-800" : "bg-white border-gray-200"}`}>
+                <div className="font-bold text-sm mb-1 text-[#ba1728] flex items-center gap-2">
+                  <span>🖋️ Signature Manuscrite</span>
                 </div>
-                <h3 className="font-bold text-base mb-1.5 flex items-center gap-2">
-                  <span>Signature Manuscrite</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300 font-bold">Légale</span>
-                </h3>
                 <p className="text-xs opacity-75 leading-relaxed">
-                  Chaque exemplaire est signé personnellement par le traducteur, engageant sa responsabilité juridique d&apos;expert assermenté.
+                  Signé personnellement par la traductrice assermentée, engageant sa responsabilité juridique officielle.
                 </p>
               </div>
 
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-amber-900/50" : "bg-white border-gray-200 hover:border-amber-200"} shadow-sm transition-all duration-300`}>
-                <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-600 flex items-center justify-center text-xl mb-3">
-                  🔢
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900/80 border-gray-800" : "bg-white border-gray-200"}`}>
+                <div className="font-bold text-sm mb-1 text-[#ba1728] flex items-center gap-2">
+                  <span>📜 Mention Ne Varietur</span>
                 </div>
-                <h3 className="font-bold text-base mb-1.5 flex items-center gap-2">
-                  <span>Mention &ldquo;Ne Varietur&rdquo;</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 font-bold">Unique</span>
-                </h3>
                 <p className="text-xs opacity-75 leading-relaxed">
-                  Numéro d&apos;enregistrement unique au répertoire des traductions officielles avec la formule légale de conformité avec l&apos;original.
+                  Numéro unique d&apos;enregistrement au registre des traductions certifiées avec la formule légale d&apos;assermentation.
                 </p>
               </div>
 
-              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900 border-gray-800 hover:border-emerald-900/50" : "bg-white border-gray-200 hover:border-emerald-200"} shadow-sm transition-all duration-300`}>
-                <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center text-xl mb-3">
-                  📦
+              <div className={`p-5 rounded-2xl border ${isDarkMode ? "bg-gray-900/80 border-gray-800" : "bg-white border-gray-200"}`}>
+                <div className="font-bold text-sm mb-1 text-[#ba1728] flex items-center gap-2">
+                  <span>📦 Délivrance Sécurisée</span>
                 </div>
-                <h3 className="font-bold text-base mb-1.5 flex items-center gap-2">
-                  <span>Double Format Délivré</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 font-bold">PDF + Papier</span>
-                </h3>
                 <p className="text-xs opacity-75 leading-relaxed">
-                  Délivrance au format <strong>PDF certifié haute définition</strong> par email et expédition de l'original papier officiel à domicile.
+                  Exemplaire numérique PDF haute résolution envoyé par email et original papier officiel expédié par voie postale.
                 </p>
               </div>
             </div>
@@ -421,292 +314,141 @@ const Home = () => {
         </div>
       </section>
 
+      {/* ============================================================ */}
+      {/* 5. PROCESSUS EN 3 ÉTAPES CLAIRES                             */}
+      {/* ============================================================ */}
+      <section className="py-20">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-xl mx-auto mb-14">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
+              Comment se déroule la traduction ?
+            </h2>
+            <p className="text-sm opacity-75">
+              Un cheminement simple et rigoureux pour obtenir vos documents en toute sérénité.
+            </p>
+          </div>
 
-
-
-
-      {/* Expertise Section */}
-      <LazySection>
-        <section ref={(el) => { sectionsRef.current[1] = el }} className="reveal py-24 relative">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                Pourquoi choisir votre traductrice assermentée à Dijon et Longvic ?
-              </h2>
-              <div className="w-24 h-1 bg-red-500 mx-auto rounded-full"></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center relative">
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-bold text-lg flex items-center justify-center mb-4">
+                1
+              </div>
+              <h3 className="font-bold text-sm mb-2">Transmission du document</h3>
+              <p className="text-xs opacity-75 leading-relaxed">
+                Transmettez vos scans ou photographies nettes depuis le formulaire en ligne ou par email.
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Carte 1 */}
-              <div className={`p-8 rounded-2xl ${isDarkMode ? "bg-gray-900 border border-gray-800" : "bg-white border border-gray-100"} shadow-xl hover:shadow-2xl transition-all duration-300 group`}>
-                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 text-2xl ${isDarkMode ? "bg-red-900/20 text-red-500" : "bg-red-50 text-red-600"} group-hover:scale-110 transition-transform duration-300`}>
-                  <FaUserTie />
-                </div>
-                <h3 className="text-xl font-bold mb-3">10+ Années d'Expertise</h3>
-                <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"} leading-relaxed`}>
-                  Une maîtrise parfaite des nuances linguistiques et des terminologies juridiques complexes, acquise au fil d'une décennie de pratique.
-                </p>
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-bold text-lg flex items-center justify-center mb-4">
+                2
               </div>
-
-              {/* Carte 2 */}
-              <div className={`p-8 rounded-2xl ${isDarkMode ? "bg-gray-900 border border-gray-800" : "bg-white border border-gray-100"} shadow-xl hover:shadow-2xl transition-all duration-300 group`}>
-                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 text-2xl ${isDarkMode ? "bg-blue-900/20 text-blue-500" : "bg-blue-50 text-blue-600"} group-hover:scale-110 transition-transform duration-300`}>
-                  <FaClock />
-                </div>
-                <h3 className="text-xl font-bold mb-3">Rapidité & Échéances</h3>
-                <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"} leading-relaxed`}>
-                  Vos délais sont sacrés. Nous nous engageons à livrer vos traductions dans les temps impartis, sans jamais compromettre la qualité.
-                </p>
-              </div>
-
-              {/* Carte 3 */}
-              <div className={`p-8 rounded-2xl ${isDarkMode ? "bg-gray-900 border border-gray-800" : "bg-white border border-gray-100"} shadow-xl hover:shadow-2xl transition-all duration-300 group`}>
-                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 text-2xl ${isDarkMode ? "bg-emerald-900/20 text-emerald-500" : "bg-emerald-50 text-emerald-600"} group-hover:scale-110 transition-transform duration-300`}>
-                  <FaUserSecret />
-                </div>
-                <h3 className="text-xl font-bold mb-3">Confidentialité Absolue</h3>
-                <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"} leading-relaxed`}>
-                  Vos documents sont traités avec la plus stricte confidentialité. Nous mettons un point d'honneur à protéger vos données personnelles.
-                </p>
-              </div>
+              <h3 className="font-bold text-sm mb-2">Traduction &amp; Certification</h3>
+              <p className="text-xs opacity-75 leading-relaxed">
+                Traduction experte bilingue, vérification minutieuse, apposition du sceau et signature officielle.
+              </p>
             </div>
-          </div>
-        </section>
-      </LazySection>
 
-      {/* Services Section */}
-      <LazySection>
-        <section ref={(el) => { sectionsRef.current[2] = el }} className={`reveal py-24 ${isDarkMode ? "bg-gray-900" : "bg-gray-100"}`}>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <h2 className={`text-3xl md:text-4xl font-bold mb-6 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                  Des Services de Traduction sur la Métropole de Dijon
-                </h2>
-                <p className={`text-lg mb-8 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                  Que vous soyez un particulier ou une entreprise à Dijon, Longvic ou partout en France, nous proposons une gamme complète de services de traduction certifiée pour répondre à toutes vos exigences.
-                </p>
-
-                <div className="space-y-6">
-                  <div className={`p-6 rounded-xl border-l-4 border-red-500 ${isDarkMode ? "bg-gray-800" : "bg-white"} shadow-md`}>
-                    <div className="flex items-start">
-                      <FaFileContract className="text-2xl text-red-500 mt-1 mr-4" />
-                      <div>
-                        <h3 className="text-xl font-bold mb-2">Traductions Juridiques</h3>
-                        <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                          Contrats, actes notariés, jugements, documents d'état civil...
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={`p-6 rounded-xl border-l-4 border-blue-500 ${isDarkMode ? "bg-gray-800" : "bg-white"} shadow-md`}>
-                    <div className="flex items-start">
-                      <FaBriefcase className="text-2xl text-blue-500 mt-1 mr-4" />
-                      <div>
-                        <h3 className="text-xl font-bold mb-2">Traductions Commerciales</h3>
-                        <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-                          Sites web, marketing, rapports, présentations d'entreprise...
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-10">
-                  <Link href="/services" className="text-red-600 font-semibold hover:text-red-700 flex items-center">
-                    Voir tous nos services <FaArrowRight className="ml-2" />
-                  </Link>
-                </div>
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-bold text-lg flex items-center justify-center mb-4">
+                3
               </div>
-
-              {/* Simple Process Visualization */}
-              <div className={`relative p-8 rounded-3xl ${isDarkMode ? "bg-gray-800/50" : "bg-white"} shadow-2xl`}>
-                <h3 className="text-2xl font-bold mb-8 text-center">Processus Simple en 3 Étapes</h3>
-                <div className="space-y-8 relative">
-                  {/* Connecting Line */}
-                  <div className={`absolute left-8 top-8 bottom-8 w-0.5 ${isDarkMode ? "bg-gray-700" : "bg-gray-200"}`}></div>
-
-                  <div className="relative pl-20 transition-transform transform hover:translate-x-2 duration-300">
-                    <div className="absolute left-0 w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center font-bold text-xl border-4 border-white dark:border-gray-800 z-10">1</div>
-                    <h4 className="text-lg font-bold">Devis & Commande</h4>
-                    <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}><strong>Pas de scanner ? Une photo smartphone nette suffit !</strong> Téléchargez vos fichiers ou envoyez-les directement par WhatsApp.</p>
-                  </div>
-
-                  <div className="relative pl-20 transition-transform transform hover:translate-x-2 duration-300">
-                    <div className="absolute left-0 w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center font-bold text-xl border-4 border-white dark:border-gray-800 z-10">2</div>
-                    <h4 className="text-lg font-bold">Traduction & Validation</h4>
-                    <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Traduction experte, relecture et validation qualité.</p>
-                  </div>
-
-                  <div className="relative pl-20 transition-transform transform hover:translate-x-2 duration-300">
-                    <div className="absolute left-0 w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center font-bold text-xl border-4 border-white dark:border-gray-800 z-10">3</div>
-                    <h4 className="text-lg font-bold">Livraison Rapide</h4>
-                    <p className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Réception en <strong>PDF certifié haute définition</strong> par email + exemplaire original papier officiel envoyé par courrier postal.</p>
-                  </div>
-                </div>
-              </div>
+              <h3 className="font-bold text-sm mb-2">Délivrance officielle</h3>
+              <p className="text-xs opacity-75 leading-relaxed">
+                Réception immédiate du PDF certifié par email et expédition de l&apos;original papier sous pli suivi.
+              </p>
             </div>
-          </div>
-        </section>
-      </LazySection>
-
-      {/* Repères Institutionnels */}
-      <div className={`py-12 border-y ${isDarkMode ? "bg-gray-950 border-gray-800" : "bg-white border-gray-100"}`}>
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div>
-            <div className="text-3xl font-extrabold text-[#ba1728] mb-1">Cour d'Appel</div>
-            <div className={`text-xs sm:text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Experte Judiciaire Assermentée</div>
-          </div>
-          <div>
-            <div className="text-3xl font-extrabold text-amber-500 mb-1">5.0 / 5 ★</div>
-            <div className={`text-xs sm:text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>18 Avis Vérifiés Google</div>
-          </div>
-          <div>
-            <div className="text-3xl font-extrabold text-emerald-600 mb-1">Double Format</div>
-            <div className={`text-xs sm:text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>PDF Certifié &amp; Original Papier</div>
-          </div>
-          <div>
-            <div className="text-3xl font-extrabold text-slate-700 dark:text-slate-300 mb-1">Arabe ⇄ Français</div>
-            <div className={`text-xs sm:text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Combinaison Linguistique Officielle</div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Reviews Section */}
-      <LazySection minHeight={500}>
-        <section ref={(el) => { sectionsRef.current[3] = el }} className="reveal py-24 relative overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className={`text-3xl font-bold text-center mb-16 ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-              Ce que disent nos clients
-            </h2>
+      {/* ============================================================ */}
+      {/* 6. REPÈRES INSTITUTIONNELS & CRÉDIBILITÉ                      */}
+      {/* ============================================================ */}
+      <section className={`py-12 border-y ${isDarkMode ? "bg-gray-900/50 border-gray-900" : "bg-gray-50 border-gray-200"}`}>
+        <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div>
+            <div className="text-xl sm:text-2xl font-black text-[#ba1728] mb-1">Cour d&apos;Appel</div>
+            <div className="text-xs text-gray-500">Experte Judiciaire Assermentée</div>
+          </div>
+          <div>
+            <div className="text-xl sm:text-2xl font-black text-amber-600 mb-1">5.0 / 5 ★</div>
+            <div className="text-xs text-gray-500">18 avis vérifiés Google</div>
+          </div>
+          <div>
+            <div className="text-xl sm:text-2xl font-black text-emerald-600 mb-1">Double Format</div>
+            <div className="text-xs text-gray-500">PDF Certifié &amp; Original Papier</div>
+          </div>
+          <div>
+            <div className="text-xl sm:text-2xl font-black text-gray-700 dark:text-gray-300 mb-1">Arabe ⇄ Français</div>
+            <div className="text-xs text-gray-500">Combinaison Linguistique Officielle</div>
+          </div>
+        </div>
+      </section>
 
-            <Suspense fallback={<div className="animate-pulse h-64 rounded-xl bg-gray-100 dark:bg-gray-800" />}>
+      {/* ============================================================ */}
+      {/* 7. AVIS GOOGLE VÉRIFIÉS                                      */}
+      {/* ============================================================ */}
+      <LazySection minHeight={400}>
+        <section className="py-20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
+                Avis &amp; Témoignages
+              </h2>
+              <p className="text-xs text-gray-500">
+                Retours d&apos;expérience de clients ayant fait appel au cabinet
+              </p>
+            </div>
+
+            <Suspense fallback={<div className="animate-pulse h-48 rounded-2xl bg-gray-100 dark:bg-gray-800" />}>
               <GoogleReviews />
             </Suspense>
           </div>
         </section>
       </LazySection>
 
-      {/* Document Gallery */}
-      {(
-        <LazySection>
-          <section ref={(el) => { sectionsRef.current[4] = el }} className={`reveal py-24 ${isDarkMode ? "bg-gray-900" : "bg-gray-100"}`}>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-12">
-                <h2 className={`text-3xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-gray-900"}`}>Exemples de Réalisations</h2>
-                <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>Aperçu de documents types que nous traduisons quotidiennement</p>
-              </div>
+      {/* ============================================================ */}
+      {/* 8. CONCLUSION SOBRE & CONTACT DU CABINET                     */}
+      {/* ============================================================ */}
+      <section className={`py-16 border-t ${isDarkMode ? "bg-gray-900 border-gray-800" : "bg-gray-100/60 border-gray-200"}`}>
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+            Besoin d&apos;une traduction officielle pour vos démarches ?
+          </h2>
+          <p className="text-sm opacity-75 max-w-xl mx-auto mb-8 leading-relaxed">
+            Consultez les tarifs forfaitaires, déposez vos documents en ligne ou contactez directement le cabinet pour un conseil personnalisé.
+          </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {[
-                  { img: CNI, title: "Carte d'Identité" },
-                  { img: jugement, title: "Jugement de Divorce" },
-                  { img: casier, title: "Casier Judiciaire" },
-                  { img: diplome, title: "Diplôme Universitaire" },
-                  { img: passeport, title: "Passeport" },
-                  { img: acteNaissance, title: "Acte de Naissance" },
-                ].map((doc, idx) => (
-                  <div key={idx} className="group relative rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
-                    <div className="aspect-[4/3] relative">
-                      <Image
-                        src={doc.img}
-                        alt={`Traduction ${doc.title}`}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 300px"
-                      />
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <span className="text-white font-bold text-lg border-2 border-white px-4 py-2 rounded-full backdrop-blur-sm">
-                          {doc.title}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="text-center mt-12">
-                <p className={`text-sm italic ${isDarkMode ? "text-gray-500" : "text-gray-500"}`}>Et bien d'autres documents : permis, factures, certificats...</p>
-              </div>
-            </div>
-          </section>
-        </LazySection>
-      )}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/services"
+              className="w-full sm:w-auto px-8 py-3.5 bg-[#ba1728] hover:bg-[#a01322] text-white font-bold text-sm rounded-xl shadow-sm transition-colors"
+            >
+              Accéder au formulaire de commande
+            </Link>
+            <Link
+              href="/contact"
+              className={`w-full sm:w-auto px-8 py-3.5 rounded-xl border text-sm font-semibold transition-colors ${
+                isDarkMode ? "border-gray-700 hover:bg-gray-800" : "border-gray-300 hover:bg-white"
+              }`}
+            >
+              Prendre contact avec le cabinet
+            </Link>
+          </div>
 
-
-      {/* Promotional Pricing Banner / Coin Pub */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8 relative z-20">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-red-600 via-red-700 to-amber-700 text-white shadow-2xl p-8 md:p-12">
-          {/* Decorative background glow */}
-          <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -left-10 -top-10 w-64 h-64 bg-red-400/20 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="text-center lg:text-left max-w-2xl">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 text-white font-bold text-xs uppercase tracking-wider rounded-full mb-4">
-                <FaTag /> Barème Tarifaire Officiel
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
-                Tarification claire &amp; dégressive
-              </h2>
-              <p className="text-red-100 text-base mb-6 leading-relaxed">
-                Traductions certifiées conformes par une traductrice assermentée près la Cour d&apos;Appel. Forfait fixe à 25 € pour le permis de conduire et le casier judiciaire, et barème dégressif selon le nombre de pages :
-              </p>
-
-              {/* Price Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex flex-col justify-between">
-                  <span className="text-xs uppercase font-semibold text-red-200">1 à 2 pages</span>
-                  <div className="text-2xl font-extrabold mt-1">30 € <span className="text-xs font-normal text-red-200">/ page</span></div>
-                </div>
-                <div className="bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-4 flex flex-col justify-between relative shadow-lg">
-                  <span className="text-xs uppercase font-semibold text-red-100">À partir de 3 pages</span>
-                  <div className="text-2xl font-extrabold mt-1 text-white">25 € <span className="text-xs font-normal text-red-100">/ page</span></div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex flex-col justify-between">
-                  <span className="text-xs uppercase font-semibold text-red-200">À partir de 10 pages</span>
-                  <div className="text-2xl font-extrabold mt-1 text-emerald-200">20 € <span className="text-xs font-normal text-red-200">/ page</span></div>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center justify-center shrink-0 w-full lg:w-auto">
-              <Link
-                href="/services"
-                onClick={handleOrderClick}
-                className="w-full sm:w-auto text-center px-8 py-4 bg-white text-red-800 hover:bg-gray-100 font-extrabold text-base rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3"
-              >
-                <span>Accéder au formulaire de commande</span>
-                <FaArrowRight />
-              </Link>
-            </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-6 text-xs text-gray-500">
+            <span className="flex items-center gap-1.5">
+              <FaPhone className="text-[#8e8271]" />
+              <a href="tel:+33669151216" className="hover:underline">+33 6 69 15 12 16</a>
+            </span>
+            <span className="flex items-center gap-1.5">
+              <FaEnvelope className="text-[#8e8271]" />
+              <a href="mailto:contact@traductionenarabe.fr" className="hover:underline">contact@traductionenarabe.fr</a>
+            </span>
           </div>
         </div>
       </section>
-
-      {/* CTA Footer */}
-      <LazySection>
-        <section ref={(el) => { sectionsRef.current[5] = el }} className="reveal py-24 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-red-600 to-red-800 opacity-90 z-0"></div>
-          {/* Pattern Overlay */}
-          <div className="absolute inset-0 z-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }}></div>
-
-          <div className="relative z-10 max-w-5xl mx-auto px-4 text-center text-white">
-            <h2 className="text-4xl font-bold mb-6">Prêt à lancer votre projet de traduction ?</h2>
-            <p className="text-xl mb-10 text-red-100 max-w-2xl mx-auto">
-              Obtenez un devis gratuit en quelques minutes et bénéficiez d'une traduction rapide et professionnelle.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-6">
-              <Link href="/contact" className="px-10 py-5 bg-white text-red-700 font-bold rounded-full shadow-lg hover:bg-gray-100 transform hover:-translate-y-1 transition-all duration-300">
-                Demander un devis
-              </Link>
-              <Link href="/services" onClick={handleOrderClick} className="px-10 py-5 bg-red-900/40 border-2 border-white/30 backdrop-blur-sm text-white font-bold rounded-full hover:bg-red-900/60 transition-all duration-300">
-                Voir les tarifs
-              </Link>
-            </div>
-          </div>
-        </section>
-      </LazySection>
 
     </div>
   );
