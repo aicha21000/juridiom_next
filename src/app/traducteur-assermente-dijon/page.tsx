@@ -115,7 +115,7 @@ export default function PageDijon() {
                                 <span className="text-red-600 text-xl mt-0.5">✓</span>
                                 <div>
                                     <p className="font-semibold">Expert judiciaire assermentée</p>
-                                    <p className="text-sm text-gray-600 dark:text-gray-400">Inscrite sur la liste officielle des traducteurs assermentés de la Cour d'Appel de Dijon depuis 2017.</p>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400">Inscrite sur la liste officielle des traducteurs assermentés de la Cour d'Appel de Dijon depuis 2021.</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">
@@ -181,7 +181,7 @@ export default function PageDijon() {
                         <div className="p-5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700">
                             <p className="font-bold text-gray-900 dark:text-white mb-1">🕐 Horaires</p>
                             <p>Lundi – Vendredi : 9h – 18h<br />
-                            <span className="text-sm text-gray-500">Sur rendez-vous uniquement</span></p>
+                                <span className="text-sm text-gray-500">Sur rendez-vous uniquement</span></p>
                         </div>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
                             👉 Pour la réception et le dépôt physique de vos documents officiels, rendez-vous à notre{" "}
