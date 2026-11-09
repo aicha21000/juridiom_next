@@ -1,5 +1,4 @@
-
-// Source unique et sécurisée de vérité pour la tarification
+// Source unique et sécurisée de vérité pour la tarification officielle
 // juridiom / traductionenarabe.fr - Aicha Salhi, Traductrice Assermentée
 
 export type DocumentTypeId =
@@ -58,7 +57,7 @@ export const DOCUMENT_TYPES: DocumentTypeOption[] = [
     description: "Échange de permis étranger auprès de l'ANTS et des préfectures",
     icon: "🚗",
     isFlatRate: true,
-    flatPrice: 1,
+    flatPrice: 25,
   },
   {
     id: "casier",
@@ -67,7 +66,7 @@ export const DOCUMENT_TYPES: DocumentTypeOption[] = [
     description: "Bulletin officiel pour titre de séjour, naturalisation ou emploi",
     icon: "🏛️",
     isFlatRate: true,
-    flatPrice: 1,
+    flatPrice: 25,
   },
   {
     id: "diplome",
@@ -93,36 +92,11 @@ export interface DeliveryOption {
 }
 
 export const DELIVERY_OPTIONS: DeliveryOption[] = [
-  {
-    id: "email",
-    name: "Format Numérique (Email)",
-    description: "PDF certifié haute définition avec sceau et signature",
-    price: 0,
-  },
-  {
-    id: "standard",
-    name: "Courrier suivi à domicile",
-    description: "Envoi postal en France métropolitaine (2-3 jours ouvrés)",
-    price: 10,
-  },
-  {
-    id: "priority",
-    name: "Lettre recommandée / Prioritaire",
-    description: "Remise contre signature avec suivi prioritaire",
-    price: 15,
-  },
-  {
-    id: "international",
-    name: "Envoi postal international",
-    description: "Europe, Maghreb et international",
-    price: 20,
-  },
-  {
-    id: "dhl",
-    name: "Courrier Express DHL",
-    description: "Livraison sécurisée express en 24h à 48h",
-    price: 100,
-  },
+  { id: "email", name: "Format Numérique (Email)", description: "PDF certifié haute définition avec sceau et signature", price: 0 },
+  { id: "standard", name: "Courrier suivi à domicile", description: "Envoi postal en France métropolitaine (2-3 jours ouvrés)", price: 10 },
+  { id: "priority", name: "Lettre recommandée / Prioritaire", description: "Remise contre signature avec suivi prioritaire", price: 15 },
+  { id: "international", name: "Envoi postal international", description: "Europe, Maghreb et international", price: 20 },
+  { id: "dhl", name: "Courrier Express DHL", description: "Livraison sécurisée express en 24h à 48h", price: 100 },
 ];
 
 export interface LegalizationOption {
@@ -133,36 +107,11 @@ export interface LegalizationOption {
 }
 
 export const LEGALIZATION_OPTIONS: LegalizationOption[] = [
-  {
-    id: "none",
-    name: "Aucune légalisation",
-    description: "Pour les démarches administratives françaises courantes",
-    price: 0,
-  },
-  {
-    id: "mairie",
-    name: "Certification matérielle en Mairie",
-    description: "Attestation d'authenticité de la signature de la traductrice",
-    price: 20,
-  },
-  {
-    id: "chamberOfCommerce",
-    name: "Chambre de Commerce (CCI)",
-    description: "Pour documents commerciaux, d'entreprise et d'export",
-    price: 50,
-  },
-  {
-    id: "foreignAffairs",
-    name: "Ministère des Affaires Étrangères",
-    description: "Apostille ou légalisation officielle MEAE",
-    price: 40,
-  },
-  {
-    id: "consulate",
-    name: "Consulat & Ambassade",
-    description: "Démarches consulaires pour pays non signataires de La Haye",
-    price: 80,
-  },
+  { id: "none", name: "Aucune légalisation", description: "Pour les démarches administratives françaises courantes", price: 0 },
+  { id: "mairie", name: "Certification matérielle en Mairie", description: "Attestation d'authenticité de la signature de la traductrice", price: 20 },
+  { id: "chamberOfCommerce", name: "Chambre de Commerce (CCI)", description: "Pour documents commerciaux, d'entreprise et d'export", price: 50 },
+  { id: "foreignAffairs", name: "Ministère des Affaires Étrangères", description: "Apostille ou légalisation officielle MEAE", price: 40 },
+  { id: "consulate", name: "Consulat & Ambassade", description: "Démarches consulaires pour pays non signataires de La Haye", price: 80 },
 ];
 
 export interface UrgencyOption {
@@ -174,20 +123,8 @@ export interface UrgencyOption {
 }
 
 export const URGENCY_OPTIONS: UrgencyOption[] = [
-  {
-    id: "standard",
-    name: "Délai Standard",
-    delayText: "24h à 48h ouvrées",
-    description: "Traitement soigné et rigoureux",
-    price: 0,
-  },
-  {
-    id: "express",
-    name: "Option Urgence Express",
-    delayText: "< 12h / Jour même",
-    description: "Prise en charge prioritaire immédiate",
-    price: 15,
-  },
+  { id: "standard", name: "Délai Standard", delayText: "24h à 48h ouvrées", description: "Traitement soigné et rigoureux", price: 0 },
+  { id: "express", name: "Option Urgence Express", delayText: "< 12h / Jour même", description: "Prise en charge prioritaire immédiate", price: 15 },
 ];
 
 export interface CalculationParams {
@@ -222,99 +159,57 @@ export interface DetailedPriceBreakdown {
 }
 
 /**
- * MODE TEST :
- * Traduction à 1 € par page.
- * Documents forfaitaires à 1 € par document.
- *
- * ATTENTION : à utiliser uniquement pour les tests.
- */
-
-export const TEST_MODE = true;
-export const TEST_TRANSLATION_PRICE = 1;
-
-/**
  * Calcul officiel et centralisé du prix d'une traduction certifiée.
- * Utilisé côté client et côté serveur (API calculate-price & Stripe session).
+ * Utilisé à la fois côté client et côté serveur (API calculate-price & Stripe session).
  */
-export function calculateOrderPrice(
-  params: CalculationParams
-): DetailedPriceBreakdown {
+export function calculateOrderPrice(params: CalculationParams): DetailedPriceBreakdown {
   const docTypeStr = params.documentType || "autre";
+  const matchedDoc = DOCUMENT_TYPES.find((d) => d.id === docTypeStr);
+  const documentName = matchedDoc ? matchedDoc.name : "Document officiel";
+  const isFlatRate = docTypeStr === "permis" || docTypeStr === "casier";
 
-  const matchedDoc = DOCUMENT_TYPES.find(
-    (d) => d.id === docTypeStr
-  );
+  const numPages = Math.max(1, Math.round(Number(params.numberOfPages) || 1));
+  const numDocs = Math.max(1, Math.round(Number(params.numberOfDocuments) || 1));
 
-  const documentName = matchedDoc
-    ? matchedDoc.name
-    : "Document officiel";
-
-  const isFlatRate =
-    docTypeStr === "permis" || docTypeStr === "casier";
-
-  const numPages = Math.max(
-    1,
-    Math.round(Number(params.numberOfPages) || 1)
-  );
-
-  const numDocs = Math.max(
-    1,
-    Math.round(Number(params.numberOfDocuments) || 1)
-  );
-
-  let unitPricePerPage = TEST_TRANSLATION_PRICE;
-  let translationPrice = TEST_TRANSLATION_PRICE;
-  let standardGrossPrice = TEST_TRANSLATION_PRICE * numPages;
+  let unitPricePerPage = 30;
+  let translationPrice = 30;
+  let standardGrossPrice = 30 * numPages;
   let volumeDiscount = 0;
 
   if (isFlatRate) {
-    // Permis et casier : forfait de 1 € par document
-    unitPricePerPage = TEST_TRANSLATION_PRICE;
-    translationPrice = TEST_TRANSLATION_PRICE * numDocs;
-    standardGrossPrice = TEST_TRANSLATION_PRICE * numDocs;
+    unitPricePerPage = 25;
+    translationPrice = 25; // Forfait fixe officiel de 25 €
+    standardGrossPrice = 25;
     volumeDiscount = 0;
   } else {
-    // Tous les autres documents : 1 € par page
-    unitPricePerPage = TEST_TRANSLATION_PRICE;
+    if (numPages >= 10) {
+      unitPricePerPage = 20;
+    } else if (numPages >= 3) {
+      unitPricePerPage = 25;
+    } else {
+      unitPricePerPage = 30;
+    }
     translationPrice = unitPricePerPage * numPages;
-    standardGrossPrice = translationPrice;
-    volumeDiscount = 0;
+    volumeDiscount = Math.max(0, standardGrossPrice - translationPrice);
   }
 
   const deliveryMethod = params.deliveryMethod || "email";
-
-  const matchedDelivery =
-    DELIVERY_OPTIONS.find((d) => d.id === deliveryMethod) ||
-    DELIVERY_OPTIONS[0];
-
+  const matchedDelivery = DELIVERY_OPTIONS.find((d) => d.id === deliveryMethod) || DELIVERY_OPTIONS[0];
   const deliveryPrice = matchedDelivery.price;
   const deliveryName = matchedDelivery.name;
 
   const legalization = params.legalization || "none";
-
-  const matchedLegalization =
-    LEGALIZATION_OPTIONS.find((l) => l.id === legalization) ||
-    LEGALIZATION_OPTIONS[0];
-
+  const matchedLegalization = LEGALIZATION_OPTIONS.find((l) => l.id === legalization) || LEGALIZATION_OPTIONS[0];
   const legalizationUnitPrice = matchedLegalization.price;
   const legalizationPrice = legalizationUnitPrice * numDocs;
   const legalizationName = matchedLegalization.name;
 
-  const urgencyId: "standard" | "express" =
-    params.urgency === "express" ? "express" : "standard";
-
-  const matchedUrgency =
-    URGENCY_OPTIONS.find((u) => u.id === urgencyId) ||
-    URGENCY_OPTIONS[0];
-
+  const urgencyId: "standard" | "express" = params.urgency === "express" ? "express" : "standard";
+  const matchedUrgency = URGENCY_OPTIONS.find((u) => u.id === urgencyId) || URGENCY_OPTIONS[0];
   const urgencyPrice = matchedUrgency.price;
   const urgencyName = matchedUrgency.name;
 
-  const totalPrice =
-    translationPrice +
-    deliveryPrice +
-    legalizationPrice +
-    urgencyPrice;
+  const totalPrice = translationPrice + deliveryPrice + legalizationPrice + urgencyPrice;
 
   return {
     documentType: docTypeStr,
@@ -339,22 +234,10 @@ export function calculateOrderPrice(
   };
 }
 
-/** Formate un montant en euros propre (ex: 1,00 € ou 30 €) */
-export function formatEuros(
-  amount: number,
-  forceDecimals = true
-): string {
+/** Formate un montant en euros propre (ex: 25,00 € ou 30 €) */
+export function formatEuros(amount: number, forceDecimals = true): string {
   if (forceDecimals || amount % 1 !== 0) {
-    return new Intl.NumberFormat("fr-FR", {
-      style: "currency",
-      currency: "EUR",
-      minimumFractionDigits: 2,
-    }).format(amount);
+    return new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", minimumFractionDigits: 2 }).format(amount);
   }
-
-  return new Intl.NumberFormat("fr-FR", {
-    style: "currency",
-    currency: "EUR",
-    minimumFractionDigits: 0,
-  }).format(amount);
+  return new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", minimumFractionDigits: 0 }).format(amount);
 }
