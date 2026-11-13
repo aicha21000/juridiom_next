@@ -4,7 +4,8 @@ import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 import {
     FaBox, FaTruck, FaCheck, FaTimes, FaEnvelope,
-    FaDownload, FaClock, FaSyncAlt, FaSignOutAlt, FaPaperPlane
+    FaDownload, FaClock, FaSyncAlt, FaSignOutAlt, FaPaperPlane,
+    FaFileAlt, FaTrash, FaCloudUploadAlt, FaPlus
 } from "react-icons/fa";
 import { listenToAllOrders, updateOrderStatus, Order } from "@/services/firebase";
 
@@ -32,9 +33,10 @@ const AdminDashboard = () => {
 
     // Modal state for sending translation
     const [sendModal, setSendModal] = useState<{ open: boolean; orderId: string; orderNumber: string; clientEmail: string } | null>(null);
-    const [sendFile, setSendFile] = useState<File | null>(null);
+    const [sendFiles, setSendFiles] = useState<File[]>([]);
     const [sendMessage, setSendMessage] = useState('');
     const [sending, setSending] = useState(false);
+    const [isDraggingModal, setIsDraggingModal] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Simple security check (à améliorer plus tard avec des rôles Firebase)
@@ -95,26 +97,53 @@ const AdminDashboard = () => {
         }
     };
 
+    const handleAddSendFiles = (newFiles: FileList | File[]) => {
+        const fileArray = Array.from(newFiles);
+        if (fileArray.length === 0) return;
+        setSendFiles((prev) => {
+            const existingKeys = new Set(prev.map((f) => `${f.name}_${f.size}`));
+            const filtered = fileArray.filter((f) => !existingKeys.has(`${f.name}_${f.size}`));
+            return [...prev, ...filtered];
+        });
+        if (fileInputRef.current) fileInputRef.current.value = "";
+    };
+
+    const handleRemoveSendFile = (index: number) => {
+        setSendFiles((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    const formatFileSize = (bytes: number) => {
+        if (bytes < 1024) return `${bytes} o`;
+        if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} Ko`;
+        return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
+    };
+
     const handleSendTranslation = async () => {
         if (!sendModal) return;
-        if (!sendFile) { alert('Veuillez sélectionner un fichier de traduction.'); return; }
+        if (sendFiles.length === 0) {
+            alert('Veuillez sélectionner au moins un fichier de traduction.');
+            return;
+        }
         setSending(true);
         try {
             const formData = new FormData();
             formData.append('orderId', sendModal.orderId);
             formData.append('message', sendMessage);
-            formData.append('file', sendFile);
+            sendFiles.forEach((file) => {
+                formData.append('files', file);
+            });
             const response = await fetch('/api/services/send-translation', { method: 'POST', body: formData });
             if (response.ok) {
-                alert(`✅ Traduction envoyée à ${sendModal.clientEmail} !`);
+                alert(`✅ ${sendFiles.length > 1 ? `${sendFiles.length} fichiers envoyés` : 'Traduction envoyée'} avec succès à ${sendModal.clientEmail} !`);
                 setSendModal(null);
-                setSendFile(null);
+                setSendFiles([]);
                 setSendMessage('');
             } else {
                 const data = await response.json();
-                alert(`Erreur : ${data.error}`);
+                alert(`Erreur : ${data.error || 'Erreur inconnue'}`);
             }
         } catch (err) {
+            console.error('Erreur envoi traduction:', err);
             alert('Erreur lors de l\'envoi.');
         } finally {
             setSending(false);
@@ -261,7 +290,11 @@ const AdminDashboard = () => {
                                                  </button>
                                                  <button
                                                      title="Envoyer la traduction"
-                                                     onClick={() => setSendModal({ open: true, orderId: order.id, orderNumber: order.orderNumber || order.id.slice(0,10), clientEmail: order.mailClient })}
+                                                     onClick={() => {
+                                                        setSendFiles([]);
+                                                        setSendMessage('');
+                                                        setSendModal({ open: true, orderId: order.id, orderNumber: order.orderNumber || order.id.slice(0, 10), clientEmail: order.mailClient });
+                                                    }}
                                                      className="p-2 bg-purple-50 text-purple-600 rounded-lg hover:bg-purple-100"
                                                  >
                                                      <FaPaperPlane />
@@ -337,18 +370,80 @@ const AdminDashboard = () => {
                             Commande <strong>#{sendModal.orderNumber}</strong> — Client : <strong>{sendModal.clientEmail}</strong>
                         </p>
 
-                        {/* File upload */}
+                        {/* File upload zone with multi-files and drag & drop */}
                         <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                📎 Fichier traduit <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                ref={fileInputRef}
-                                type="file"
-                                onChange={(e) => setSendFile(e.target.files?.[0] || null)}
-                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
-                            />
-                            {sendFile && <p className="text-xs text-green-600 mt-1">✅ {sendFile.name}</p>}
+                            <div className="flex items-center justify-between mb-1.5">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    📎 Fichiers traduits <span className="text-red-500">*</span>
+                                </label>
+                                {sendFiles.length > 0 && (
+                                    <span className="text-xs font-semibold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40 px-2 py-0.5 rounded-full">
+                                        {sendFiles.length} fichier{sendFiles.length > 1 ? 's' : ''} sélectionné{sendFiles.length > 1 ? 's' : ''}
+                                    </span>
+                                )}
+                            </div>
+
+                            <div
+                                onDragOver={(e) => { e.preventDefault(); setIsDraggingModal(true); }}
+                                onDragLeave={(e) => { e.preventDefault(); setIsDraggingModal(false); }}
+                                onDrop={(e) => {
+                                    e.preventDefault();
+                                    setIsDraggingModal(false);
+                                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                                        handleAddSendFiles(e.dataTransfer.files);
+                                    }
+                                }}
+                                className={`border-2 border-dashed rounded-xl p-4 text-center transition-colors ${
+                                    isDraggingModal
+                                        ? "border-purple-600 bg-purple-50/50 dark:bg-purple-950/20"
+                                        : "border-gray-300 dark:border-gray-600 hover:border-purple-400"
+                                }`}
+                            >
+                                <FaCloudUploadAlt className={`mx-auto text-3xl mb-1 ${isDraggingModal ? "text-purple-600" : "text-gray-400"}`} />
+                                <p className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-0.5">
+                                    {isDraggingModal ? "Déposez vos fichiers ici" : "Glissez vos documents traduits ou parcourez"}
+                                </p>
+                                <p className="text-[11px] text-gray-400 mb-2">
+                                    PDF, images, etc. · Vous pouvez envoyer plusieurs fichiers à la fois
+                                </p>
+                                <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold cursor-pointer transition shadow-xs">
+                                    <FaPlus className="text-[10px]" />
+                                    <span>{sendFiles.length === 0 ? "Sélectionner un ou plusieurs fichiers" : "Ajouter d'autres fichiers"}</span>
+                                    <input
+                                        ref={fileInputRef}
+                                        type="file"
+                                        multiple
+                                        onChange={(e) => e.target.files && handleAddSendFiles(e.target.files)}
+                                        className="hidden"
+                                    />
+                                </label>
+                            </div>
+
+                            {/* Liste des fichiers sélectionnés avec suppression unitaire */}
+                            {sendFiles.length > 0 && (
+                                <div className="mt-3 space-y-1.5 max-h-40 overflow-y-auto pr-1">
+                                    {sendFiles.map((file, idx) => (
+                                        <div
+                                            key={`${file.name}_${idx}`}
+                                            className="flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-gray-700/60 border border-gray-200 dark:border-gray-600 text-xs"
+                                        >
+                                            <div className="flex items-center gap-2 truncate pr-2">
+                                                <FaFileAlt className="text-purple-600 flex-shrink-0 text-sm" />
+                                                <span className="font-medium truncate text-gray-800 dark:text-gray-200">{file.name}</span>
+                                                <span className="text-[10px] text-gray-400 flex-shrink-0">({formatFileSize(file.size)})</span>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemoveSendFile(idx)}
+                                                className="text-gray-400 hover:text-red-500 p-1 flex-shrink-0 transition-colors"
+                                                title="Supprimer ce fichier"
+                                            >
+                                                <FaTrash className="text-xs" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         {/* Message */}
@@ -374,11 +469,11 @@ const AdminDashboard = () => {
                             </button>
                             <button
                                 onClick={handleSendTranslation}
-                                disabled={sending || !sendFile}
-                                className="flex-1 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                                disabled={sending || sendFiles.length === 0}
+                                className="flex-1 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 flex items-center justify-center gap-2 font-medium text-sm transition"
                             >
                                 <FaPaperPlane />
-                                {sending ? 'Envoi...' : 'Envoyer'}
+                                {sending ? 'Envoi en cours...' : `Envoyer (${sendFiles.length} fichier${sendFiles.length > 1 ? 's' : ''})`}
                             </button>
                         </div>
                     </div>

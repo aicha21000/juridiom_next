@@ -7,7 +7,26 @@ export async function POST(req: Request) {
     const formData = await req.formData();
     const orderId = formData.get('orderId') as string;
     const message = formData.get('message') as string;
-    const file = formData.get('file') as File | null;
+
+    // Récupérer tous les fichiers transmis (compatibilité 'files' et 'file')
+    const rawFiles = [
+      ...formData.getAll('files'),
+      ...formData.getAll('file'),
+    ];
+
+    const attachments: any[] = [];
+    for (const item of rawFiles) {
+      if (item && typeof item === 'object' && 'arrayBuffer' in item) {
+        const file = item as File;
+        if (file.size > 0) {
+          const buffer = Buffer.from(await file.arrayBuffer());
+          attachments.push({
+            filename: file.name,
+            content: buffer,
+          });
+        }
+      }
+    }
 
     if (!orderId) {
       return NextResponse.json({ error: 'orderId requis' }, { status: 400 });
@@ -38,25 +57,19 @@ export async function POST(req: Request) {
       },
     });
 
-    // Préparer la pièce jointe si un fichier est fourni
-    const attachments: any[] = [];
-    if (file && file.size > 0) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      attachments.push({
-        filename: file.name,
-        content: buffer,
-      });
-    }
-
-    const defaultMessage = `Bonjour,\n\nNous avons le plaisir de vous faire parvenir votre traduction pour la commande #${displayOrderId}.\n\nNous espérons que ce travail vous donnera entière satisfaction. N'hésitez pas à nous contacter si vous avez la moindre question.\n\nMerci de votre confiance et à bientôt !\n\nCordialement,\nAicha Salhi`;
+    const defaultMessage = `Bonjour,\n\nNous avons le plaisir de vous faire parvenir vos documents traduits pour la commande #${displayOrderId}.\n\nNous espérons que ce travail vous donnera entière satisfaction. N'hésitez pas à nous contacter si vous avez la moindre question.\n\nMerci de votre confiance et à bientôt !\n\nCordialement,\nAicha Salhi\nTraductrice Assermentée`;
 
     const finalMessage = message || defaultMessage;
+
+    const fileCountText = attachments.length > 1
+      ? `${attachments.length} fichiers traduits joints`
+      : 'votre traduction';
 
     const html = `
       <div style="background:#f0f9ff;padding:24px;border-radius:8px;font-family:Arial,Helvetica,sans-serif;color:#333;max-width:600px;">
         <h1 style="color:#2563eb;">✅ Votre traduction est prête !</h1>
         <p>Bonjour,</p>
-        <p>Votre commande <strong>#${displayOrderId}</strong> est terminée. Veuillez trouver ci-joint votre traduction.</p>
+        <p>Votre commande <strong>#${displayOrderId}</strong> est terminée. Veuillez trouver ci-joint ${fileCountText}.</p>
         <div style="background:#fff;border-left:4px solid #2563eb;padding:16px;margin:16px 0;border-radius:4px;">
           ${finalMessage.replace(/\n/g, '<br/>')}
         </div>

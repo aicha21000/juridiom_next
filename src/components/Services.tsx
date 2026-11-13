@@ -101,8 +101,10 @@ function ServicesContent() {
   const [urgency, setUrgency] = useState<"standard" | "express">("standard");
 
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isDragging, setIsDragging] = useState<boolean>(false);
   const sessionIdRef = useRef<string>(Math.random().toString(36).substring(7));
   const initialLoadRef = useRef<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Pré-sélection éventuelle via paramètre d'URL (ex: ?doc=permis)
   useEffect(() => {
@@ -196,15 +198,14 @@ function ServicesContent() {
     urgency,
   });
 
-  // Gestion de l'upload des fichiers
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files || event.target.files.length === 0) return;
+  // Gestion de l'upload des fichiers (liste ou drag-and-drop)
+  const uploadFiles = async (fileList: FileList | File[]) => {
+    const files = Array.from(fileList);
+    if (files.length === 0) return;
     setErrorMessage("");
     setUploading(true);
 
     const formData = new FormData();
-    const files = Array.from(event.target.files);
-
     for (const file of files) {
       const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "application/pdf"];
       if (!allowedTypes.includes(file.type)) {
@@ -237,6 +238,31 @@ function ServicesContent() {
       setErrorMessage("Le téléversement a échoué. Veuillez réessayer ou contacter le cabinet.");
     } finally {
       setUploading(false);
+      // Reset input so the same file can be re-added after deletion
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) return;
+    await uploadFiles(event.target.files);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      await uploadFiles(e.dataTransfer.files);
     }
   };
 
@@ -504,18 +530,28 @@ function ServicesContent() {
                   </p>
                 </div>
 
-                {/* Zone de téléversement sobre */}
-                <div className="border border-dashed rounded-xl p-6 text-center transition-colors border-gray-300 dark:border-gray-700 hover:border-gray-400">
-                  <FaCloudUploadAlt className="mx-auto text-3xl text-gray-400 mb-2" />
+                {/* Zone de téléversement avec drag-and-drop */}
+                <div
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  className={`border border-dashed rounded-xl p-6 text-center transition-colors ${
+                    isDragging
+                      ? "border-[#ba1728] bg-red-50/30 dark:bg-red-950/20"
+                      : "border-gray-300 dark:border-gray-700 hover:border-gray-400"
+                  }`}
+                >
+                  <FaCloudUploadAlt className={`mx-auto text-3xl mb-2 ${isDragging ? "text-[#ba1728]" : "text-gray-400"}`} />
                   <p className="text-xs font-semibold mb-1">
-                    Glissez vos documents ici, ou parcourez vos fichiers
+                    {isDragging ? "Relâchez pour déposer vos fichiers" : "Glissez vos documents ici, ou parcourez vos fichiers"}
                   </p>
                   <p className="text-[11px] opacity-60 mb-3">
-                    Formats acceptés : PDF, JPG, JPEG, PNG
+                    PDF, JPG, JPEG, PNG · Plusieurs fichiers acceptés (recto/verso, pages multiples)
                   </p>
                   <label className="inline-block px-4 py-2 rounded-lg bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs font-semibold cursor-pointer hover:opacity-90 transition-opacity">
-                    {uploading ? "Téléversement en cours..." : "Sélectionner un fichier"}
+                    {uploading ? "Téléversement en cours…" : uploadedFiles.length === 0 ? "Sélectionner un ou plusieurs fichiers" : "Ajouter d'autres fichiers"}
                     <input
+                      ref={fileInputRef}
                       type="file"
                       multiple
                       accept=".pdf,.png,.jpg,.jpeg"
@@ -539,14 +575,14 @@ function ServicesContent() {
                           className={`flex items-center justify-between p-2.5 rounded-lg border text-xs ${isDarkMode ? "bg-gray-800/30 border-gray-800" : "bg-gray-50 border-gray-200"}`}
                         >
                           <div className="flex items-center gap-2 truncate pr-2">
-                            <FaFileAlt className="text-gray-400 flex-shrink-0" />
+                            <FaFileAlt className="text-[#ba1728] flex-shrink-0" />
                             <span className="font-medium truncate">{file.name}</span>
                           </div>
                           <button
                             type="button"
                             onClick={() => handleDeleteFile(file.path)}
                             className="text-gray-400 hover:text-red-500 p-1 flex-shrink-0 transition-colors"
-                            title="Supprimer"
+                            title="Supprimer ce fichier"
                           >
                             <FaTrash className="text-xs" />
                           </button>
